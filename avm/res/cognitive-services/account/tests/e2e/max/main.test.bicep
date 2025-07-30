@@ -65,10 +65,10 @@ module testDeployment '../../../main.bicep' = [
     name: '${uniqueString(deployment().name, resourceLocation)}-test-${serviceShort}-${iteration}'
     params: {
       name: '${namePrefix}${serviceShort}001'
-      kind: 'Face'
+      kind: 'AIServices'
       customSubDomainName: '${namePrefix}x${serviceShort}'
       location: resourceLocation
-      allowProjectManagement: false
+      allowProjectManagement: true
       diagnosticSettings: [
         {
           name: 'customSetting'
@@ -195,9 +195,5 @@ module testDeployment '../../../main.bicep' = [
         Role: 'DeploymentValidation'
       }
     }
-    dependsOn: [
-      nestedDependencies
-      diagnosticDependencies
-    ]
   }
 ]

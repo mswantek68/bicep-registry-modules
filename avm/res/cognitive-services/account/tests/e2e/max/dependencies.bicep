@@ -22,7 +22,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-04-01' = {
       {
         name: 'defaultSubnet'
         properties: {
-          addressPrefix: cidrSubnet(addressPrefix, 16, 0)
+          addressPrefix: cidrSubnet(addressPrefix, 25, 0)
           serviceEndpoints: [
             {
               service: 'Microsoft.CognitiveServices'
@@ -33,7 +33,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-04-01' = {
       {
         name: 'agentSubnet'
         properties: {
-          addressPrefix: cidrSubnet(addressPrefix, 16, 1)
+          addressPrefix: cidrSubnet(addressPrefix, 25, 1)
           delegations: [
             {
               name: 'Microsoft.app/environments'

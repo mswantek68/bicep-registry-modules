@@ -343,7 +343,7 @@ resource cognitiveService 'Microsoft.CognitiveServices/accounts@2025-06-01' = {
       : null
     networkInjections: !empty(networkInjections)
       ? {
-          scenario: networkInjections.?scenario ?? 'none'
+          scenario: networkInjections.?scenario
           subnetArmId: networkInjections.?subnetArmId
           useMicrosoftManagedNetwork: networkInjections.?useMicrosoftManagedNetwork ?? false
         }

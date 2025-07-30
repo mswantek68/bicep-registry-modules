@@ -68,6 +68,7 @@ module testDeployment '../../../main.bicep' = [
       kind: 'Face'
       customSubDomainName: '${namePrefix}x${serviceShort}'
       location: resourceLocation
+      allowProjectManagement: false
       diagnosticSettings: [
         {
           name: 'customSetting'
@@ -107,6 +108,11 @@ module testDeployment '../../../main.bicep' = [
             ignoreMissingVnetServiceEndpoint: false
           }
         ]
+      }
+      networkInjections: {
+        scenario: 'agent'
+        subnetArmId: nestedDependencies.outputs.agentSubnetResourceId
+        useMicrosoftManagedNetwork: false
       }
       publicNetworkAccess: 'Disabled'
       roleAssignments: [

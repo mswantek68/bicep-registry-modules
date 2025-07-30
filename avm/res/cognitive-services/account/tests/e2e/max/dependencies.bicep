@@ -33,7 +33,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-04-01' = {
       {
         name: 'agentSubnet'
         properties: {
-          addressPrefix: cidrSubnet(addressPrefix, 16, 2)
+          addressPrefix: cidrSubnet(addressPrefix, 16, 1)
           delegations: [
             {
               name: 'Microsoft.app/environments'

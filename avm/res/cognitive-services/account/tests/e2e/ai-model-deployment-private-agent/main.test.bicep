@@ -18,7 +18,7 @@ param serviceShort string = 'csadpa'
 param namePrefix string = '#_namePrefix_#'
 
 // Set to fixed location as different AI models are only available in very specific locations
-param enforcedLocation string = 'eastus2'
+import { enforcedLocation } from '../../shared/constants.bicep'
 
 // ============ //
 // Dependencies //

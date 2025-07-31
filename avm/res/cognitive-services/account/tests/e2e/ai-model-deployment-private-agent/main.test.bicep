@@ -47,7 +47,7 @@ module nestedDependencies 'dependencies.bicep' = {
 
 @batchSize(1)
 module testDeployment '../../../main.bicep' = [
-  for iteration in ['init', 'idem']: if (true == false) {
+  for iteration in ['init', 'idem']: {
     scope: resourceGroup
     name: '${uniqueString(deployment().name, enforcedLocation)}-test-${serviceShort}-${iteration}-ai'
     params: {

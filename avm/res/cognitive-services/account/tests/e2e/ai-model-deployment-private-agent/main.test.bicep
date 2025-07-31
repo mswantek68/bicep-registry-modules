@@ -71,7 +71,7 @@ module testDeployment '../../../main.bicep' = [
       ]
       networkInjections: {
         scenario: 'agent'
-        subnetArmId: nestedDependencies.outputs.agentSubnetResourceId
+        subnetResourceId: nestedDependencies.outputs.agentSubnetResourceId
         useMicrosoftManagedNetwork: false
       }
       publicNetworkAccess: 'Disabled'

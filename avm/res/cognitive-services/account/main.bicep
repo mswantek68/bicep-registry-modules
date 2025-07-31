@@ -346,7 +346,7 @@ resource cognitiveService 'Microsoft.CognitiveServices/accounts@2025-06-01' = {
       ? [
           {
             scenario: networkInjections.?scenario
-            subnetArmId: networkInjections.?subnetArmId
+            subnetArmId: networkInjections.?subnetResourceId
             useMicrosoftManagedNetwork: networkInjections.?useMicrosoftManagedNetwork ?? false
           }
         ]
@@ -723,7 +723,7 @@ type networkInjectionType = {
   scenario: 'agent' | 'none'
 
   @description('Required. The Resource ID of the subnet on the Virtual Network on which to inject.')
-  subnetArmId: string
+  subnetResourceId: string
 
   @description('Optional. Whether to use Microsoft Managed Network. Defaults to false.')
   useMicrosoftManagedNetwork: bool?

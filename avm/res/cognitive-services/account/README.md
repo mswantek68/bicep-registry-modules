@@ -80,7 +80,7 @@ module account 'br/public:avm/res/cognitive-services/account:<version>' = {
     location: '<location>'
     networkInjections: {
       scenario: 'agent'
-      subnetArmId: '<subnetArmId>'
+      subnetResourceId: '<subnetResourceId>'
       useMicrosoftManagedNetwork: false
     }
     privateEndpoints: [
@@ -148,7 +148,7 @@ module account 'br/public:avm/res/cognitive-services/account:<version>' = {
     "networkInjections": {
       "value": {
         "scenario": "agent",
-        "subnetArmId": "<subnetArmId>",
+        "subnetResourceId": "<subnetResourceId>",
         "useMicrosoftManagedNetwork": false
       }
     },
@@ -208,7 +208,7 @@ param deployments = [
 param location = '<location>'
 param networkInjections = {
   scenario: 'agent'
-  subnetArmId: '<subnetArmId>'
+  subnetResourceId: '<subnetResourceId>'
   useMicrosoftManagedNetwork: false
 }
 param privateEndpoints = [
@@ -748,7 +748,7 @@ module account 'br/public:avm/res/cognitive-services/account:<version>' = {
     }
     networkInjections: {
       scenario: 'agent'
-      subnetArmId: '<subnetArmId>'
+      subnetResourceId: '<subnetResourceId>'
       useMicrosoftManagedNetwork: false
     }
     privateEndpoints: [
@@ -912,7 +912,7 @@ module account 'br/public:avm/res/cognitive-services/account:<version>' = {
     "networkInjections": {
       "value": {
         "scenario": "agent",
-        "subnetArmId": "<subnetArmId>",
+        "subnetResourceId": "<subnetResourceId>",
         "useMicrosoftManagedNetwork": false
       }
     },
@@ -1066,7 +1066,7 @@ param networkAcls = {
 }
 param networkInjections = {
   scenario: 'agent'
-  subnetArmId: '<subnetArmId>'
+  subnetResourceId: '<subnetResourceId>'
   useMicrosoftManagedNetwork: false
 }
 param privateEndpoints = [
@@ -2586,7 +2586,7 @@ Specifies in AI Foundry where virtual network injection occurs to secure scenari
 | Parameter | Type | Description |
 | :-- | :-- | :-- |
 | [`scenario`](#parameter-networkinjectionsscenario) | string | The scenario for the network injection. |
-| [`subnetArmId`](#parameter-networkinjectionssubnetarmid) | string | The Resource ID of the subnet on the Virtual Network on which to inject. |
+| [`subnetResourceId`](#parameter-networkinjectionssubnetresourceid) | string | The Resource ID of the subnet on the Virtual Network on which to inject. |
 
 **Optional parameters**
 
@@ -2608,7 +2608,7 @@ The scenario for the network injection.
   ]
   ```
 
-### Parameter: `networkInjections.subnetArmId`
+### Parameter: `networkInjections.subnetResourceId`
 
 The Resource ID of the subnet on the Virtual Network on which to inject.
 

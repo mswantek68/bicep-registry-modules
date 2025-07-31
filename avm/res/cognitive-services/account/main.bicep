@@ -341,12 +341,15 @@ resource cognitiveService 'Microsoft.CognitiveServices/accounts@2025-06-01' = {
           ipRules: networkAcls.?ipRules ?? []
         }
       : null
+    #disable-next-line BCP036
     networkInjections: !empty(networkInjections)
-      ? {
-          scenario: networkInjections.?scenario
-          subnetArmId: networkInjections.?subnetArmId
-          useMicrosoftManagedNetwork: networkInjections.?useMicrosoftManagedNetwork ?? false
-        }
+      ? [
+          {
+            scenario: networkInjections.?scenario
+            subnetArmId: networkInjections.?subnetArmId
+            useMicrosoftManagedNetwork: networkInjections.?useMicrosoftManagedNetwork ?? false
+          }
+        ]
       : null
     publicNetworkAccess: publicNetworkAccess != null
       ? publicNetworkAccess

@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.36.1.42791",
-      "templateHash": "6678919546617187730"
+      "version": "0.37.4.10188",
+      "templateHash": "4341435923657449536"
     },
     "name": "CDN Profiles",
     "description": "This module deploys a CDN Profile."
@@ -434,7 +434,8 @@
           "type": "string",
           "allowedValues": [
             "TLS10",
-            "TLS12"
+            "TLS12",
+            "TLS13"
           ],
           "nullable": true,
           "metadata": {
@@ -645,12 +646,19 @@
           "metadata": {
             "description": "Optional. Specify the type of lock."
           }
+        },
+        "notes": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Specify the notes of the lock."
+          }
         }
       },
       "metadata": {
         "description": "An AVM-aligned type for a lock.",
         "__bicep_imported_from!": {
-          "sourceTemplate": "br:mcr.microsoft.com/bicep/avm/utl/types/avm-common-types:0.5.1"
+          "sourceTemplate": "br:mcr.microsoft.com/bicep/avm/utl/types/avm-common-types:0.6.0"
         }
       }
     },
@@ -1084,10 +1092,13 @@
     },
     "tags": {
       "type": "object",
-      "nullable": true,
       "metadata": {
+        "__bicep_resource_derived_type!": {
+          "source": "Microsoft.Cdn/profiles@2025-06-01#properties/tags"
+        },
         "description": "Optional. Endpoint tags."
-      }
+      },
+      "nullable": true
     },
     "managedIdentities": {
       "$ref": "#/definitions/managedIdentityAllType",
@@ -1176,7 +1187,7 @@
     },
     "profile": {
       "type": "Microsoft.Cdn/profiles",
-      "apiVersion": "2025-04-15",
+      "apiVersion": "2025-06-01",
       "name": "[parameters('name')]",
       "location": "[parameters('location')]",
       "identity": "[variables('identity')]",
@@ -1196,7 +1207,7 @@
       "name": "[coalesce(tryGet(parameters('lock'), 'name'), format('lock-{0}', parameters('name')))]",
       "properties": {
         "level": "[coalesce(tryGet(parameters('lock'), 'kind'), '')]",
-        "notes": "[if(equals(tryGet(parameters('lock'), 'kind'), 'CanNotDelete'), 'Cannot delete resource or child resources.', 'Cannot delete or modify the resource or child resources.')]"
+        "notes": "[coalesce(tryGet(parameters('lock'), 'notes'), if(equals(tryGet(parameters('lock'), 'kind'), 'CanNotDelete'), 'Cannot delete resource or child resources.', 'Cannot delete or modify the resource or child resources.'))]"
       },
       "dependsOn": [
         "profile"
@@ -1296,8 +1307,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.36.1.42791",
-              "templateHash": "3222821096361861437"
+              "version": "0.37.4.10188",
+              "templateHash": "5226882540835560084"
             },
             "name": "CDN Profiles Endpoints",
             "description": "This module deploys a CDN Profile Endpoint."
@@ -1412,8 +1423,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.36.1.42791",
-                      "templateHash": "13368120440571907708"
+                      "version": "0.37.4.10188",
+                      "templateHash": "10119907844998577144"
                     },
                     "name": "CDN Profiles Endpoints Origins",
                     "description": "This module deploys a CDN Profile Endpoint Origin."
@@ -1657,8 +1668,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.36.1.42791",
-              "templateHash": "10255459755240506859"
+              "version": "0.37.4.10188",
+              "templateHash": "932660675787735782"
             },
             "name": "CDN Profiles Secret",
             "description": "This module deploys a CDN Profile Secret."
@@ -1812,8 +1823,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.36.1.42791",
-              "templateHash": "4152856745534187528"
+              "version": "0.37.4.10188",
+              "templateHash": "1486369118418758330"
             },
             "name": "CDN Profiles Custom Domains",
             "description": "This module deploys a CDN Profile Custom Domains."
@@ -1870,7 +1881,8 @@
                   "type": "string",
                   "allowedValues": [
                     "TLS10",
-                    "TLS12"
+                    "TLS12",
+                    "TLS13"
                   ],
                   "nullable": true,
                   "metadata": {
@@ -1991,7 +2003,8 @@
               "defaultValue": "TLS12",
               "allowedValues": [
                 "TLS10",
-                "TLS12"
+                "TLS12",
+                "TLS13"
               ],
               "metadata": {
                 "description": "Optional. The minimum TLS version required for the custom domain. Default value: TLS12."
@@ -2035,7 +2048,7 @@
             },
             "customDomain": {
               "type": "Microsoft.Cdn/profiles/customDomains",
-              "apiVersion": "2025-04-15",
+              "apiVersion": "2025-06-01",
               "name": "[format('{0}/{1}', parameters('profileName'), parameters('name'))]",
               "properties": {
                 "azureDnsZone": "[if(not(empty(parameters('azureDnsZoneResourceId'))), createObject('id', parameters('azureDnsZoneResourceId')), null())]",
@@ -2136,8 +2149,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.36.1.42791",
-              "templateHash": "17376902853351027070"
+              "version": "0.37.4.10188",
+              "templateHash": "14962728161506551015"
             },
             "name": "CDN Profiles Origin Group",
             "description": "This module deploys a CDN Profile Origin Group."
@@ -2483,8 +2496,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.36.1.42791",
-                      "templateHash": "3654686564131775119"
+                      "version": "0.37.4.10188",
+                      "templateHash": "8524246809029737366"
                     },
                     "name": "CDN Profiles Origin",
                     "description": "This module deploys a CDN Profile Origin."
@@ -2785,8 +2798,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.36.1.42791",
-              "templateHash": "9308092005992913249"
+              "version": "0.37.4.10188",
+              "templateHash": "2563031334159492138"
             },
             "name": "CDN Profiles Rule Sets",
             "description": "This module deploys a CDN Profile rule set."
@@ -2945,8 +2958,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.36.1.42791",
-                      "templateHash": "13557087255389320076"
+                      "version": "0.37.4.10188",
+                      "templateHash": "14802510232650562515"
                     },
                     "name": "CDN Profiles Rules",
                     "description": "This module deploys a CDN Profile rule."
@@ -3174,8 +3187,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.36.1.42791",
-              "templateHash": "10968148801425056098"
+              "version": "0.37.4.10188",
+              "templateHash": "1610449730249909746"
             },
             "name": "CDN Profiles AFD Endpoints",
             "description": "This module deploys a CDN Profile AFD Endpoint."
@@ -3551,8 +3564,8 @@
                   "metadata": {
                     "_generator": {
                       "name": "bicep",
-                      "version": "0.36.1.42791",
-                      "templateHash": "17117420688790383138"
+                      "version": "0.37.4.10188",
+                      "templateHash": "15191299450065701668"
                     },
                     "name": "CDN Profiles AFD Endpoint Route",
                     "description": "This module deploys a CDN Profile AFD Endpoint route."
@@ -4035,8 +4048,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.36.1.42791",
-              "templateHash": "564000263660798116"
+              "version": "0.37.4.10188",
+              "templateHash": "15025860363241476047"
             },
             "name": "CDN Profiles Security Policy",
             "description": "This module deploys a CDN Profile Security Policy."
@@ -4195,7 +4208,7 @@
       "metadata": {
         "description": "The location the resource was deployed into."
       },
-      "value": "[reference('profile', '2025-04-15', 'full').location]"
+      "value": "[reference('profile', '2025-06-01', 'full').location]"
     },
     "endpointName": {
       "type": "string",
@@ -4224,7 +4237,7 @@
       "metadata": {
         "description": "The principal ID of the system assigned identity."
       },
-      "value": "[tryGet(tryGet(reference('profile', '2025-04-15', 'full'), 'identity'), 'principalId')]"
+      "value": "[tryGet(tryGet(reference('profile', '2025-06-01', 'full'), 'identity'), 'principalId')]"
     },
     "dnsValidation": {
       "type": "array",

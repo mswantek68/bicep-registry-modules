@@ -13,7 +13,7 @@ param friendlyName string = name
 @sys.description('Optional. Time zone of the Scaling Plan. Defaults to UTC.')
 param timeZone string = 'UTC'
 
-@sys.description('Optional. Host pool type of the Scaling Plan.')
+@sys.description('Optional. Host pool type of the Scaling Plan. Defaults to \'Pooled\'.')
 @allowed([
   'Personal'
   'Pooled'
@@ -35,18 +35,18 @@ param description string = name
 @sys.description('Optional. Tags of the resource.')
 param tags resourceInput<'Microsoft.DesktopVirtualization/scalingPlans@2025-03-01-preview'>.tags?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
 @sys.description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
 @sys.description('Optional. The lock settings of the service.')
 param lock lockType?
 
 @sys.description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { diagnosticSettingLogsOnlyType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { diagnosticSettingLogsOnlyType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
 @sys.description('Optional. The database-level diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingLogsOnlyType[]?
 
@@ -172,9 +172,9 @@ resource scalingPlan_lock 'Microsoft.Authorization/locks@2020-05-01' = if (!empt
   name: lock.?name ?? 'lock-${name}'
   properties: {
     level: lock.?kind ?? ''
-    notes: lock.?kind == 'CanNotDelete'
+    notes: lock.?notes ?? (lock.?kind == 'CanNotDelete'
       ? 'Cannot delete resource or child resources.'
-      : 'Cannot delete or modify the resource or child resources.'
+      : 'Cannot delete or modify the resource or child resources.')
   }
   scope: scalingPlan
 }

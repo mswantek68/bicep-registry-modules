@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.33.13.18514",
-      "templateHash": "4200691528774458966"
+      "version": "0.38.5.1644",
+      "templateHash": "14971280430650027941"
     },
     "name": "Network Watchers",
     "description": "This module deploys a Network Watcher."
@@ -33,12 +33,19 @@
           "metadata": {
             "description": "Optional. Specify the type of lock."
           }
+        },
+        "notes": {
+          "type": "string",
+          "nullable": true,
+          "metadata": {
+            "description": "Optional. Specify the notes of the lock."
+          }
         }
       },
       "metadata": {
         "description": "An AVM-aligned type for a lock.",
         "__bicep_imported_from!": {
-          "sourceTemplate": "br:mcr.microsoft.com/bicep/avm/utl/types/avm-common-types:0.5.1"
+          "sourceTemplate": "br:mcr.microsoft.com/bicep/avm/utl/types/avm-common-types:0.6.0"
         }
       }
     },
@@ -167,10 +174,13 @@
     },
     "tags": {
       "type": "object",
-      "nullable": true,
       "metadata": {
+        "__bicep_resource_derived_type!": {
+          "source": "Microsoft.Network/networkWatchers@2024-05-01#properties/tags"
+        },
         "description": "Optional. Tags of the resource."
-      }
+      },
+      "nullable": true
     },
     "enableTelemetry": {
       "type": "bool",
@@ -234,7 +244,7 @@
       "name": "[coalesce(tryGet(parameters('lock'), 'name'), format('lock-{0}', parameters('name')))]",
       "properties": {
         "level": "[coalesce(tryGet(parameters('lock'), 'kind'), '')]",
-        "notes": "[if(equals(tryGet(parameters('lock'), 'kind'), 'CanNotDelete'), 'Cannot delete resource or child resources.', 'Cannot delete or modify the resource or child resources.')]"
+        "notes": "[coalesce(tryGet(parameters('lock'), 'notes'), if(equals(tryGet(parameters('lock'), 'kind'), 'CanNotDelete'), 'Cannot delete resource or child resources.', 'Cannot delete or modify the resource or child resources.'))]"
       },
       "dependsOn": [
         "networkWatcher"
@@ -268,7 +278,7 @@
         "count": "[length(parameters('connectionMonitors'))]"
       },
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2025-04-01",
       "name": "[format('{0}-NW-ConnectionMonitor-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
       "properties": {
         "expressionEvaluationOptions": {
@@ -308,8 +318,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.33.13.18514",
-              "templateHash": "4843839658644031164"
+              "version": "0.38.5.1644",
+              "templateHash": "5318495614979340661"
             },
             "name": "Network Watchers Connection Monitors",
             "description": "This module deploys a Network Watcher Connection Monitor."
@@ -434,7 +444,7 @@
         "count": "[length(parameters('flowLogs'))]"
       },
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
+      "apiVersion": "2025-04-01",
       "name": "[format('{0}-NW-FlowLog-{1}', uniqueString(deployment().name, parameters('location')), copyIndex())]",
       "properties": {
         "expressionEvaluationOptions": {
@@ -483,8 +493,8 @@
           "metadata": {
             "_generator": {
               "name": "bicep",
-              "version": "0.33.13.18514",
-              "templateHash": "152927297469547499"
+              "version": "0.38.5.1644",
+              "templateHash": "18375550301523839465"
             },
             "name": "NSG Flow Logs",
             "description": "This module controls the Network Security Group Flow Logs and analytics settings.\n**Note: this module must be run on the Resource Group where Network Watcher is deployed**"

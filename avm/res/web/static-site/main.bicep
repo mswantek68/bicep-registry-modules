@@ -54,15 +54,15 @@ param repositoryUrl string?
 @description('Optional. The branch name of the GitHub repository.')
 param branch string?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointSingleServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible. Note, requires the \'sku\' to be \'Standard\'. Supplying the `privateDnsZoneGroup` configuration will allow the private endpoint to point to an already existing zone group. If not provided and `createPrivateDnsZone` being enabled, it will create and use the newly created zone group.')
 param privateEndpoints privateEndpointSingleServiceType[]?
 
@@ -72,7 +72,7 @@ param tags resourceInput<'Microsoft.Web/staticSites@2024-11-01'>.tags?
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -274,7 +274,7 @@ resource staticSite_roleAssignments 'Microsoft.Authorization/roleAssignments@202
   }
 ]
 
-module staticSite_privateDnsZone 'br/public:avm/res/network/private-dns-zone:0.7.0' = if (!empty(privateEndpoints) && createPrivateDnsZone == 'Enabled') {
+module staticSite_privateDnsZone '../../../res/network/private-dns-zone/main.bicep' = if (!empty(privateEndpoints) && createPrivateDnsZone == 'Enabled') {
   name: '${uniqueString(deployment().name, location)}-staticSite-PrivateDnsZone'
   params: {
     name: 'privatelink.${staticSite.properties.defaultHostname}.azurestaticapps.net'
@@ -287,7 +287,7 @@ module staticSite_privateDnsZone 'br/public:avm/res/network/private-dns-zone:0.7
   }
 }
 
-module staticSite_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.10.1' = [
+module staticSite_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-staticSite-PrivateEndpoint-${index}'
     scope: resourceGroup(

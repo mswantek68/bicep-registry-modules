@@ -9,7 +9,7 @@ param location string = deployment().location
 @description('Optional. Tags of the resource.')
 param tags object?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
@@ -187,7 +187,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module alertsResourceGroup 'br/public:avm/res/resources/resource-group:0.4.1' = {
+module alertsResourceGroup '../../../res/resources/resource-group/main.bicep' = {
   scope: subscription(subscriptionId)
   params: {
     name: serviceHealthAlertsResourceGroupName
@@ -198,7 +198,7 @@ module alertsResourceGroup 'br/public:avm/res/resources/resource-group:0.4.1' = 
   }
 }
 
-module createServiceHealthAlerts 'br/public:avm/res/insights/activity-log-alert:0.4.0' = [
+module createServiceHealthAlerts '../../../res/insights/activity-log-alert/main.bicep' = [
   for (alert, i) in serviceHealthAlerts: if (!empty(serviceHealthAlerts)) {
     scope: resourceGroup(subscriptionId, serviceHealthAlertsResourceGroupName)
     dependsOn: [
@@ -226,7 +226,7 @@ module createServiceHealthAlerts 'br/public:avm/res/insights/activity-log-alert:
   }
 ]
 
-module createActionGroups 'br/public:avm/res/insights/action-group:0.7.0' = [
+module createActionGroups '../../../res/insights/action-group/main.bicep' = [
   for alert in serviceHealthAlerts: if (!empty(alert.?actionGroup) && empty(alert.?actionGroup.?existingActionGroupResourceId)) {
     scope: resourceGroup(subscriptionId, serviceHealthAlertsResourceGroupName)
     dependsOn: [

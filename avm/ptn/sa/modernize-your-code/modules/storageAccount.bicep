@@ -26,7 +26,7 @@ param logAnalyticsWorkspaceResourceId string?
 @description('Optional. Values to establish private networking for the Storage Account.')
 param privateNetworking storageAccountPrivateNetworkingType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -65,7 +65,7 @@ var filePrivateDnsZoneResourceId = privateNetworking != null
       : privateNetworking.?filePrivateDnsZoneResourceId)
   : ''
 
-module storageAccount 'br/public:avm/res/storage/storage-account:0.25.0' = {
+module storageAccount '../../../../res/storage/storage-account/main.bicep' = {
   name: take('${name}-sa-deployment', 64)
   #disable-next-line no-unnecessary-dependson
   dependsOn: [filePrivateDnsZone, blobPrivateDnsZone] // required due to optional flags that could change dependency

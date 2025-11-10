@@ -108,7 +108,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
 // ========== WAF Aligned ========== //
 
 // ========== Network Security Group definition ========== //
-module avmNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.1' = if (enablePrivateNetworking) {
+module avmNetworkSecurityGroup '../../../res/network/network-security-group/main.bicep' = if (enablePrivateNetworking) {
   name: format(resourceNameFormatString, 'nsg-backend')
   params: {
     name: 'nsg-${solutionPrefix}-backend'
@@ -138,7 +138,7 @@ module avmNetworkSecurityGroup 'br/public:avm/res/network/network-security-group
 
 // Securing a custom VNET in Azure Container Apps with Network Security Groups
 // https://learn.microsoft.com/en-us/azure/container-apps/firewall-integration?tabs=workload-profiles
-module avmNetworkSecurityGroup_Containers 'br/public:avm/res/network/network-security-group:0.5.1' = if (enablePrivateNetworking) {
+module avmNetworkSecurityGroup_Containers '../../../res/network/network-security-group/main.bicep' = if (enablePrivateNetworking) {
   name: format(resourceNameFormatString, 'nsg-containers')
   params: {
     name: 'nsg-${solutionPrefix}-containers'
@@ -220,7 +220,7 @@ module avmNetworkSecurityGroup_Containers 'br/public:avm/res/network/network-sec
   }
 }
 
-module avmNetworkSecurityGroup_Bastion 'br/public:avm/res/network/network-security-group:0.5.1' = if (enablePrivateNetworking) {
+module avmNetworkSecurityGroup_Bastion '../../../res/network/network-security-group/main.bicep' = if (enablePrivateNetworking) {
   name: format(resourceNameFormatString, 'nsg-bastion')
   params: {
     name: 'nsg-${solutionPrefix}-bastion'
@@ -248,7 +248,7 @@ module avmNetworkSecurityGroup_Bastion 'br/public:avm/res/network/network-securi
   }
 }
 
-module avmNetworkSecurityGroup_Admin 'br/public:avm/res/network/network-security-group:0.5.1' = if (enablePrivateNetworking) {
+module avmNetworkSecurityGroup_Admin '../../../res/network/network-security-group/main.bicep' = if (enablePrivateNetworking) {
   name: format(resourceNameFormatString, 'nsg-admin')
   params: {
     name: 'nsg-${solutionPrefix}-admin'
@@ -283,7 +283,7 @@ module avmNetworkSecurityGroup_Admin 'br/public:avm/res/network/network-security
 // Bastion Hosts : 10.0.1.32/27 - 10.0.1.63
 // VM(s) :
 
-module avmVirtualNetwork 'br/public:avm/res/network/virtual-network:0.7.0' = if (enablePrivateNetworking) {
+module avmVirtualNetwork '../../../res/network/virtual-network/main.bicep' = if (enablePrivateNetworking) {
   name: format(resourceNameFormatString, 'vnet-')
   params: {
     name: 'vnet-cps-${solutionPrefix}'
@@ -355,7 +355,7 @@ var dnsZoneIndex = {
 }
 
 @batchSize(5)
-module avmPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.7.1' = [
+module avmPrivateDnsZones '../../../res/network/private-dns-zone/main.bicep' = [
   for (zone, i) in privateDnsZones: if (enablePrivateNetworking) {
     name: 'dns-zone-${i}'
     params: {
@@ -373,7 +373,7 @@ module avmPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.7.1' = [
 
 // ========== Log Analytics and Application insights ========== //
 
-module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.11.2' = {
+module logAnalyticsWorkspace '../../../res/operational-insights/workspace/main.bicep' = {
   name: 'deploy_log_analytics_workspace'
   params: {
     name: 'log-${solutionPrefix}'
@@ -386,7 +386,7 @@ module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0
   }
 }
 
-module applicationInsights 'br/public:avm/res/insights/component:0.6.0' = {
+module applicationInsights '../../../res/insights/component/main.bicep' = {
   name: 'deploy_application_insights'
   params: {
     name: 'appi-${solutionPrefix}'
@@ -456,7 +456,7 @@ module avmContainerRegistry 'modules/container-registry.bicep' = {
 }
 
 // // ========== Storage Account ========== //
-module avmStorageAccount 'br/public:avm/res/storage/storage-account:0.20.0' = {
+module avmStorageAccount '../../../res/storage/storage-account/main.bicep' = {
   name: format(resourceNameFormatString, 'st')
   params: {
     name: 'st${replace(solutionPrefix, '-', '')}'
@@ -540,7 +540,7 @@ module avmStorageAccount 'br/public:avm/res/storage/storage-account:0.20.0' = {
 }
 
 // // ========== AI Foundry and related resources ========== //
-module avmAiServices 'br/public:avm/res/cognitive-services/account:0.11.0' = {
+module avmAiServices '../../../res/cognitive-services/account/main.bicep' = {
   name: format(resourceNameFormatString, 'aisa-')
   params: {
     name: 'aisa-${solutionPrefix}'
@@ -625,7 +625,7 @@ module avmAiServices 'br/public:avm/res/cognitive-services/account:0.11.0' = {
   }
 }
 
-module avmAiServices_cu 'br/public:avm/res/cognitive-services/account:0.11.0' = {
+module avmAiServices_cu '../../../res/cognitive-services/account/main.bicep' = {
   name: format(resourceNameFormatString, 'aicu-')
 
   params: {
@@ -684,7 +684,7 @@ module avmAiServices_cu 'br/public:avm/res/cognitive-services/account:0.11.0' = 
   }
 }
 
-module avmAiServices_storage_hub 'br/public:avm/res/storage/storage-account:0.20.0' = {
+module avmAiServices_storage_hub '../../../res/storage/storage-account/main.bicep' = {
   name: format(resourceNameFormatString, 'aistoragehub-')
   params: {
     name: 'aisthub${replace(solutionPrefix, '-', '')}'
@@ -753,7 +753,7 @@ module avmAiServices_storage_hub 'br/public:avm/res/storage/storage-account:0.20
 
 var aiHubStorageResourceId = '/subscriptions/${subscription().subscriptionId}/resourceGroups/${resourceGroup().name}/providers/Microsoft.Storage/storageAccounts/${avmAiServices_storage_hub.outputs.name}'
 
-module avmAiHub 'br/public:avm/res/machine-learning-services/workspace:0.12.1' = {
+module avmAiHub '../../../res/machine-learning-services/workspace/main.bicep' = {
   name: format(resourceNameFormatString, 'aih-')
   params: {
     name: 'aih-${solutionPrefix}'
@@ -822,7 +822,7 @@ module avmAiHub 'br/public:avm/res/machine-learning-services/workspace:0.12.1' =
   }
 }
 
-module avmAiProject 'br/public:avm/res/machine-learning-services/workspace:0.12.1' = {
+module avmAiProject '../../../res/machine-learning-services/workspace/main.bicep' = {
   name: format(resourceNameFormatString, 'aihp-')
   params: {
     name: 'aihp-${solutionPrefix}'
@@ -843,7 +843,7 @@ module avmAiProject 'br/public:avm/res/machine-learning-services/workspace:0.12.
 }
 
 // ========== Container App Environment ========== //
-module avmContainerAppEnv 'br/public:avm/res/app/managed-environment:0.11.2' = {
+module avmContainerAppEnv '../../../res/app/managed-environment/main.bicep' = {
   name: format(resourceNameFormatString, 'cae-')
   params: {
     name: 'cae-${solutionPrefix}'
@@ -881,7 +881,7 @@ module avmContainerAppEnv 'br/public:avm/res/app/managed-environment:0.11.2' = {
 }
 
 // //=========== Managed Identity for Container Registry ========== //
-module avmContainerRegistryReader 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module avmContainerRegistryReader '../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: format(resourceNameFormatString, 'acr-reader-mid-')
   params: {
     name: 'acr-reader-mid${solutionPrefix}'
@@ -893,7 +893,7 @@ module avmContainerRegistryReader 'br/public:avm/res/managed-identity/user-assig
 }
 
 // ========== Container App  ========== //
-module avmContainerApp 'br/public:avm/res/app/container-app:0.17.0' = {
+module avmContainerApp '../../../res/app/container-app/main.bicep' = {
   name: format(resourceNameFormatString, 'caapp-')
   params: {
     name: 'ca-${solutionPrefix}-app'
@@ -946,7 +946,7 @@ module avmContainerApp 'br/public:avm/res/app/container-app:0.17.0' = {
 }
 
 // ========== Container App API ========== //
-module avmContainerApp_API 'br/public:avm/res/app/container-app:0.17.0' = {
+module avmContainerApp_API '../../../res/app/container-app/main.bicep' = {
   name: format(resourceNameFormatString, 'caapi-')
   params: {
     name: 'ca-${solutionPrefix}-api'
@@ -1063,7 +1063,7 @@ module avmContainerApp_API 'br/public:avm/res/app/container-app:0.17.0' = {
 }
 
 //========== Container App Web ========== //
-module avmContainerApp_Web 'br/public:avm/res/app/container-app:0.17.0' = {
+module avmContainerApp_Web '../../../res/app/container-app/main.bicep' = {
   name: format(resourceNameFormatString, 'caweb-')
   params: {
     name: 'ca-${solutionPrefix}-web'
@@ -1145,7 +1145,7 @@ module avmContainerApp_Web 'br/public:avm/res/app/container-app:0.17.0' = {
 }
 
 // ========== Cosmos Database for Mongo DB ========== //
-module avmCosmosDB 'br/public:avm/res/document-db/database-account:0.15.0' = {
+module avmCosmosDB '../../../res/document-db/database-account/main.bicep' = {
   name: format(resourceNameFormatString, 'cosmos-')
   params: {
     name: 'cosmos-${solutionPrefix}'
@@ -1198,7 +1198,7 @@ module avmCosmosDB 'br/public:avm/res/document-db/database-account:0.15.0' = {
 }
 
 // ========== App Configuration ========== //
-module avmAppConfig 'br/public:avm/res/app-configuration/configuration-store:0.6.3' = {
+module avmAppConfig '../../../res/app-configuration/configuration-store/main.bicep' = {
   name: format(resourceNameFormatString, 'appcs-')
   params: {
     name: 'appcs-${solutionPrefix}'
@@ -1332,7 +1332,7 @@ module avmAppConfig 'br/public:avm/res/app-configuration/configuration-store:0.6
   ]
 }
 
-module avmAppConfig_update 'br/public:avm/res/app-configuration/configuration-store:0.6.3' = if (enablePrivateNetworking) {
+module avmAppConfig_update '../../../res/app-configuration/configuration-store/main.bicep' = if (enablePrivateNetworking) {
   name: format(resourceNameFormatString, 'appcs-update')
   params: {
     name: 'appcs-${solutionPrefix}'
@@ -1362,7 +1362,7 @@ module avmAppConfig_update 'br/public:avm/res/app-configuration/configuration-st
 }
 
 // ========== Container App Update Modules ========== //
-module avmContainerApp_update 'br/public:avm/res/app/container-app:0.17.0' = {
+module avmContainerApp_update '../../../res/app/container-app/main.bicep' = {
   name: format(resourceNameFormatString, 'caapp-update-')
   params: {
     name: 'ca-${solutionPrefix}-app'
@@ -1428,7 +1428,7 @@ module avmContainerApp_update 'br/public:avm/res/app/container-app:0.17.0' = {
   ]
 }
 
-module avmContainerApp_API_update 'br/public:avm/res/app/container-app:0.17.0' = {
+module avmContainerApp_API_update '../../../res/app/container-app/main.bicep' = {
   name: format(resourceNameFormatString, 'caapi-update-')
   params: {
     name: 'ca-${solutionPrefix}-api'

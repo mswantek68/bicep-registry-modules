@@ -213,7 +213,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2025-04-01' = if (enableT
   }
 }
 
-module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.12.0' = {
+module logAnalyticsWorkspace '../../../res/operational-insights/workspace/main.bicep' = {
   name: 'logAnalyticsWorkspace-${uniqueString(resourceGroup().id)}'
   params: {
     name: 'law-${namingPrefix}-${uniqueString(resourceGroup().id)}'
@@ -228,7 +228,7 @@ module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0
   }
 }
 
-module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module userAssignedIdentity '../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: 'userAssignedIdentity-${uniqueString(resourceGroup().id)}'
   params: {
     name: 'msi-${namingPrefix}-${uniqueString(resourceGroup().id)}'
@@ -236,7 +236,7 @@ module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-id
   }
 }
 
-module acrPrivateDNSZone 'br/public:avm/res/network/private-dns-zone:0.8.0' = if (privateNetworking && empty(networkingConfiguration.?containerRegistryPrivateDnsZoneResourceId ?? '')) {
+module acrPrivateDNSZone '../../../res/network/private-dns-zone/main.bicep' = if (privateNetworking && empty(networkingConfiguration.?containerRegistryPrivateDnsZoneResourceId ?? '')) {
   name: 'acrdnszone${namingPrefix}${uniqueString(resourceGroup().id)}'
   params: {
     name: 'privatelink.azurecr.io'
@@ -251,7 +251,7 @@ module acrPrivateDNSZone 'br/public:avm/res/network/private-dns-zone:0.8.0' = if
   }
 }
 
-module acr 'br/public:avm/res/container-registry/registry:0.9.3' = {
+module acr '../../../res/container-registry/registry/main.bicep' = {
   name: 'acr${namingPrefix}${uniqueString(resourceGroup().id)}'
   params: {
     name: 'acr${namingPrefix}${uniqueString(resourceGroup().id)}'
@@ -304,7 +304,7 @@ module acr 'br/public:avm/res/container-registry/registry:0.9.3' = {
       : null
   }
 }
-module newVnet 'br/public:avm/res/network/virtual-network:0.7.0' = if (networkingConfiguration.networkType == 'createNew') {
+module newVnet '../../../res/network/virtual-network/main.bicep' = if (networkingConfiguration.networkType == 'createNew') {
   name: 'vnet-${uniqueString(resourceGroup().id)}'
   params: {
     name: 'vnet-${namingPrefix}-${uniqueString(resourceGroup().id)}'
@@ -366,7 +366,7 @@ module newVnet 'br/public:avm/res/network/virtual-network:0.7.0' = if (networkin
     )
   }
 }
-module appEnvironment 'br/public:avm/res/app/managed-environment:0.11.3' = if (contains(
+module appEnvironment '../../../res/app/managed-environment/main.bicep' = if (contains(
   computeTypes,
   'azure-container-app'
 )) {
@@ -402,7 +402,7 @@ module appEnvironment 'br/public:avm/res/app/managed-environment:0.11.3' = if (c
   }
 }
 
-module natGatewayPublicIp 'br/public:avm/res/network/public-ip-address:0.9.0' = if (empty(networkingConfiguration.?natGatewayResourceId ?? '') && empty(networkingConfiguration.?natGatewayPublicIpAddressResourceId ?? '') && networkingConfiguration.networkType == 'createNew' && privateNetworking) {
+module natGatewayPublicIp '../../../res/network/public-ip-address/main.bicep' = if (empty(networkingConfiguration.?natGatewayResourceId ?? '') && empty(networkingConfiguration.?natGatewayPublicIpAddressResourceId ?? '') && networkingConfiguration.networkType == 'createNew' && privateNetworking) {
   name: 'natGatewayPublicIp-${uniqueString(resourceGroup().id)}'
   params: {
     name: 'natGatewayPublicIp-${uniqueString(resourceGroup().id)}'
@@ -413,7 +413,7 @@ module natGatewayPublicIp 'br/public:avm/res/network/public-ip-address:0.9.0' = 
   }
 }
 
-module natGateway 'br/public:avm/res/network/nat-gateway:1.4.0' = if (privateNetworking && empty(networkingConfiguration.?natGatewayResourceId ?? '') && networkingConfiguration.networkType == 'createNew') {
+module natGateway '../../../res/network/nat-gateway/main.bicep' = if (privateNetworking && empty(networkingConfiguration.?natGatewayResourceId ?? '') && networkingConfiguration.networkType == 'createNew') {
   name: 'natGateway-${uniqueString(resourceGroup().id)}'
   params: {
     name: 'natGateway-${namingPrefix}-${uniqueString(resourceGroup().id)}'
@@ -465,7 +465,7 @@ resource buildImages 'Microsoft.ContainerRegistry/registries/tasks@2025-03-01-pr
   }
 ]
 
-module buildImagesRoleAssignment 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = [
+module buildImagesRoleAssignment '../../../ptn/authorization/resource-role-assignment/main.bicep' = [
   for (image, i) in computeTypes: {
     name: 'buildImagesRoleAssignment-${uniqueString(resourceGroup().id)}-${i}'
     params: {
@@ -494,7 +494,7 @@ resource taskRun 'Microsoft.ContainerRegistry/registries/taskRuns@2025-03-01-pre
   }
 ]
 
-module aciJob 'br/public:avm/res/container-instance/container-group:0.6.0' = [
+module aciJob '../../../res/container-instance/container-group/main.bicep' = [
   for i in range(0, int(selfHostedConfig.?azureContainerInstanceTarget.?numberOfInstances ?? 1)): if (contains(
     computeTypes,
     'azure-container-instance'
@@ -605,7 +605,7 @@ module aciJob 'br/public:avm/res/container-instance/container-group:0.6.0' = [
   }
 ]
 
-module acaJob 'br/public:avm/res/app/job:0.7.1' = if (contains(computeTypes, 'azure-container-app')) {
+module acaJob '../../../res/app/job/main.bicep' = if (contains(computeTypes, 'azure-container-app')) {
   name: '${namingPrefix}acaJob'
   dependsOn: [
     taskRun
@@ -664,7 +664,7 @@ module acaJob 'br/public:avm/res/app/job:0.7.1' = if (contains(computeTypes, 'az
   }
 }
 
-module acaPlaceholderJob 'br/public:avm/res/app/job:0.7.1' = if (contains(computeTypes, 'azure-container-app') && selfHostedConfig.selfHostedType == 'azuredevops') {
+module acaPlaceholderJob '../../../res/app/job/main.bicep' = if (contains(computeTypes, 'azure-container-app') && selfHostedConfig.selfHostedType == 'azuredevops') {
   name: 'acaDevOpsPlaceholderJob'
   dependsOn: [
     taskRun
@@ -735,7 +735,7 @@ module acaPlaceholderJob 'br/public:avm/res/app/job:0.7.1' = if (contains(comput
     workloadProfileName: 'consumption'
   }
 }
-module deploymentScriptPrivateDNSZone 'br/public:avm/res/network/private-dns-zone:0.8.0' = if (privateNetworking && empty(networkingConfiguration.?deploymentScriptPrivateDnsZoneResourceId ?? '')) {
+module deploymentScriptPrivateDNSZone '../../../res/network/private-dns-zone/main.bicep' = if (privateNetworking && empty(networkingConfiguration.?deploymentScriptPrivateDnsZoneResourceId ?? '')) {
   name: 'stgdsdnszone${namingPrefix}${uniqueString(resourceGroup().id)}'
   params: {
     name: 'privatelink.file.${environment().suffixes.storage}'
@@ -750,7 +750,7 @@ module deploymentScriptPrivateDNSZone 'br/public:avm/res/network/private-dns-zon
   }
 }
 
-module deploymentScriptStg 'br/public:avm/res/storage/storage-account:0.26.2' = if (contains(
+module deploymentScriptStg '../../../res/storage/storage-account/main.bicep' = if (contains(
   computeTypes,
   'azure-container-app'
 ) && selfHostedConfig.selfHostedType == 'azuredevops' && privateNetworking) {
@@ -796,7 +796,7 @@ module deploymentScriptStg 'br/public:avm/res/storage/storage-account:0.26.2' = 
   }
 }
 
-module deploymentScriptAcrStg 'br/public:avm/res/storage/storage-account:0.26.2' = if (privateNetworking) {
+module deploymentScriptAcrStg '../../../res/storage/storage-account/main.bicep' = if (privateNetworking) {
   name: 'deploymentScriptAcrStg-${uniqueString(resourceGroup().id)}'
   params: {
     name: 'stgacr${uniqueString(resourceGroup().id, acr.outputs.name,location)}'
@@ -837,7 +837,7 @@ module deploymentScriptAcrStg 'br/public:avm/res/storage/storage-account:0.26.2'
   }
 }
 
-module runPlaceHolderAgent 'br/public:avm/res/resources/deployment-script:0.5.1' = if (contains(
+module runPlaceHolderAgent '../../../res/resources/deployment-script/main.bicep' = if (contains(
   computeTypes,
   'azure-container-app'
 ) && selfHostedConfig.selfHostedType == 'azuredevops') {
@@ -873,7 +873,7 @@ module runPlaceHolderAgent 'br/public:avm/res/resources/deployment-script:0.5.1'
   }
 }
 
-module acrNetworkByPassTasks 'br/public:avm/res/resources/deployment-script:0.5.1' = {
+module acrNetworkByPassTasks '../../../res/resources/deployment-script/main.bicep' = {
   params: {
     name: 'acrNetworkByPassTasks-${uniqueString(resourceGroup().id)}'
     kind: 'AzureCLI'

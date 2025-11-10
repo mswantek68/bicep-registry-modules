@@ -73,7 +73,7 @@ var keyVaultName = keyVaultIdTokens[8]
 
 // TODO: Check if this is required if enableApplicationCertificate is false
 @description('A user-assigned managed identity that enables Application Gateway to access Key Vault for its TLS certs.')
-module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
+module userAssignedIdentity '../../../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: take('appGwUserAssignedIdentity-Deployment-${uniqueString(resourcesNames.resourceGroup)}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {
@@ -106,7 +106,7 @@ module appGatewayAddCertificates 'app-gateway-cert.bicep' = {
   }
 }
 
-module applicationGatewayPublicIp 'br/public:avm/res/network/public-ip-address:0.7.1' = {
+module applicationGatewayPublicIp '../../../../../res/network/public-ip-address/main.bicep' = {
   name: take('applicationGatewayPublicIp-Deployment-${uniqueString(resourcesNames.resourceGroup)}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {
@@ -160,7 +160,7 @@ module applicationGateway 'app-gateway.module.bicep' = {
   }
 }
 
-module appGwWafPolicy 'br/public:avm/res/network/application-gateway-web-application-firewall-policy:0.2.0' = {
+module appGwWafPolicy '../../../../../res/network/application-gateway-web-application-firewall-policy/main.bicep' = {
   name: take('appGwWafPolicy-Deployment-${uniqueString(resourcesNames.resourceGroup)}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {

@@ -16,14 +16,14 @@ param location string = resourceGroup().location
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { deploymentType } from 'br/public:avm/res/cognitive-services/account:0.13.2'
+import { deploymentType } from '../../../res/cognitive-services/account/main.bicep'
 @description('Optional. Specifies the OpenAI deployments to create.')
 param aiModelDeployments deploymentType[] = []
 
 @description('Optional. Specifies the resource tags for all the resources.')
 param tags resourceInput<'Microsoft.Resources/resourceGroups@2025-04-01'>.tags = {}
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the AI resources.')
 param lock lockType?
 
@@ -260,7 +260,7 @@ output storageAccountName string = includeAssociatedResources ? storageAccount!.
 @description('Name of the deployed Azure Cosmos DB account.')
 output cosmosAccountName string = includeAssociatedResources ? cosmosDb!.outputs.name : ''
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 
 @export()
 @description('Custom configuration for a resource, including optional name, existing resource ID, and role assignments.')

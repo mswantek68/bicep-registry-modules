@@ -150,7 +150,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module appIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module appIdentity '../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: take('identity-app-${resourcesName}-deployment', 64)
   params: {
     name: 'id-app-${resourcesName}'
@@ -160,7 +160,7 @@ module appIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.
   }
 }
 
-module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.12.0' = if (enableMonitoring || enablePrivateNetworking) {
+module logAnalyticsWorkspace '../../../res/operational-insights/workspace/main.bicep' = if (enableMonitoring || enablePrivateNetworking) {
   name: take('log-analytics-${resourcesName}-deployment', 64)
   params: {
     name: 'log-${resourcesName}'
@@ -177,7 +177,7 @@ module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0
   }
 }
 
-module applicationInsights 'br/public:avm/res/insights/component:0.6.0' = if (enableMonitoring) {
+module applicationInsights '../../../res/insights/component/main.bicep' = if (enableMonitoring) {
   name: take('app-insights-${resourcesName}-deployment', 64)
   params: {
     name: 'appi-${resourcesName}'
@@ -308,7 +308,7 @@ module cosmosDb 'modules/cosmosDb.bicep' = {
 
 var containerAppsEnvironmentName = 'cae-${resourcesName}'
 
-module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.11.2' = {
+module containerAppsEnvironment '../../../res/app/managed-environment/main.bicep' = {
   name: take('container-env-${resourcesName}-deployment', 64)
   #disable-next-line no-unnecessary-dependson
   dependsOn: [applicationInsights, logAnalyticsWorkspace, network] // required due to optional flags that could change dependency
@@ -354,7 +354,7 @@ module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.11.
   }
 }
 
-module containerAppFrontend 'br/public:avm/res/app/container-app:0.17.0' = {
+module containerAppFrontend '../../../res/app/container-app/main.bicep' = {
   name: take('container-app-frontend-${resourcesName}-deployment', 64)
   params: {
     name: take('ca-${resourcesName}frontend', 32)
@@ -405,7 +405,7 @@ module containerAppFrontend 'br/public:avm/res/app/container-app:0.17.0' = {
   }
 }
 
-module containerAppBackend 'br/public:avm/res/app/container-app:0.17.0' = {
+module containerAppBackend '../../../res/app/container-app/main.bicep' = {
   name: take('container-app-backend-${resourcesName}-deployment', 64)
   #disable-next-line no-unnecessary-dependson
   dependsOn: [applicationInsights] // required due to optional flags that could change dependency

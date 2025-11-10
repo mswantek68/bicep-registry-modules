@@ -285,7 +285,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
 // WAF best practices for Log Analytics: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/azure-log-analytics
 // WAF PSRules for Log Analytics: https://azure.github.io/PSRule.Rules.Azure/en/rules/resource/#azure-monitor-logs
 var logAnalyticsWorkspaceResourceName = 'log-${solutionSuffix}'
-module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.12.0' = if (enableMonitoring) {
+module logAnalyticsWorkspace '../../../res/operational-insights/workspace/main.bicep' = if (enableMonitoring) {
   name: take('avm.res.operational-insights.workspace.${logAnalyticsWorkspaceResourceName}', 64)
   params: {
     name: logAnalyticsWorkspaceResourceName
@@ -348,7 +348,7 @@ module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0
 // WAF best practices for Application Insights: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/application-insights
 // WAF PSRules for  Application Insights: https://azure.github.io/PSRule.Rules.Azure/en/rules/resource/#application-insights
 var applicationInsightsResourceName = 'appi-${solutionSuffix}'
-module applicationInsights 'br/public:avm/res/insights/component:0.6.0' = if (enableMonitoring) {
+module applicationInsights '../../../res/insights/component/main.bicep' = if (enableMonitoring) {
   name: take('avm.res.insights.component.${applicationInsightsResourceName}', 64)
   params: {
     name: applicationInsightsResourceName
@@ -368,7 +368,7 @@ module applicationInsights 'br/public:avm/res/insights/component:0.6.0' = if (en
 // ========== User Assigned Identity ========== //
 // WAF best practices for identity and access management: https://learn.microsoft.com/en-us/azure/well-architected/security/identity-access
 var userAssignedIdentityResourceName = 'id-${solutionSuffix}'
-module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module userAssignedIdentity '../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: take('avm.res.managed-identity.user-assigned-identity.${userAssignedIdentityResourceName}', 64)
   params: {
     name: userAssignedIdentityResourceName
@@ -429,7 +429,7 @@ var dnsZoneIndex = {
 // ===================================================
 
 @batchSize(5)
-module avmPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.8.0' = [
+module avmPrivateDnsZones '../../../res/network/private-dns-zone/main.bicep' = [
   for (zone, i) in privateDnsZones: if (enablePrivateNetworking) {
     name: 'avm.res.network.private-dns-zone.${split(zone, '.')[1]}'
     params: {
@@ -448,7 +448,7 @@ module avmPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.8.0' = [
 
 // ==========Key Vault Module ========== //
 var keyVaultName = 'KV-${solutionSuffix}'
-module keyvault 'br/public:avm/res/key-vault/vault:0.13.3' = {
+module keyvault '../../../res/key-vault/vault/main.bicep' = {
   name: take('avm.res.key-vault.vault.${keyVaultName}', 64)
   params: {
     name: keyVaultName
@@ -651,7 +651,7 @@ var cosmosDbResourceName = 'cosmos-${solutionSuffix}'
 var cosmosDbDatabaseName = 'db_conversation_history'
 var collectionName = 'conversations'
 
-module cosmosDb 'br/public:avm/res/document-db/database-account:0.16.0' = {
+module cosmosDb '../../../res/document-db/database-account/main.bicep' = {
   name: take('avm.res.document-db.database-account.${cosmosDbResourceName}', 64)
   params: {
     // Required parameters
@@ -737,7 +737,7 @@ module cosmosDb 'br/public:avm/res/document-db/database-account:0.16.0' = {
 // ========== AVM WAF ========== //
 // ========== Storage account module ========== //
 var storageAccountName = 'st${solutionSuffix}'
-module avmStorageAccount 'br/public:avm/res/storage/storage-account:0.26.2' = {
+module avmStorageAccount '../../../res/storage/storage-account/main.bicep' = {
   name: take('module.storage-account.${storageAccountName}', 64)
   params: {
     name: storageAccountName
@@ -814,7 +814,7 @@ module avmStorageAccount 'br/public:avm/res/storage/storage-account:0.26.2' = {
 }
 
 // working version of saving storage account secrets in key vault using AVM module
-module saveStorageAccountSecretsInKeyVault 'br/public:avm/res/key-vault/vault:0.13.3' = {
+module saveStorageAccountSecretsInKeyVault '../../../res/key-vault/vault/main.bicep' = {
   name: take('saveStorageAccountSecretsInKeyVault.${keyVaultName}', 64)
   params: {
     name: keyVaultName
@@ -892,7 +892,7 @@ resource maintenanceWindow 'Microsoft.Maintenance/publicMaintenanceConfiguration
 // ========== AVM WAF ========== //
 // ========== SQL module ========== //
 var sqlDbName = 'sqldb-${solutionSuffix}'
-module sqlDBModule 'br/public:avm/res/sql/server:0.20.2' = {
+module sqlDBModule '../../../res/sql/server/main.bicep' = {
   name: take('avm.res.sql.server.${sqlDbName}', 64)
   params: {
     // Required parameters
@@ -1001,7 +1001,7 @@ module sqlDBModule 'br/public:avm/res/sql/server:0.20.2' = {
 // WAF best practices for Web Application Services: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/app-service-web-apps
 // PSRule for Web Server Farm: https://azure.github.io/PSRule.Rules.Azure/en/rules/resource/#app-service
 var webServerFarmResourceName = 'asp-${solutionSuffix}'
-module webServerFarm 'br/public:avm/res/web/serverfarm:0.5.0' = {
+module webServerFarm '../../../res/web/serverfarm/main.bicep' = {
   name: take('avm.res.web.serverfarm.${webServerFarmResourceName}', 64)
   params: {
     name: webServerFarmResourceName
@@ -1109,7 +1109,7 @@ module webSite 'modules/web-sites.bicep' = {
 // The Agent AI Search tools SDK is not able to connect to search service over a private endpoint.
 var enableSearchServicePrivateEndpoints = false
 var aiSearchName = 'srch-${solutionSuffix}'
-module searchService 'br/public:avm/res/search/search-service:0.11.1' = {
+module searchService '../../../res/search/search-service/main.bicep' = {
   name: take('avm.res.search.search-service.${aiSearchName}', 64)
   params: {
     // Required parameters

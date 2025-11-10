@@ -4,7 +4,7 @@ targetScope = 'resourceGroup'
 //    PARAMETERS
 // ------------------
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../../../../utl/types/avm-common-types/main.bicep'
 
 @description('The location where the resources will be created.')
 param location string = resourceGroup().location
@@ -74,7 +74,7 @@ resource spokePrivateEndpointSubnet 'Microsoft.Network/virtualNetworks/subnets@2
   name: spokePrivateEndpointSubnetName
 }
 
-module vaultdnszone 'br/public:avm/res/network/private-dns-zone:0.7.0' = {
+module vaultdnszone '../../../../../../res/network/private-dns-zone/main.bicep' = {
   name: 'keyvaultDnsZoneDeployment-${uniqueString(resourceGroup().id)}'
   params: {
     name: vaultDnsZoneName
@@ -85,7 +85,7 @@ module vaultdnszone 'br/public:avm/res/network/private-dns-zone:0.7.0' = {
   }
 }
 
-module keyvault 'br/public:avm/res/key-vault/vault:0.12.1' = {
+module keyvault '../../../../../../res/key-vault/vault/main.bicep' = {
   name: 'vault-${uniqueString(resourceGroup().id)}'
   params: {
     name: keyVaultName

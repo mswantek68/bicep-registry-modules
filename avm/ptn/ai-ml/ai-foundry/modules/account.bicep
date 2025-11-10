@@ -39,15 +39,15 @@ param agentSubnetResourceId string?
 @description('Required. Allow only Azure AD authentication. Should be enabled for security reasons.')
 param disableLocalAuth bool
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Specifies the role assignments for the AI Foundry resource.')
 param roleAssignments roleAssignmentType[]?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of AI Foundry resources.')
 param lock lockType?
 
-import { deploymentType } from 'br/public:avm/res/cognitive-services/account:0.13.2'
+import { deploymentType } from '../../../../res/cognitive-services/account/main.bicep'
 @description('Optional. Specifies the OpenAI deployments to create.')
 param aiModelDeployments deploymentType[] = []
 
@@ -67,7 +67,7 @@ var privateDnsZoneResourceIdValues = [
 ]
 var privateNetworkingEnabled = !empty(privateDnsZoneResourceIdValues) && !empty(privateEndpointSubnetResourceId)
 
-module foundryAccount 'br/public:avm/res/cognitive-services/account:0.13.2' = {
+module foundryAccount '../../../../res/cognitive-services/account/main.bicep' = {
   name: take('avm.res.cognitive-services.account.${name}', 64)
   params: {
     name: name

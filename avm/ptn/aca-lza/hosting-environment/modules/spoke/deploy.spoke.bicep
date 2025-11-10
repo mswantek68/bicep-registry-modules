@@ -151,7 +151,7 @@ var spokeSubnets = vmJumpboxOSType != 'none'
 // ------------------
 
 @description('The spoke virtual network in which the workload will run from. This virtual network would normally already be provisioned by your subscription vending process, and only the subnets would need to be configured.')
-module vnetSpoke 'br/public:avm/res/network/virtual-network:0.5.2' = {
+module vnetSpoke '../../../../../res/network/virtual-network/main.bicep' = {
   name: take('deploy-vnetSpoke-${deployment().name}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {
@@ -191,7 +191,7 @@ module logAnalyticsWorkspace 'logAnalytics.bicep' = {
 }
 
 @description('Network security group rules for the Container Apps cluster.')
-module nsgContainerAppsEnvironment 'br/public:avm/res/network/network-security-group:0.5.0' = {
+module nsgContainerAppsEnvironment '../../../../../res/network/network-security-group/main.bicep' = {
   name: take('deploy-nsgContainerAppsEnvironment-${deployment().name}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {
@@ -314,7 +314,7 @@ module nsgContainerAppsEnvironment 'br/public:avm/res/network/network-security-g
 }
 
 @description('NSG Rules for the Application Gateway.')
-module nsgAppGw 'br/public:avm/res/network/network-security-group:0.5.0' = if (!empty(spokeApplicationGatewaySubnetAddressPrefix)) {
+module nsgAppGw '../../../../../res/network/network-security-group/main.bicep' = if (!empty(spokeApplicationGatewaySubnetAddressPrefix)) {
   name: take('deploy-nsgAppGw-${deployment().name}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {
@@ -403,7 +403,7 @@ module nsgAppGw 'br/public:avm/res/network/network-security-group:0.5.0' = if (!
 }
 
 @description('NSG Rules for the private enpoint subnet.')
-module nsgPep 'br/public:avm/res/network/network-security-group:0.5.0' = {
+module nsgPep '../../../../../res/network/network-security-group/main.bicep' = {
   name: take('deploy-nsgPep-${deployment().name}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {
@@ -439,7 +439,7 @@ module nsgPep 'br/public:avm/res/network/network-security-group:0.5.0' = {
 }
 
 @description('NSG Rules for the deployment subnet (container instances).')
-module nsgDeploymentSubnet 'br/public:avm/res/network/network-security-group:0.5.0' = {
+module nsgDeploymentSubnet '../../../../../res/network/network-security-group/main.bicep' = {
   name: take('deploy-nsgDeploymentSubnet-${deployment().name}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {
@@ -501,7 +501,7 @@ module nsgDeploymentSubnet 'br/public:avm/res/network/network-security-group:0.5
 }
 
 @description('The Route Table deployment')
-module egressLockdownUdr 'br/public:avm/res/network/route-table:0.4.0' = if (!empty(hubVNetId) && !empty(networkApplianceIpAddress)) {
+module egressLockdownUdr '../../../../../res/network/route-table/main.bicep' = if (!empty(hubVNetId) && !empty(networkApplianceIpAddress)) {
   name: take('deploy-egressLockdownUdr-${deployment().name}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {

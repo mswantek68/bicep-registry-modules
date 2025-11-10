@@ -36,7 +36,7 @@ resource virtualNetwork 'Microsoft.Network/virtualNetworks@2023-04-01' = {
   }
 }
 
-module vm 'br/public:avm/res/compute/virtual-machine:0.5.3' = {
+module vm '../../../../../../res/compute/virtual-machine/main.bicep' = {
   name: '${uniqueString(deployment().name, resourceLocation)}-test-${virtualMachineName}'
   params: {
     location: resourceLocation

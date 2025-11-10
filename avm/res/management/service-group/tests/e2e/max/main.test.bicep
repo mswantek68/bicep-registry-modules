@@ -30,7 +30,7 @@ resource serviceGroupDependency 'Microsoft.Management/serviceGroups@2024-02-01-p
   }
 }
 
-module serviceGroupDependency_resourceGroupMember 'br/public:avm/res/resources/resource-group:0.4.1' = {
+module serviceGroupDependency_resourceGroupMember '../../../../../../res/resources/resource-group/main.bicep' = {
   scope: subscription(subscriptionId)
   params: {
     name: 'rg-${namePrefix}-${serviceShort}-${uniqueString(tenant().tenantId)}-dep-001'

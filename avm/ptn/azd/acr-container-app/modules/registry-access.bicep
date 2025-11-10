@@ -15,7 +15,7 @@ var acrPullRole = subscriptionResourceId(
   '7f951dda-4ed3-4680-a7ca-43fe172d538d'
 )
 
-module aksAcrPull 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = {
+module aksAcrPull '../../../../ptn/authorization/resource-role-assignment/main.bicep' = {
   name: guid(subscription().id, resourceGroup().id, principalId, acrPullRole)
   params: {
     principalId: principalId

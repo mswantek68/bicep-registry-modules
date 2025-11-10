@@ -73,7 +73,7 @@ module nestedDependencies2 'dependencies2.bicep' = {
   }
 }
 
-module imageBuilder 'br/public:avm/ptn/virtual-machine-images/azure-image-builder:0.1.6' = {
+module imageBuilder '../../../../../../ptn/virtual-machine-images/azure-image-builder/main.bicep' = {
   name: '${uniqueString(deployment().name, enforcedLocation)}-imageBuilder'
   params: {
     imageTemplateName: 'dep-${namePrefix}-it-${serviceShort}'

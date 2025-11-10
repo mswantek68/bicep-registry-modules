@@ -72,7 +72,7 @@ module nestedDependencies '../../../../../../../utilities/e2e-template-assets/mo
   }
 }
 
-module azlocal 'br/public:avm/res/azure-stack-hci/cluster:0.1.6' = {
+module azlocal '../../../../../../res/azure-stack-hci/cluster/main.bicep' = {
   name: '${uniqueString(deployment().name, enforcedLocation)}-test-clustermodule-${serviceShort}'
   scope: resourceGroup
   params: {
@@ -183,7 +183,7 @@ module azlocal 'br/public:avm/res/azure-stack-hci/cluster:0.1.6' = {
   }
 }
 
-module logicalNetwork 'br/public:avm/res/azure-stack-hci/logical-network:0.1.0' = {
+module logicalNetwork '../../../../../../res/azure-stack-hci/logical-network/main.bicep' = {
   name: '${uniqueString(deployment().name, enforcedLocation)}-logicalNetwork-${serviceShort}'
   scope: resourceGroup
   params: {

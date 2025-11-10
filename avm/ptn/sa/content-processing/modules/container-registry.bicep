@@ -22,7 +22,7 @@ param tags object = {}
 @description('Enable telemetry for the AVM deployment')
 param enableTelemetry bool
 
-module avmContainerRegistry 'br/public:avm/res/container-registry/registry:0.9.1' = {
+module avmContainerRegistry '../../../../res/container-registry/registry/main.bicep' = {
   name: acrName
   params: {
     name: acrName

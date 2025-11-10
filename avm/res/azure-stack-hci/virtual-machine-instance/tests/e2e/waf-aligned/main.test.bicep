@@ -74,7 +74,7 @@ module nestedDependencies '../../../../../../../utilities/e2e-template-assets/mo
   }
 }
 
-module azlocal 'br/public:avm/res/azure-stack-hci/cluster:0.1.12' = {
+module azlocal '../../../../../../res/azure-stack-hci/cluster/main.bicep' = {
   name: '${uniqueString(deployment().name, enforcedLocation)}-test-clustermodule-${serviceShort}'
   scope: resourceGroup
   params: {
@@ -180,7 +180,7 @@ resource customLocation 'Microsoft.ExtendedLocation/customLocations@2021-08-31-p
   ]
 }
 
-module hciImage 'br/public:avm/res/azure-stack-hci/marketplace-gallery-image:0.1.0' = {
+module hciImage '../../../../../../res/azure-stack-hci/marketplace-gallery-image/main.bicep' = {
   name: '${uniqueString(deployment().name, enforcedLocation)}-test-mgi-${serviceShort}'
   scope: resourceGroup
   params: {

@@ -59,7 +59,7 @@ var virtualNetworkLinks = concat(
 // RESOURCES
 // ------------------
 
-module vaultdnszone 'br/public:avm/res/network/private-dns-zone:0.7.0' = {
+module vaultdnszone '../../../../../../res/network/private-dns-zone/main.bicep' = {
   name: 'keyvaultDnsZoneDeployment-${uniqueString(resourceGroup().id)}'
   params: {
     name: vaultDnsZoneName
@@ -70,7 +70,7 @@ module vaultdnszone 'br/public:avm/res/network/private-dns-zone:0.7.0' = {
   }
 }
 
-module keyvault 'br/public:avm/res/key-vault/vault:0.11.1' = {
+module keyvault '../../../../../../res/key-vault/vault/main.bicep' = {
   name: 'vault-${uniqueString(resourceGroup().id)}'
   params: {
     name: keyVaultName

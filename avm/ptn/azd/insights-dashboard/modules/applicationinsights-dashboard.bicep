@@ -31,7 +31,7 @@ param tags object?
 // Resources      //
 // ============== //
 
-module dashboard 'br/public:avm/res/portal/dashboard:0.1.0' = {
+module dashboard '../../../../res/portal/dashboard/main.bicep' = {
   name: 'dashboard-deployment'
   params: {
     name: name

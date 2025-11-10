@@ -19,7 +19,7 @@ param logAnalyticsWorkspaceName string
 @description('Required. The name of the Application Insights to create.')
 param applicationInsightsName string
 
-module apimService 'br/public:avm/res/api-management/service:0.4.0' = {
+module apimService '../../../../../../res/api-management/service/main.bicep' = {
   name: 'serviceDeployment'
   params: {
     name: apimServiceName
@@ -39,7 +39,7 @@ module apimService 'br/public:avm/res/api-management/service:0.4.0' = {
   }
 }
 
-module app 'br/public:avm/res/web/site:0.6.0' = {
+module app '../../../../../../res/web/site/main.bicep' = {
   name: 'siteDeployment'
   params: {
     kind: 'app'
@@ -48,7 +48,7 @@ module app 'br/public:avm/res/web/site:0.6.0' = {
   }
 }
 
-module appServicePlan 'br/public:avm/res/web/serverfarm:0.2.2' = {
+module appServicePlan '../../../../../../res/web/serverfarm/main.bicep' = {
   name: 'serverDeployment'
   params: {
     name: appServicePlanName

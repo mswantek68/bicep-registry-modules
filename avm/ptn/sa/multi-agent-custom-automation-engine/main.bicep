@@ -96,7 +96,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
 // WAF best practices for Log Analytics: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/azure-log-analytics
 // WAF PSRules for Log Analytics: https://azure.github.io/PSRule.Rules.Azure/en/rules/resource/#azure-monitor-logs
 var logAnalyticsWorkspaceResourceName = 'log-${solutionPrefix}'
-module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.11.2' = if (enableMonitoring) {
+module logAnalyticsWorkspace '../../../res/operational-insights/workspace/main.bicep' = if (enableMonitoring) {
   name: take('avm.res.operational-insights.workspace.${logAnalyticsWorkspaceResourceName}', 64)
   params: {
     name: 'log-${solutionPrefix}'
@@ -153,7 +153,7 @@ module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0
 // WAF best practices for Application Insights: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/application-insights
 // WAF PSRules for  Application Insights: https://azure.github.io/PSRule.Rules.Azure/en/rules/resource/#application-insights
 var applicationInsightsResourceName = 'appi-${solutionPrefix}'
-module applicationInsights 'br/public:avm/res/insights/component:0.6.0' = if (enableMonitoring) {
+module applicationInsights '../../../res/insights/component/main.bicep' = if (enableMonitoring) {
   name: take('avm.res.insights.component.${applicationInsightsResourceName}', 64)
   params: {
     name: applicationInsightsResourceName
@@ -177,7 +177,7 @@ module applicationInsights 'br/public:avm/res/insights/component:0.6.0' = if (en
 // WAF best practices for virtual networks: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/virtual-network
 // WAF recommendations for networking and connectivity: https://learn.microsoft.com/en-us/azure/well-architected/security/networking
 var networkSecurityGroupBackendResourceName = 'nsg-backend-${solutionPrefix}'
-module networkSecurityGroupBackend 'br/public:avm/res/network/network-security-group:0.5.1' = if (enablePrivateNetworking) {
+module networkSecurityGroupBackend '../../../res/network/network-security-group/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.network.network-security-group.${networkSecurityGroupBackendResourceName}', 64)
   params: {
     name: networkSecurityGroupBackendResourceName
@@ -207,7 +207,7 @@ module networkSecurityGroupBackend 'br/public:avm/res/network/network-security-g
 }
 
 var networkSecurityGroupContainersResourceName = 'nsg-containers-${solutionPrefix}'
-module networkSecurityGroupContainers 'br/public:avm/res/network/network-security-group:0.5.1' = if (enablePrivateNetworking) {
+module networkSecurityGroupContainers '../../../res/network/network-security-group/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.network.network-security-group.${networkSecurityGroupContainersResourceName}', 64)
   params: {
     name: networkSecurityGroupContainersResourceName
@@ -237,7 +237,7 @@ module networkSecurityGroupContainers 'br/public:avm/res/network/network-securit
 }
 
 var networkSecurityGroupBastionResourceName = 'nsg-bastion-${solutionPrefix}'
-module networkSecurityGroupBastion 'br/public:avm/res/network/network-security-group:0.5.1' = if (enablePrivateNetworking) {
+module networkSecurityGroupBastion '../../../res/network/network-security-group/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.network.network-security-group.${networkSecurityGroupBastionResourceName}', 64)
   params: {
     name: networkSecurityGroupBastionResourceName
@@ -393,7 +393,7 @@ module networkSecurityGroupBastion 'br/public:avm/res/network/network-security-g
 }
 
 var networkSecurityGroupAdministrationResourceName = 'nsg-administration-${solutionPrefix}'
-module networkSecurityGroupAdministration 'br/public:avm/res/network/network-security-group:0.5.1' = if (enablePrivateNetworking) {
+module networkSecurityGroupAdministration '../../../res/network/network-security-group/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.network.network-security-group.${networkSecurityGroupAdministrationResourceName}', 64)
   params: {
     name: networkSecurityGroupAdministrationResourceName
@@ -426,7 +426,7 @@ module networkSecurityGroupAdministration 'br/public:avm/res/network/network-sec
 // WAF best practices for virtual networks: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/virtual-network
 // WAF recommendations for networking and connectivity: https://learn.microsoft.com/en-us/azure/well-architected/security/networking
 var virtualNetworkResourceName = 'vnet-${solutionPrefix}'
-module virtualNetwork 'br/public:avm/res/network/virtual-network:0.7.0' = if (enablePrivateNetworking) {
+module virtualNetwork '../../../res/network/virtual-network/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.network.virtual-network.${virtualNetworkResourceName}', 64)
   params: {
     name: virtualNetworkResourceName
@@ -474,7 +474,7 @@ var bastionResourceName = 'bas-${solutionPrefix}'
 // ========== Bastion host ========== //
 // WAF best practices for virtual networks: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/virtual-network
 // WAF recommendations for networking and connectivity: https://learn.microsoft.com/en-us/azure/well-architected/security/networking
-module bastionHost 'br/public:avm/res/network/bastion-host:0.6.1' = if (enablePrivateNetworking) {
+module bastionHost '../../../res/network/bastion-host/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.network.bastion-host.${bastionResourceName}', 64)
   params: {
     name: bastionResourceName
@@ -501,7 +501,7 @@ module bastionHost 'br/public:avm/res/network/bastion-host:0.6.1' = if (enablePr
 // ========== Virtual machine ========== //
 // WAF best practices for virtual machines: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/virtual-machines
 var maintenanceConfigurationResourceName = 'mc-${solutionPrefix}'
-module maintenanceConfiguration 'br/public:avm/res/maintenance/maintenance-configuration:0.3.1' = if (enablePrivateNetworking) {
+module maintenanceConfiguration '../../../res/maintenance/maintenance-configuration/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.compute.virtual-machine.${maintenanceConfigurationResourceName}', 64)
   params: {
     name: maintenanceConfigurationResourceName
@@ -538,7 +538,7 @@ module maintenanceConfiguration 'br/public:avm/res/maintenance/maintenance-confi
 }
 
 var dataCollectionRulesResourceName = 'dcr-${solutionPrefix}'
-module windowsVmDataCollectionRules 'br/public:avm/res/insights/data-collection-rule:0.6.0' = if (enablePrivateNetworking && enableMonitoring) {
+module windowsVmDataCollectionRules '../../../res/insights/data-collection-rule/main.bicep' = if (enablePrivateNetworking && enableMonitoring) {
   name: take('avm.res.insights.data-collection-rule.${dataCollectionRulesResourceName}', 64)
   params: {
     name: dataCollectionRulesResourceName
@@ -631,7 +631,7 @@ module windowsVmDataCollectionRules 'br/public:avm/res/insights/data-collection-
 }
 
 var proximityPlacementGroupResourceName = 'ppg-${solutionPrefix}'
-module proximityPlacementGroup 'br/public:avm/res/compute/proximity-placement-group:0.3.2' = if (enablePrivateNetworking) {
+module proximityPlacementGroup '../../../res/compute/proximity-placement-group/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.compute.proximity-placement-group.${proximityPlacementGroupResourceName}', 64)
   params: {
     name: proximityPlacementGroupResourceName
@@ -642,7 +642,7 @@ module proximityPlacementGroup 'br/public:avm/res/compute/proximity-placement-gr
 }
 
 var virtualMachineResourceName = 'vm${solutionPrefix}'
-module virtualMachine 'br/public:avm/res/compute/virtual-machine:0.15.0' = if (enablePrivateNetworking) {
+module virtualMachine '../../../res/compute/virtual-machine/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.compute.virtual-machine.${virtualMachineResourceName}', 64)
   params: {
     name: virtualMachineResourceName
@@ -745,7 +745,7 @@ var openAiPrivateDnsZones = {
   'privatelink.services.ai.azure.com': openAiSubResource
 }
 
-module privateDnsZonesAiServices 'br/public:avm/res/network/private-dns-zone:0.7.1' = [
+module privateDnsZonesAiServices '../../../res/network/private-dns-zone/main.bicep' = [
   for zone in objectKeys(openAiPrivateDnsZones): if (enablePrivateNetworking) {
     name: take(
       'avm.res.network.private-dns-zone.ai-services.${uniqueString(aiFoundryAiServicesResourceName,zone)}.${solutionPrefix}',
@@ -839,7 +839,7 @@ module aiFoundryAiServices 'modules/ai-services.bicep' = if (aiFoundryAIservices
 }
 //Role assignments for AI Foundry
 
-module resourceRoleAssignmentAiServicesAiUser 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = {
+module resourceRoleAssignmentAiServicesAiUser '../../../ptn/authorization/resource-role-assignment/main.bicep' = {
   name: 'avm.ptn.authorization.resource-role-assignment.${uniqueString(aiFoundryAiServicesResourceName,containerAppResourceName,'Azure AI User')}'
   params: {
     roleName: 'Azure AI User'
@@ -851,7 +851,7 @@ module resourceRoleAssignmentAiServicesAiUser 'br/public:avm/ptn/authorization/r
   }
 }
 
-module resourceRoleAssignmentAiServicesAiDeveloper 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = {
+module resourceRoleAssignmentAiServicesAiDeveloper '../../../ptn/authorization/resource-role-assignment/main.bicep' = {
   name: 'avm.ptn.authorization.resource-role-assignment.${uniqueString(aiFoundryAiServicesResourceName,containerAppResourceName,'Azure AI Developer')}'
   params: {
     roleName: 'Azure AI Developer'
@@ -863,7 +863,7 @@ module resourceRoleAssignmentAiServicesAiDeveloper 'br/public:avm/ptn/authorizat
   }
 }
 
-module resourceRoleAssignmentAiServicesCognitiveServicesOpenAiUser 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = {
+module resourceRoleAssignmentAiServicesCognitiveServicesOpenAiUser '../../../ptn/authorization/resource-role-assignment/main.bicep' = {
   name: 'avm.ptn.authorization.resource-role-assignment.${uniqueString(aiFoundryAiServicesResourceName,containerAppResourceName,'Cognitive Services OpenAI User')}'
   params: {
     roleName: 'Cognitive Services OpenAI User'
@@ -877,7 +877,7 @@ module resourceRoleAssignmentAiServicesCognitiveServicesOpenAiUser 'br/public:av
 
 //Role assignments for AI Project
 
-module resourceRoleAssignmentAiServicesAiProjectAiUser 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = {
+module resourceRoleAssignmentAiServicesAiProjectAiUser '../../../ptn/authorization/resource-role-assignment/main.bicep' = {
   name: 'avm.ptn.authorization.resource-role-assignment.${uniqueString(aiFoundryAiServicesAiProjectResourceName,containerAppResourceName,'Azure AI User')}'
   params: {
     roleName: 'Azure AI User'
@@ -889,7 +889,7 @@ module resourceRoleAssignmentAiServicesAiProjectAiUser 'br/public:avm/ptn/author
   }
 }
 
-module resourceRoleAssignmentAiServicesAiProjectAiDeveloper 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = {
+module resourceRoleAssignmentAiServicesAiProjectAiDeveloper '../../../ptn/authorization/resource-role-assignment/main.bicep' = {
   name: 'avm.ptn.authorization.resource-role-assignment.${uniqueString(aiFoundryAiServicesAiProjectResourceName,containerAppResourceName,'Azure AI Developer')}'
   params: {
     roleName: 'Azure AI Developer'
@@ -901,7 +901,7 @@ module resourceRoleAssignmentAiServicesAiProjectAiDeveloper 'br/public:avm/ptn/a
   }
 }
 
-module resourceRoleAssignmentAiServicesAiProjectCognitiveServicesOpenAiUser 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = {
+module resourceRoleAssignmentAiServicesAiProjectCognitiveServicesOpenAiUser '../../../ptn/authorization/resource-role-assignment/main.bicep' = {
   name: 'avm.ptn.authorization.resource-role-assignment.${uniqueString(aiFoundryAiServicesAiProjectResourceName,containerAppResourceName,'Cognitive Services OpenAI User')}'
   params: {
     roleName: 'Cognitive Services OpenAI User'
@@ -915,7 +915,7 @@ module resourceRoleAssignmentAiServicesAiProjectCognitiveServicesOpenAiUser 'br/
 
 // ========== Cosmos DB ========== //
 // WAF best practices for Cosmos DB: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/cosmos-db
-module privateDnsZonesCosmosDb 'br/public:avm/res/network/private-dns-zone:0.7.1' = if (enablePrivateNetworking) {
+module privateDnsZonesCosmosDb '../../../res/network/private-dns-zone/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.network.private-dns-zone.cosmos-db.${solutionPrefix}', 64)
   params: {
     name: 'privatelink.documents.azure.com'
@@ -935,7 +935,7 @@ var cosmosDbDatabaseName = 'macae'
 var cosmosDbDatabaseMemoryContainerName = 'memory'
 
 //TODO: update to latest version of AVM module
-module cosmosDb 'br/public:avm/res/document-db/database-account:0.15.0' = {
+module cosmosDb '../../../res/document-db/database-account/main.bicep' = {
   name: take('avm.res.document-db.database-account.${cosmosDbResourceName}', 64)
   params: {
     // Required parameters
@@ -1043,7 +1043,7 @@ module containerAppEnvironment 'modules/container-app-environment.bicep' = {
 // WAF best practices for container apps: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/azure-container-apps
 // PSRule for Container App: https://azure.github.io/PSRule.Rules.Azure/en/rules/resource/#container-app
 var containerAppResourceName = 'ca-${solutionPrefix}'
-module containerApp 'br/public:avm/res/app/container-app:0.17.0' = {
+module containerApp '../../../res/app/container-app/main.bicep' = {
   name: take('avm.res.app.container-app.${containerAppResourceName}', 64)
   params: {
     name: containerAppResourceName
@@ -1173,7 +1173,7 @@ module containerApp 'br/public:avm/res/app/container-app:0.17.0' = {
 // WAF best practices for Web Application Services: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/app-service-web-apps
 // PSRule for Web Server Farm: https://azure.github.io/PSRule.Rules.Azure/en/rules/resource/#app-service
 var webServerFarmResourceName = 'asp-${solutionPrefix}'
-module webServerFarm 'br/public:avm/res/web/serverfarm:0.4.1' = {
+module webServerFarm '../../../res/web/serverfarm/main.bicep' = {
   name: take('avm.res.web.serverfarm.${webServerFarmResourceName}', 64)
   params: {
     name: webServerFarmResourceName

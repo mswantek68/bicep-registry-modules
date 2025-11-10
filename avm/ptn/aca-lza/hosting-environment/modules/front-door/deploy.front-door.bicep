@@ -68,7 +68,7 @@ module privateLinkService 'private-link-service.bicep' = {
   }
 }
 
-module frontDoor 'br/public:avm/res/cdn/profile:0.3.0' = {
+module frontDoor '../../../../../res/cdn/profile/main.bicep' = {
   name: 'frontDoorDeployment-${uniqueString(resourceGroup().id)}'
   params: {
     // Required parameters

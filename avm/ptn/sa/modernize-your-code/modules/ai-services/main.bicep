@@ -61,11 +61,11 @@ param projectDescription string = projectName
 @description('Optional. The resource ID of the Log Analytics workspace to use for diagnostic settings.')
 param logAnalyticsWorkspaceResourceId string?
 
-import { deploymentType } from 'br/public:avm/res/cognitive-services/account:0.10.2'
+import { deploymentType } from '../../../../../res/cognitive-services/account/main.bicep'
 @description('Optional. Specifies the OpenAI deployments to create.')
 param deployments deploymentType[] = []
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[] = []
 
@@ -122,7 +122,7 @@ var aiServicesPrivateDnsZoneResourceId = privateNetworking != null
       : privateNetworking.?aiServicesPrivateDnsZoneResourceId)
   : ''
 
-module cognitiveService 'br/public:avm/res/cognitive-services/account:0.11.0' = {
+module cognitiveService '../../../../../res/cognitive-services/account/main.bicep' = {
   name: take('${name}-aiservices-deployment', 64)
   #disable-next-line no-unnecessary-dependson
   dependsOn: [cognitiveServicesPrivateDnsZone, openAiPrivateDnsZone] // required due to optional flags that could change dependency

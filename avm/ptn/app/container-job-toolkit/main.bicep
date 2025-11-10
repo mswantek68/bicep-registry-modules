@@ -43,7 +43,7 @@ param appInsightsConnectionString string?
 @maxLength(24)
 param keyVaultName string = 'kv${uniqueString(name, location, resourceGroup().name)}'
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.2.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The permissions that will be assigned to the Key Vault. The managed Identity will be assigned the permissions to get and list secrets.')
 param keyVaultRoleAssignments roleAssignmentType[]?
 
@@ -142,7 +142,7 @@ param workloadProfileName string?
 })
 param tags object?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.2.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
@@ -197,7 +197,7 @@ module services 'modules/deploy_services.bicep' = {
 }
 
 // import the image to the ACR that will be used to run the job
-module import_image 'br/public:avm/ptn/deployment-script/import-image-to-acr:0.4.4' = {
+module import_image '../../../ptn/deployment-script/import-image-to-acr/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-import-image'
   params: {
     name: '${name}-import-image'
@@ -218,7 +218,7 @@ module import_image 'br/public:avm/ptn/deployment-script/import-image-to-acr:0.4
   }
 }
 
-module job 'br/public:avm/res/app/job:0.6.0' = {
+module job '../../../res/app/job/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-${resourceGroup().name}-appjob'
   params: {
     name: '${name}-container-job'

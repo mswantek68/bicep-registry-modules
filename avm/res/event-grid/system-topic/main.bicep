@@ -16,22 +16,22 @@ param topicType string
 @description('Optional. Event subscriptions to deploy.')
 param eventSubscriptions eventSubscriptionType[]?
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
 @description('Optional. Array of role assignments to create on external resources. This is useful for scenarios where the system topic needs permissions on delivery or dead letter destinations (e.g., Storage Account, Service Bus). Each assignment specifies the target resource ID and role definition ID (GUID).')
 param externalResourceRoleAssignments externalResourceRoleAssignmentType[] = []
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
@@ -220,7 +220,7 @@ resource systemTopic_roleAssignments 'Microsoft.Authorization/roleAssignments@20
 ]
 
 // External resource role assignments using the pattern template
-module systemTopic_externalResourceRoleAssignments 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = [
+module systemTopic_externalResourceRoleAssignments '../../../ptn/authorization/resource-role-assignment/main.bicep' = [
   for (assignment, index) in formattedExternalResourceRoleAssignments: if (managedIdentities.?systemAssigned ?? false) {
     name: '${uniqueString(deployment().name, location)}-EventGrid-SysTopic-ExtRoleAssign-${index}'
     params: {

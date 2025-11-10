@@ -1,4 +1,4 @@
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../../../utl/types/avm-common-types/main.bicep'
 
 @description('Required. Whether to enable deployment telemetry.')
 param enableTelemetry bool
@@ -86,7 +86,7 @@ param diagnosticSettings diagnosticSettingFullType[]?
 @description('Required. The resource ID of the existing virtual network links to the private DNS zone. If not specified, no virtual network links will be created.')
 param virtualNetworkLinks array
 
-module ase 'br/public:avm/res/web/hosting-environment:0.3.0' = {
+module ase '../../../../../res/web/hosting-environment/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-ase-avm'
   params: {
     name: name
@@ -114,7 +114,7 @@ module ase 'br/public:avm/res/web/hosting-environment:0.3.0' = {
   }
 }
 
-module asePrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.7.0' = {
+module asePrivateDnsZone '../../../../../res/network/private-dns-zone/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-ase-dnszone'
   params: {
     name: '${ase.outputs.name}.appserviceenvironment.net'

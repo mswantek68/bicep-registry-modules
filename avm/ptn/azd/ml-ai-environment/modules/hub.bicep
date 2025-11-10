@@ -101,7 +101,7 @@ resource search 'Microsoft.Search/searchServices@2021-04-01-preview' existing = 
   name: aiSearchName
 }
 
-module hub 'br/public:avm/res/machine-learning-services/workspace:0.8.1' = {
+module hub '../../../../res/machine-learning-services/workspace/main.bicep' = {
   name: 'hub-workspace'
   params: {
     name: name

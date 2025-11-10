@@ -11,7 +11,7 @@ param tags object
 @description('Enable telemetry for the AVM deployment')
 param enableTelemetry bool
 
-module avmManagedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module avmManagedIdentity '../../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: name
   params: {
     name: name

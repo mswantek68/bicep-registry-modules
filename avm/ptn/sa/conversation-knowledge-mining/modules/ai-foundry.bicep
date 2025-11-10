@@ -82,7 +82,7 @@ resource existingKeyVaultResource 'Microsoft.keyvault/vaults@2024-04-01-preview'
 
 // AI Foundry: storage account
 
-module avmStorageAccount 'br/public:avm/res/storage/storage-account:0.18.2' = {
+module avmStorageAccount '../../../../res/storage/storage-account/main.bicep' = {
   name: format(avmDeploymentNameFormat, storageAccountResourceName)
   params: {
     name: storageAccountResourceName
@@ -112,7 +112,7 @@ module avmStorageAccount 'br/public:avm/res/storage/storage-account:0.18.2' = {
 }
 
 // AI Foundry: Application Insights
-module avmInsightsComponent 'br/public:avm/res/insights/component:0.6.0' = {
+module avmInsightsComponent '../../../../res/insights/component/main.bicep' = {
   name: format(avmDeploymentNameFormat, applicationInsightsResourceName)
   params: {
     name: applicationInsightsResourceName
@@ -132,7 +132,7 @@ module avmInsightsComponent 'br/public:avm/res/insights/component:0.6.0' = {
 }
 
 // AI Foundry: Container Registry
-module avmContainerRegistryRegistry 'br/public:avm/res/container-registry/registry:0.9.1' = {
+module avmContainerRegistryRegistry '../../../../res/container-registry/registry/main.bicep' = {
   name: format(avmDeploymentNameFormat, containerRegistryResourceName)
   params: {
     name: containerRegistryResourceName
@@ -150,7 +150,7 @@ module avmContainerRegistryRegistry 'br/public:avm/res/container-registry/regist
 
 // AI Foundry: AI Services
 // NOTE: Required version 'Microsoft.CognitiveServices/accounts@2024-04-01-preview' not available in AVM
-module avmCognitiveServicesAccounts 'br/public:avm/res/cognitive-services/account:0.10.1' = {
+module avmCognitiveServicesAccounts '../../../../res/cognitive-services/account/main.bicep' = {
   name: format(avmDeploymentNameFormat, aiServicesResourceName)
   params: {
     name: aiServicesResourceName
@@ -183,7 +183,7 @@ module avmCognitiveServicesAccounts 'br/public:avm/res/cognitive-services/accoun
 
 // AI Foundry: AI Services Content Understanding
 // NOTE: Required version 'Microsoft.CognitiveServices/accounts/deployments@2023-05-01' not available in AVM
-module avmCognitiveServicesAccountsContentUnderstanding 'br/public:avm/res/cognitive-services/account:0.10.1' = {
+module avmCognitiveServicesAccountsContentUnderstanding '../../../../res/cognitive-services/account/main.bicep' = {
   name: format(avmDeploymentNameFormat, aiServicesContentUnderstandingResourceName)
   params: {
     name: aiServicesContentUnderstandingResourceName
@@ -216,7 +216,7 @@ resource azureOpenAICUEndpointEntry 'Microsoft.keyvault/vaults/secrets@2021-11-0
 }
 
 // AI Foundry: AI Search
-module avmSearchSearchServices 'br/public:avm/res/search/search-service:0.9.1' = {
+module avmSearchSearchServices '../../../../res/search/search-service/main.bicep' = {
   name: format(avmDeploymentNameFormat, searchServiceResourceName)
   params: {
     name: searchServiceResourceName
@@ -269,7 +269,7 @@ module moduleAIHub './ai-foundry-ai-hub.bicep' = {
 
 // AI Foundry: AI Project
 
-module avmMLServicesWorkspacesProject 'br/public:avm/res/machine-learning-services/workspace:0.10.1' = {
+module avmMLServicesWorkspacesProject '../../../../res/machine-learning-services/workspace/main.bicep' = {
   name: format(avmDeploymentNameFormat, aiProjectResourceName)
   params: {
     name: aiProjectResourceName

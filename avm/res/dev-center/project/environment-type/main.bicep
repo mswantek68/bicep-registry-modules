@@ -38,13 +38,13 @@ param userRoleAssignmentsRoles userRoleAssignmentsRolesType[]?
 @description('Optional. Resource tags to apply to the environment type.')
 param tags resourceInput<'Microsoft.DevCenter/projects/environmentTypes@2025-02-01'>.tags?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityAllType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource. If using user assigned identities, they must be first associated to the project that this environment type is created in and only one user identity can be used per project. At least one identity (system assigned or user assigned) must be enabled for deployment. The default is set to system assigned identity.')
 param managedIdentities managedIdentityAllType = {
   systemAssigned: true
 }
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

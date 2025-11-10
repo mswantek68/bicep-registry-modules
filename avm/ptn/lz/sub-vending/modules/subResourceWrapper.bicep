@@ -570,7 +570,7 @@ module tagSubscription 'tags.bicep' = if (!empty(subscriptionTags)) {
     tags: subscriptionTags
   }
 }
-module createResourceGroupForLzNetworking 'br/public:avm/res/resources/resource-group:0.4.1' = if (virtualNetworkEnabled && !empty(virtualNetworkLocation) && !empty(virtualNetworkResourceGroupName)) {
+module createResourceGroupForLzNetworking '../../../../res/resources/resource-group/main.bicep' = if (virtualNetworkEnabled && !empty(virtualNetworkLocation) && !empty(virtualNetworkResourceGroupName)) {
   scope: subscription(subscriptionId)
   name: deploymentNames.createResourceGroupForLzNetworking
   params: {
@@ -587,7 +587,7 @@ module createResourceGroupForLzNetworking 'br/public:avm/res/resources/resource-
   }
 }
 
-module createResourceGroupForIdentities 'br/public:avm/res/resources/resource-group:0.4.1' = if (!empty(userAssignedManagedIdentities)) {
+module createResourceGroupForIdentities '../../../../res/resources/resource-group/main.bicep' = if (!empty(userAssignedManagedIdentities)) {
   scope: subscription(subscriptionId)
   name: deploymentNames.createResourceGroupForIdentities
   params: {
@@ -618,7 +618,7 @@ module tagResourceGroup 'tags.bicep' = if (virtualNetworkEnabled && !empty(virtu
   }
 }
 
-module createLzVnet 'br/public:avm/res/network/virtual-network:0.7.0' = if (virtualNetworkEnabled && !empty(virtualNetworkName) && !empty(virtualNetworkAddressSpace) && !empty(virtualNetworkLocation) && !empty(virtualNetworkResourceGroupName)) {
+module createLzVnet '../../../../res/network/virtual-network/main.bicep' = if (virtualNetworkEnabled && !empty(virtualNetworkName) && !empty(virtualNetworkAddressSpace) && !empty(virtualNetworkLocation) && !empty(virtualNetworkResourceGroupName)) {
   dependsOn: [
     createResourceGroupForLzNetworking
     createLzRouteTable
@@ -680,7 +680,7 @@ module createLzVnet 'br/public:avm/res/network/virtual-network:0.7.0' = if (virt
   }
 }
 
-module createBastionNsg 'br/public:avm/res/network/network-security-group:0.5.1' = if (virtualNetworkDeployBastion && !empty(virtualNetworkName) && !empty(virtualNetworkAddressSpace) && !empty(virtualNetworkLocation) && !empty(virtualNetworkResourceGroupName)) {
+module createBastionNsg '../../../../res/network/network-security-group/main.bicep' = if (virtualNetworkDeployBastion && !empty(virtualNetworkName) && !empty(virtualNetworkAddressSpace) && !empty(virtualNetworkLocation) && !empty(virtualNetworkResourceGroupName)) {
   scope: resourceGroup(subscriptionId, virtualNetworkResourceGroupName)
   dependsOn: [
     createResourceGroupForLzNetworking
@@ -833,7 +833,7 @@ module createBastionNsg 'br/public:avm/res/network/network-security-group:0.5.1'
   }
 }
 
-module createLzNsg 'br/public:avm/res/network/network-security-group:0.5.1' = [
+module createLzNsg '../../../../res/network/network-security-group/main.bicep' = [
   for (subnet, i) in virtualNetworkSubnets: if (!empty(virtualNetworkSubnets)) {
     scope: resourceGroup(subscriptionId, virtualNetworkResourceGroupName)
     dependsOn: [
@@ -849,7 +849,7 @@ module createLzNsg 'br/public:avm/res/network/network-security-group:0.5.1' = [
   }
 ]
 
-module createLzNsgStandalone 'br/public:avm/res/network/network-security-group:0.5.1' = [
+module createLzNsgStandalone '../../../../res/network/network-security-group/main.bicep' = [
   for (nsg, i) in networkSecurityGroups: if (!empty(networkSecurityGroups) && !empty(networkSecurityGroupResourceGroupName)) {
     scope: resourceGroup(subscriptionId, networkSecurityGroupResourceGroupName)
     dependsOn: [
@@ -865,7 +865,7 @@ module createLzNsgStandalone 'br/public:avm/res/network/network-security-group:0
   }
 ]
 
-module createLzRouteTable 'br/public:avm/res/network/route-table:0.5.0' = [
+module createLzRouteTable '../../../../res/network/route-table/main.bicep' = [
   for (routeTable, i) in routeTables: if (!empty(routeTables) && !empty(routeTablesResourceGroupName)) {
     scope: resourceGroup(subscriptionId, routeTablesResourceGroupName)
     dependsOn: [
@@ -881,7 +881,7 @@ module createLzRouteTable 'br/public:avm/res/network/route-table:0.5.0' = [
   }
 ]
 
-module createAdditionalVnetNsgs 'br/public:avm/res/network/network-security-group:0.5.1' = [
+module createAdditionalVnetNsgs '../../../../res/network/network-security-group/main.bicep' = [
   for (nsg, i) in nsgArrayFormatted: if (!empty(additionalVirtualNetworks)) {
     scope: resourceGroup(subscriptionId, nsg.vnetResourceGroupName)
     dependsOn: [
@@ -923,7 +923,7 @@ module createLzVirtualWanConnection 'hubVirtualNetworkConnections.bicep' = if (v
   }
 }
 
-module createLzRoleAssignmentsSub 'br/public:avm/ptn/authorization/role-assignment:0.2.2' = [
+module createLzRoleAssignmentsSub '../../../../ptn/authorization/role-assignment/main.bicep' = [
   for assignment in roleAssignmentsSubscription: if (roleAssignmentEnabled && !empty(roleAssignmentsSubscription)) {
     name: take(
       '${deploymentNames.createLzRoleAssignmentsSub}-${uniqueString(assignment.principalId, assignment.definition, assignment.relativeScope)}',
@@ -956,7 +956,7 @@ module createLzRoleAssignmentsSub 'br/public:avm/ptn/authorization/role-assignme
   }
 ]
 
-module createLzRoleAssignmentsRsgsSelf 'br/public:avm/ptn/authorization/role-assignment:0.2.2' = [
+module createLzRoleAssignmentsRsgsSelf '../../../../ptn/authorization/role-assignment/main.bicep' = [
   for assignment in roleAssignmentsResourceGroupSelf: if (roleAssignmentEnabled && !empty(roleAssignmentsResourceGroupSelf)) {
     dependsOn: [
       createResourceGroupForLzNetworking
@@ -993,7 +993,7 @@ module createLzRoleAssignmentsRsgsSelf 'br/public:avm/ptn/authorization/role-ass
   }
 ]
 
-module createLzRoleAssignmentsRsgsNotSelf 'br/public:avm/ptn/authorization/role-assignment:0.2.2' = [
+module createLzRoleAssignmentsRsgsNotSelf '../../../../ptn/authorization/role-assignment/main.bicep' = [
   for assignment in roleAssignmentsResourceGroupNotSelf: if (roleAssignmentEnabled && !empty(roleAssignmentsResourceGroupNotSelf)) {
     name: take(
       '${deploymentNames.createLzRoleAssignmentsRsgsNotSelf}-${uniqueString(assignment.principalId, assignment.definition, assignment.relativeScope)}',
@@ -1026,7 +1026,7 @@ module createLzRoleAssignmentsRsgsNotSelf 'br/public:avm/ptn/authorization/role-
     }
   }
 ]
-module createLzUMIRoleAssignmentsSub 'br/public:avm/ptn/authorization/role-assignment:0.2.2' = [
+module createLzUMIRoleAssignmentsSub '../../../../ptn/authorization/role-assignment/main.bicep' = [
   for (assignment, i) in umiRoleAssignmentsSubscriptionFlattened: if (roleAssignmentEnabled && !empty(umiRoleAssignmentsSubscriptionFlattened)) {
     name: take(
       '${deploymentNames.createLzUMIRoleAssignmentsSub}-${uniqueString(createUserAssignedManagedIdentity[i].name,assignment.definition, assignment.relativeScope)}',
@@ -1059,7 +1059,7 @@ module createLzUMIRoleAssignmentsSub 'br/public:avm/ptn/authorization/role-assig
   }
 ]
 
-module createLzUMIRoleAssignmentsRsgsSelf 'br/public:avm/ptn/authorization/role-assignment:0.2.2' = [
+module createLzUMIRoleAssignmentsRsgsSelf '../../../../ptn/authorization/role-assignment/main.bicep' = [
   for (assignment, i) in umiRoleAssignmentsResourceGroupSelfFlattened: if (roleAssignmentEnabled && !empty(umiRoleAssignmentsResourceGroupSelfFlattened)) {
     name: take(
       '${deploymentNames.createLzUMIRoleAssignmentsRsgsSelf}-${uniqueString(createUserAssignedManagedIdentity[i].name,assignment.definition, assignment.relativeScope)}',
@@ -1093,7 +1093,7 @@ module createLzUMIRoleAssignmentsRsgsSelf 'br/public:avm/ptn/authorization/role-
   }
 ]
 
-module createLzUMIRoleAssignmentsRsgsNotSelf 'br/public:avm/ptn/authorization/role-assignment:0.2.2' = [
+module createLzUMIRoleAssignmentsRsgsNotSelf '../../../../ptn/authorization/role-assignment/main.bicep' = [
   for (assignment, i) in umiRoleAssignmentsResourceGroupNotSelfFlattened: if (roleAssignmentEnabled && !empty(umiRoleAssignmentsResourceGroupNotSelfFlattened)) {
     name: take(
       '${deploymentNames.createLzUMIRoleAssignmentsRsgsNotSelf}-${uniqueString(createUserAssignedManagedIdentity[i].name,assignment.definition, assignment.relativeScope)}',
@@ -1127,7 +1127,7 @@ module createLzUMIRoleAssignmentsRsgsNotSelf 'br/public:avm/ptn/authorization/ro
   }
 ]
 
-module createLzPimActiveRoleAssignmentsSub 'br/public:avm/ptn/authorization/pim-role-assignment:0.1.1' = [
+module createLzPimActiveRoleAssignmentsSub '../../../../ptn/authorization/pim-role-assignment/main.bicep' = [
   for assignment in pimRoleAssignmentsSubscription: if (roleAssignmentEnabled && !empty(pimRoleAssignmentsSubscription) && assignment.roleAssignmentType == 'Active') {
     name: take(
       '${deploymentNames.createLzPimRoleAssignmentsSub}-${uniqueString(assignment.principalId, assignment.definition, assignment.relativeScope)}',
@@ -1165,7 +1165,7 @@ module createLzPimActiveRoleAssignmentsSub 'br/public:avm/ptn/authorization/pim-
   }
 ]
 
-module createLzPimEligibleRoleAssignmentsSub 'br/public:avm/ptn/authorization/pim-role-assignment:0.1.1' = [
+module createLzPimEligibleRoleAssignmentsSub '../../../../ptn/authorization/pim-role-assignment/main.bicep' = [
   for assignment in pimRoleAssignmentsSubscription: if (roleAssignmentEnabled && !empty(pimRoleAssignmentsSubscription) && assignment.roleAssignmentType == 'Eligible') {
     name: take(
       '${deploymentNames.createLzPimRoleAssignmentsSub}-${uniqueString(assignment.principalId, assignment.definition, assignment.relativeScope)}',
@@ -1203,7 +1203,7 @@ module createLzPimEligibleRoleAssignmentsSub 'br/public:avm/ptn/authorization/pi
   }
 ]
 
-module createLzPimEligibleRoleAssignmentsRsgsSelf 'br/public:avm/ptn/authorization/pim-role-assignment:0.1.1' = [
+module createLzPimEligibleRoleAssignmentsRsgsSelf '../../../../ptn/authorization/pim-role-assignment/main.bicep' = [
   for assignment in pimRoleAssignmentsResourceGroupSelf: if (roleAssignmentEnabled && !empty(pimRoleAssignmentsResourceGroupSelf) && assignment.roleAssignmentType == 'Eligible') {
     dependsOn: [
       createResourceGroupForLzNetworking
@@ -1245,7 +1245,7 @@ module createLzPimEligibleRoleAssignmentsRsgsSelf 'br/public:avm/ptn/authorizati
   }
 ]
 
-module createLzPimActiveRoleAssignmentsRsgsSelf 'br/public:avm/ptn/authorization/pim-role-assignment:0.1.1' = [
+module createLzPimActiveRoleAssignmentsRsgsSelf '../../../../ptn/authorization/pim-role-assignment/main.bicep' = [
   for assignment in pimRoleAssignmentsResourceGroupSelf: if (roleAssignmentEnabled && !empty(pimRoleAssignmentsResourceGroupSelf) && assignment.roleAssignmentType == 'Active') {
     dependsOn: [
       createResourceGroupForLzNetworking
@@ -1287,7 +1287,7 @@ module createLzPimActiveRoleAssignmentsRsgsSelf 'br/public:avm/ptn/authorization
   }
 ]
 
-module createLzEliglblePimRoleAssignmentsRsgsNotSelf 'br/public:avm/ptn/authorization/pim-role-assignment:0.1.1' = [
+module createLzEliglblePimRoleAssignmentsRsgsNotSelf '../../../../ptn/authorization/pim-role-assignment/main.bicep' = [
   for assignment in pimRoleAssignmentsResourceGroupNotSelf: if (roleAssignmentEnabled && !empty(pimRoleAssignmentsResourceGroupNotSelf) && assignment.roleAssignmentType == 'Eligible') {
     name: take(
       '${deploymentNames.createLzPimRoleAssignmentsRsgsNotSelf}-${uniqueString(assignment.principalId, assignment.definition, assignment.relativeScope)}',
@@ -1325,7 +1325,7 @@ module createLzEliglblePimRoleAssignmentsRsgsNotSelf 'br/public:avm/ptn/authoriz
   }
 ]
 
-module createLzActivePimRoleAssignmentsRsgsNotSelf 'br/public:avm/ptn/authorization/pim-role-assignment:0.1.1' = [
+module createLzActivePimRoleAssignmentsRsgsNotSelf '../../../../ptn/authorization/pim-role-assignment/main.bicep' = [
   for assignment in pimRoleAssignmentsResourceGroupNotSelf: if (roleAssignmentEnabled && !empty(pimRoleAssignmentsResourceGroupNotSelf) && assignment.roleAssignmentType == 'Active') {
     name: take(
       '${deploymentNames.createLzPimRoleAssignmentsRsgsNotSelf}-${uniqueString(assignment.principalId, assignment.definition, assignment.relativeScope)}',
@@ -1363,7 +1363,7 @@ module createLzActivePimRoleAssignmentsRsgsNotSelf 'br/public:avm/ptn/authorizat
   }
 ]
 
-module createResourceGroupForDeploymentScript 'br/public:avm/res/resources/resource-group:0.4.1' = if (!empty(resourceProviders)) {
+module createResourceGroupForDeploymentScript '../../../../res/resources/resource-group/main.bicep' = if (!empty(resourceProviders)) {
   scope: subscription(subscriptionId)
   name: deploymentNames.createResourceGroupForDeploymentScript
   params: {
@@ -1374,7 +1374,7 @@ module createResourceGroupForDeploymentScript 'br/public:avm/res/resources/resou
   }
 }
 
-module createResourceGroupForRouteTables 'br/public:avm/res/resources/resource-group:0.4.1' = if (!empty(routeTablesResourceGroupName) && !empty(routeTables)) {
+module createResourceGroupForRouteTables '../../../../res/resources/resource-group/main.bicep' = if (!empty(routeTablesResourceGroupName) && !empty(routeTables)) {
   scope: subscription(subscriptionId)
   name: deploymentNames.createResourceGroupForRouteTables
   params: {
@@ -1385,7 +1385,7 @@ module createResourceGroupForRouteTables 'br/public:avm/res/resources/resource-g
   }
 }
 
-module createResourceGroupForNetworkSecurityGroups 'br/public:avm/res/resources/resource-group:0.4.1' = if (!empty(networkSecurityGroupResourceGroupName) && !empty(networkSecurityGroups)) {
+module createResourceGroupForNetworkSecurityGroups '../../../../res/resources/resource-group/main.bicep' = if (!empty(networkSecurityGroupResourceGroupName) && !empty(networkSecurityGroups)) {
   scope: subscription(subscriptionId)
   name: deploymentNames.createResourceGroupForNetworkSecurityGroups
   params: {
@@ -1396,7 +1396,7 @@ module createResourceGroupForNetworkSecurityGroups 'br/public:avm/res/resources/
   }
 }
 
-module createManagedIdentityForDeploymentScript 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = if (!empty(resourceProviders)) {
+module createManagedIdentityForDeploymentScript '../../../../res/managed-identity/user-assigned-identity/main.bicep' = if (!empty(resourceProviders)) {
   scope: resourceGroup(subscriptionId, deploymentScriptResourceGroupName)
   name: deploymentNames.createDeploymentScriptManagedIdentity
   dependsOn: [
@@ -1409,7 +1409,7 @@ module createManagedIdentityForDeploymentScript 'br/public:avm/res/managed-ident
   }
 }
 
-module createRoleAssignmentsDeploymentScript 'br/public:avm/ptn/authorization/role-assignment:0.2.2' = if (!empty(resourceProviders)) {
+module createRoleAssignmentsDeploymentScript '../../../../ptn/authorization/role-assignment/main.bicep' = if (!empty(resourceProviders)) {
   name: take('${deploymentNames.createRoleAssignmentsDeploymentScript}', 64)
   params: {
     location: deploymentScriptLocation
@@ -1420,7 +1420,7 @@ module createRoleAssignmentsDeploymentScript 'br/public:avm/ptn/authorization/ro
   }
 }
 
-module createRoleAssignmentsDeploymentScriptStorageAccount 'br/public:avm/ptn/authorization/role-assignment:0.2.2' = if (!empty(resourceProviders)) {
+module createRoleAssignmentsDeploymentScriptStorageAccount '../../../../ptn/authorization/role-assignment/main.bicep' = if (!empty(resourceProviders)) {
   name: take('${deploymentNames.createRoleAssignmentsDeploymentScriptStorageAccount}', 64)
   params: {
     location: deploymentScriptLocation
@@ -1433,7 +1433,7 @@ module createRoleAssignmentsDeploymentScriptStorageAccount 'br/public:avm/ptn/au
   }
 }
 
-module createDsNsg 'br/public:avm/res/network/network-security-group:0.5.1' = if (!empty(resourceProviders)) {
+module createDsNsg '../../../../res/network/network-security-group/main.bicep' = if (!empty(resourceProviders)) {
   scope: resourceGroup(subscriptionId, deploymentScriptResourceGroupName)
   dependsOn: [
     createResourceGroupForDeploymentScript
@@ -1446,7 +1446,7 @@ module createDsNsg 'br/public:avm/res/network/network-security-group:0.5.1' = if
   }
 }
 
-module dsFilePrivateDNSZone 'br/public:avm/res/network/private-dns-zone:0.8.0' = if (!empty(resourceProviders)) {
+module dsFilePrivateDNSZone '../../../../res/network/private-dns-zone/main.bicep' = if (!empty(resourceProviders)) {
   name: deploymentNames.createDsFilePrivateDnsZone
   scope: resourceGroup(subscriptionId, deploymentScriptResourceGroupName)
   params: {
@@ -1461,7 +1461,7 @@ module dsFilePrivateDNSZone 'br/public:avm/res/network/private-dns-zone:0.8.0' =
   }
 }
 
-module createDsStorageAccount 'br/public:avm/res/storage/storage-account:0.26.2' = if (!empty(resourceProviders)) {
+module createDsStorageAccount '../../../../res/storage/storage-account/main.bicep' = if (!empty(resourceProviders)) {
   dependsOn: [
     createRoleAssignmentsDeploymentScriptStorageAccount
   ]
@@ -1499,7 +1499,7 @@ module createDsStorageAccount 'br/public:avm/res/storage/storage-account:0.26.2'
   }
 }
 
-module createDsVnet 'br/public:avm/res/network/virtual-network:0.7.0' = if (!empty(resourceProviders)) {
+module createDsVnet '../../../../res/network/virtual-network/main.bicep' = if (!empty(resourceProviders)) {
   scope: resourceGroup(subscriptionId, deploymentScriptResourceGroupName)
   name: deploymentNames.createdsVnet
   params: {
@@ -1530,7 +1530,7 @@ module createDsVnet 'br/public:avm/res/network/virtual-network:0.7.0' = if (!emp
     enableTelemetry: enableTelemetry
   }
 }
-module registerResourceProviders 'br/public:avm/res/resources/deployment-script:0.5.1' = if (!empty(resourceProviders)) {
+module registerResourceProviders '../../../../res/resources/deployment-script/main.bicep' = if (!empty(resourceProviders)) {
   scope: resourceGroup(subscriptionId, deploymentScriptResourceGroupName)
   name: deploymentNames.registerResourceProviders
   params: {
@@ -1564,7 +1564,7 @@ module registerResourceProviders 'br/public:avm/res/resources/deployment-script:
   }
 }
 
-module createNatGateway 'br/public:avm/res/network/nat-gateway:1.4.0' = if (virtualNetworkDeployNatGateway && (virtualNetworkEnabled && !empty(virtualNetworkName) && !empty(virtualNetworkAddressSpace) && !empty(virtualNetworkLocation) && !empty(virtualNetworkResourceGroupName))) {
+module createNatGateway '../../../../res/network/nat-gateway/main.bicep' = if (virtualNetworkDeployNatGateway && (virtualNetworkEnabled && !empty(virtualNetworkName) && !empty(virtualNetworkAddressSpace) && !empty(virtualNetworkLocation) && !empty(virtualNetworkResourceGroupName))) {
   scope: resourceGroup(subscriptionId, virtualNetworkResourceGroupName)
   dependsOn: [
     createResourceGroupForLzNetworking
@@ -1611,7 +1611,7 @@ module createNatGateway 'br/public:avm/res/network/nat-gateway:1.4.0' = if (virt
     ]
   }
 }
-module createAdditonalNatGateway 'br/public:avm/res/network/nat-gateway:1.4.0' = [
+module createAdditonalNatGateway '../../../../res/network/nat-gateway/main.bicep' = [
   for (vnet, i) in additionalVirtualNetworks: if (!empty(vnet.?subnets ?? []) && (vnet.?deployNatGateway ?? false)) {
     scope: resourceGroup(subscriptionId, vnet.resourceGroupName)
     dependsOn: [
@@ -1660,7 +1660,7 @@ module createAdditonalNatGateway 'br/public:avm/res/network/nat-gateway:1.4.0' =
   }
 ]
 
-module createBastionHost 'br/public:avm/res/network/bastion-host:0.8.0' = if (virtualNetworkDeployBastion && (virtualNetworkEnabled && !empty(virtualNetworkName) && !empty(virtualNetworkAddressSpace) && !empty(virtualNetworkLocation) && !empty(virtualNetworkResourceGroupName))) {
+module createBastionHost '../../../../res/network/bastion-host/main.bicep' = if (virtualNetworkDeployBastion && (virtualNetworkEnabled && !empty(virtualNetworkName) && !empty(virtualNetworkAddressSpace) && !empty(virtualNetworkLocation) && !empty(virtualNetworkResourceGroupName))) {
   name: deploymentNames.createBastionHost
   scope: resourceGroup(subscriptionId, virtualNetworkResourceGroupName)
   dependsOn: [
@@ -1683,7 +1683,7 @@ module createBastionHost 'br/public:avm/res/network/bastion-host:0.8.0' = if (vi
   }
 }
 
-module createUserAssignedManagedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = [
+module createUserAssignedManagedIdentity '../../../../res/managed-identity/user-assigned-identity/main.bicep' = [
   for (identity, i) in userAssignedManagedIdentities: if (!empty(userAssignedManagedIdentities)) {
     scope: resourceGroup(subscriptionId, userAssignedIdentityResourceGroupName)
     dependsOn: [
@@ -1701,7 +1701,7 @@ module createUserAssignedManagedIdentity 'br/public:avm/res/managed-identity/use
   }
 ]
 
-module createResourceGroupForAdditionalLzNetworking 'br/public:avm/res/resources/resource-group:0.4.1' = [
+module createResourceGroupForAdditionalLzNetworking '../../../../res/resources/resource-group/main.bicep' = [
   for (vnet, i) in additionalVirtualNetworks: if (virtualNetworkEnabled && !empty(additionalVirtualNetworks)) {
     scope: subscription(subscriptionId)
     params: {
@@ -1719,7 +1719,7 @@ module createResourceGroupForAdditionalLzNetworking 'br/public:avm/res/resources
   }
 ]
 
-module createAdditionalVnets 'br/public:avm/res/network/virtual-network:0.7.0' = [
+module createAdditionalVnets '../../../../res/network/virtual-network/main.bicep' = [
   for (vnet, i) in additionalVirtualNetworks: if (virtualNetworkEnabled && !empty(additionalVirtualNetworks)) {
     scope: resourceGroup(subscriptionId, vnet.resourceGroupName)
     dependsOn: [

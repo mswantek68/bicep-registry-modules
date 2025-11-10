@@ -167,7 +167,7 @@ var subnets = [
   }
 ]
 
-module vnet 'br/public:avm/res/network/virtual-network:0.2.0' = {
+module vnet '../../../../../../res/network/virtual-network/main.bicep' = {
   name: virtualNetworkName
   params: {
     // Required parameters
@@ -183,7 +183,7 @@ module vnet 'br/public:avm/res/network/virtual-network:0.2.0' = {
   }
 }
 
-module nsgPrivateLink 'br/public:avm/res/network/network-security-group:0.4.0' = {
+module nsgPrivateLink '../../../../../../res/network/network-security-group/main.bicep' = {
   name: nsgNamePrivateLink
   params: {
     // Required parameters
@@ -194,7 +194,7 @@ module nsgPrivateLink 'br/public:avm/res/network/network-security-group:0.4.0' =
   }
 }
 
-module nsgDbwFrontend 'br/public:avm/res/network/network-security-group:0.4.0' = {
+module nsgDbwFrontend '../../../../../../res/network/network-security-group/main.bicep' = {
   name: nsgNameDbwFrontend
   params: {
     // Required parameters
@@ -205,7 +205,7 @@ module nsgDbwFrontend 'br/public:avm/res/network/network-security-group:0.4.0' =
   }
 }
 
-module nsgDbwBackend 'br/public:avm/res/network/network-security-group:0.4.0' = {
+module nsgDbwBackend '../../../../../../res/network/network-security-group/main.bicep' = {
   name: nsgNameDbwBackend
   params: {
     // Required parameters

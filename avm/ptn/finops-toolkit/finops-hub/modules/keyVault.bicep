@@ -52,7 +52,7 @@ var formattedAccessPolicies = [
 // Resources
 //==============================================================================
 
-module keyVault 'br/public:avm/res/key-vault/vault:0.5.1' = {
+module keyVault '../../../../res/key-vault/vault/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-keyvault'
   params: {
     name: keyVaultName

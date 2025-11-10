@@ -32,7 +32,7 @@ param containerMinReplicas int = 2
 @description('Optional. The name of the container.')
 param containerName string = 'main'
 
-import { containerAppProbeType } from 'br/public:avm/ptn/azd/acr-container-app:0.2.0'
+import { containerAppProbeType } from '../../../ptn/azd/acr-container-app/main.bicep'
 @description('Optional. List of probes for the container.')
 param containerProbes containerAppProbeType[]?
 
@@ -68,7 +68,7 @@ param identityName string = ''
 @description('Optional. The name of the container image.')
 param imageName string = ''
 
-import { secretType } from 'br/public:avm/res/app/container-app:0.18.1'
+import { secretType } from '../../../res/app/container-app/main.bicep'
 @description('Optional. The secrets required for the container.')
 param secrets secretType[]?
 
@@ -116,7 +116,7 @@ resource existingApp 'Microsoft.App/containerApps@2025-01-01' existing = if (exi
   name: name
 }
 
-module app 'br/public:avm/ptn/azd/acr-container-app:0.2.0' = {
+module app '../../../ptn/azd/acr-container-app/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-container-app-update'
   params: {
     name: name

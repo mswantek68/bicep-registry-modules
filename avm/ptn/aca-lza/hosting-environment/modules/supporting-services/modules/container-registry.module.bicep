@@ -65,7 +65,7 @@ var virtualNetworkLinks = concat(
 // ------------------
 // RESOURCES
 // ------------------
-module acrUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
+module acrUserAssignedIdentity '../../../../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: containerRegistryUserAssignedIdentityName
   params: {
     name: containerRegistryUserAssignedIdentityName
@@ -75,7 +75,7 @@ module acrUserAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned
   }
 }
 
-module acrdnszone 'br/public:avm/res/network/private-dns-zone:0.7.0' = {
+module acrdnszone '../../../../../../res/network/private-dns-zone/main.bicep' = {
   name: 'acrDnsZoneDeployment-${uniqueString(resourceGroup().id)}'
   params: {
     name: acrDnsZoneName
@@ -86,7 +86,7 @@ module acrdnszone 'br/public:avm/res/network/private-dns-zone:0.7.0' = {
   }
 }
 
-module acr 'br/public:avm/res/container-registry/registry:0.6.0' = {
+module acr '../../../../../../res/container-registry/registry/main.bicep' = {
   name: 'containerRegistry-${uniqueString(resourceGroup().id)}'
   params: {
     name: containerRegistryName

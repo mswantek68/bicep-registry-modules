@@ -62,7 +62,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module applicationInsights 'br/public:avm/res/insights/component:0.4.1' = {
+module applicationInsights '../../../res/insights/component/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-appinsights'
   params: {
     name: name

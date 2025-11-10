@@ -33,7 +33,7 @@ param skuTier string = 'Fabric'
 @description('Required. List of admin members. Format: ["something@domain.com"].')
 param adminMembers resourceInput<'Microsoft.Fabric/capacities@2023-11-01'>.properties.administration.members
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 

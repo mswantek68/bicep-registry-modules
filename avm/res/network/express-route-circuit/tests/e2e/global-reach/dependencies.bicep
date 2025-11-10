@@ -11,7 +11,7 @@ param expressRoutePort2 string
 param expressRouteCircuit1 string
 
 // // Deploy first Express Route Port (for testDeploymentCircuit2)
-module testDeploymentPort1 'br/public:avm/res/network/express-route-port:0.3.1' = {
+module testDeploymentPort1 '../../../../../../res/network/express-route-port/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-test-port1'
   params: {
     name: expressRoutePort1
@@ -29,7 +29,7 @@ module testDeploymentPort1 'br/public:avm/res/network/express-route-port:0.3.1' 
 }
 
 // Deploy second Express Route Port (for later use)
-module testDeploymentPort2 'br/public:avm/res/network/express-route-port:0.3.1' = {
+module testDeploymentPort2 '../../../../../../res/network/express-route-port/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-test-port2'
   params: {
     name: expressRoutePort2
@@ -47,7 +47,7 @@ module testDeploymentPort2 'br/public:avm/res/network/express-route-port:0.3.1' 
 }
 
 // Deploy second circuit
-module testDeploymentCircuit1 'br/public:avm/res/network/express-route-circuit:0.7.0' = {
+module testDeploymentCircuit1 '../../../../../../res/network/express-route-circuit/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-test-circuit1'
   params: {
     name: expressRouteCircuit1

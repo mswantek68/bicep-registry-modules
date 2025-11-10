@@ -5,7 +5,7 @@ metadata description = 'This Azure App Service pattern module represents an Azur
 // ================ //
 // Parameters       //
 // ================ //
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 
 @maxLength(10)
 @description('Optional. suffix (max 10 characters long) that will be used to name the resources in a pattern like <resourceAbbreviation>-<workloadName>.')
@@ -120,7 +120,7 @@ param keyVaultDiagnosticSettings diagnosticSettingFullType[] = []
 var resourceSuffix = '${workloadName}-${environmentName}-${location}'
 var resourceGroupName = 'rg-spoke-${resourceSuffix}'
 
-module resourceGroup 'br/public:avm/res/resources/resource-group:0.4.1' = {
+module resourceGroup '../../../res/resources/resource-group/main.bicep' = {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-deployment'
   params: {
     name: resourceGroupName

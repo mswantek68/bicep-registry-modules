@@ -469,7 +469,7 @@ module network 'modules/network.bicep' = if (enablePrivateNetworking) {
 
 // ========== Managed Identity ========== //
 var userAssignedIdentityResourceName = 'id-${solutionSuffix}'
-module managedIdentityModule 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module managedIdentityModule '../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: take('avm.res.managed-identity.user-assigned-identity.${userAssignedIdentityResourceName}', 64)
   params: {
     name: userAssignedIdentityResourceName
@@ -618,7 +618,7 @@ var allowAllIPsFirewall = false
 var allowAzureIPsFirewall = true
 var postgresResourceName = '${azurePostgresDBAccountName}-postgres'
 var postgresDBName = 'postgres'
-module postgresDBModule 'br/public:avm/res/db-for-postgre-sql/flexible-server:0.13.1' = if (databaseType == 'PostgreSQL') {
+module postgresDBModule '../../../res/db-for-postgre-sql/flexible-server/main.bicep' = if (databaseType == 'PostgreSQL') {
   name: take('avm.res.db-for-postgre-sql.flexible-server.${azurePostgresDBAccountName}', 64)
   params: {
     name: postgresResourceName
@@ -696,7 +696,7 @@ module postgresDBModule 'br/public:avm/res/db-for-postgre-sql/flexible-server:0.
   }
 }
 
-module pgSqlDelayScript 'br/public:avm/res/resources/deployment-script:0.5.1' = if (databaseType == 'PostgreSQL') {
+module pgSqlDelayScript '../../../res/resources/deployment-script/main.bicep' = if (databaseType == 'PostgreSQL') {
   name: take('avm.res.deployment-script.delay.${postgresResourceName}', 64)
   params: {
     name: 'delay-for-postgres-${solutionSuffix}'
@@ -974,7 +974,7 @@ module speechService 'modules/core/ai/cognitiveservices.bicep' = {
   dependsOn: enablePrivateNetworking ? avmPrivateDnsZones : []
 }
 
-module search 'br/public:avm/res/search/search-service:0.11.1' = if (databaseType == 'CosmosDB') {
+module search '../../../res/search/search-service/main.bicep' = if (databaseType == 'CosmosDB') {
   name: take('avm.res.search.search-service.${azureAISearchName}', 64)
   params: {
     // Required parameters
@@ -1068,7 +1068,7 @@ module search 'br/public:avm/res/search/search-service:0.11.1' = if (databaseTyp
 // AVM WAF - Server Farm + Web Site conversions
 var webServerFarmResourceName = hostingPlanName
 
-module webServerFarm 'br/public:avm/res/web/serverfarm:0.5.0' = {
+module webServerFarm '../../../res/web/serverfarm/main.bicep' = {
   name: take('avm.res.web.serverfarm.${webServerFarmResourceName}', 64)
   scope: resourceGroup()
   params: {
@@ -1598,7 +1598,7 @@ module storage './modules/storage/storage-account/storage-account.bicep' = {
   }
 }
 
-module avmEventGridSystemTopic 'br/public:avm/res/event-grid/system-topic:0.6.3' = {
+module avmEventGridSystemTopic '../../../res/event-grid/system-topic/main.bicep' = {
   name: take('avm.res.event-grid.system-topic.${eventGridSystemTopicName}', 64)
   params: {
     name: eventGridSystemTopicName
@@ -1697,7 +1697,7 @@ module systemAssignedIdentityRoleAssignments './modules/app/roleassignments.bice
 }
 
 //========== Deployment script to upload data ========== //
-module createIndex 'br/public:avm/res/resources/deployment-script:0.5.1' = if (databaseType == 'PostgreSQL') {
+module createIndex '../../../res/resources/deployment-script/main.bicep' = if (databaseType == 'PostgreSQL') {
   name: take('avm.res.resources.deployment-script.createIndex', 64)
   params: {
     kind: 'AzureCLI'

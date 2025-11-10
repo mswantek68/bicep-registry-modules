@@ -54,7 +54,7 @@ param routeName string?
 @description('Conditional. The default gateway for the network. Required if ipAllocationMethod is Static.')
 param defaultGateway string?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

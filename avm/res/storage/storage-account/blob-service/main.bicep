@@ -60,7 +60,7 @@ param restorePolicyDays int = 7
 @description('Optional. Blob containers to create.')
 param containers containerType[]?
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { diagnosticSettingFullType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
@@ -208,7 +208,7 @@ type corsRuleType = {
 }
 
 import { immutabilityPolicyType } from 'container/main.bicep'
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 
 @export()
 @description('The type of a storage container.')

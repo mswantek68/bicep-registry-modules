@@ -12,19 +12,19 @@ param location string = resourceGroup().location
 @description('Optional. Tags of the resource.')
 param tags resourceInput<'Microsoft.DevCenter/devcenters@2025-02-01'>.tags?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
@@ -307,7 +307,7 @@ module devCenter_projectPolicy 'project-policy/main.bicep' = [
   }
 ]
 
-module devCenter_project 'br/public:avm/res/dev-center/project:0.1.0' = [
+module devCenter_project '../../../res/dev-center/project/main.bicep' = [
   for (project, index) in (projects ?? []): {
     name: '${uniqueString(deployment().name, location)}-Devcenter-Project-${index}'
     scope: resourceGroup(
@@ -476,7 +476,7 @@ type devboxDefinitionType = {
   tags: object?
 }
 
-import { catalogSettingsType, environmentTypeType as projectEnvironmentTypeType } from 'br/public:avm/res/dev-center/project:0.1.0'
+import { catalogSettingsType, environmentTypeType as projectEnvironmentTypeType } from '../../../res/dev-center/project/main.bicep'
 import { stopOnDisconnectType, stopOnNoConnectType, devBoxDefinitionTypeType, poolScheduleType } from '../project/pool/main.bicep'
 
 @description('The type for Dev Center Projects.')

@@ -137,11 +137,11 @@ param tags resourceInput<'Microsoft.Sql/servers/database@2023-08-01'>.tags?
 @description('Optional. Location for all resources.')
 param location string = resourceGroup().location
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the databse.')
 param lock lockType?
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
@@ -151,11 +151,11 @@ param backupShortTermRetentionPolicy shortTermBackupRetentionPolicyType?
 @description('Optional. The long term backup retention policy to create for the database.')
 param backupLongTermRetentionPolicy longTermBackupRetentionPolicyType?
 
-import { managedIdentityOnlyUserAssignedType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityOnlyUserAssignedType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityOnlyUserAssignedType?
 
-import { customerManagedKeyWithAutoRotateType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { customerManagedKeyWithAutoRotateType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The customer managed key definition for database TDE.')
 param customerManagedKey customerManagedKeyWithAutoRotateType?
 

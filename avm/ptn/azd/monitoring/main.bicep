@@ -52,7 +52,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module logAnalytics 'br/public:avm/res/operational-insights/workspace:0.12.0' = {
+module logAnalytics '../../../res/operational-insights/workspace/main.bicep' = {
   name: 'loganalytics'
   params: {
     name: logAnalyticsName
@@ -63,7 +63,7 @@ module logAnalytics 'br/public:avm/res/operational-insights/workspace:0.12.0' = 
   }
 }
 
-module applicationInsights 'br/public:avm/ptn/azd/insights-dashboard:0.1.2' = {
+module applicationInsights '../../../ptn/azd/insights-dashboard/main.bicep' = {
   name: 'applicationinsights'
   params: {
     logAnalyticsWorkspaceResourceId: logAnalytics.outputs.resourceId

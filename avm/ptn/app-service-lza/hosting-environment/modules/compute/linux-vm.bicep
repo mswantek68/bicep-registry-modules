@@ -48,7 +48,7 @@ var contributorRoleDefinitionId = resourceId(
 
 var uami = resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', sshKeyGenName)
 
-module vmNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = {
+module vmNetworkSecurityGroup '../../../../../res/network/network-security-group/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-vm-nsg'
   params: {
     name: vmNetworkSecurityGroupName
@@ -110,7 +110,7 @@ module vmNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:
 }
 
 //TODO: Subnet deployment needs to be updated with AVM module once it is available
-module vmSubnet 'br/public:avm/res/network/virtual-network/subnet:0.1.1' = {
+module vmSubnet '../../../../../res/network/virtual-network/subnet/main.bicep' = {
   params: {
     name: vmSubnetName
     virtualNetworkName: vmVnetName
@@ -147,7 +147,7 @@ resource maintenanceConfiguration 'Microsoft.Maintenance/maintenanceConfiguratio
 }
 
 @description('The User Assigned Managed Identity that will be given Contributor role on the Resource Group in order to auto-approve the Private Endpoint Connection of the AFD.')
-module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
+module userAssignedIdentity '../../../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-ssh-uami'
   params: {
     name: sshKeyGenName
@@ -195,7 +195,7 @@ resource sshKey 'Microsoft.Compute/sshPublicKeys@2022-03-01' = {
   }
 }
 
-module vm 'br/public:avm/res/compute/virtual-machine:0.12.1' = {
+module vm '../../../../../res/compute/virtual-machine/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-linux-vm'
   params: {
     name: vmName

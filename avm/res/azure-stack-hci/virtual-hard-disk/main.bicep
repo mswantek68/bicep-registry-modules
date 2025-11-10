@@ -25,7 +25,7 @@ param dynamic bool
 @description('Optional. Storage ContainerID of the storage container to be used for VHD.')
 param containerId string?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

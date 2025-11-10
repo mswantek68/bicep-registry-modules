@@ -26,7 +26,7 @@ param subscriptionId string = '#_subscriptionId_#'
 // Dependencies //
 // ============ //
 
-module resourceGroup 'br/public:avm/res/resources/resource-group:0.4.1' = {
+module resourceGroup '../../../../../../res/resources/resource-group/main.bicep' = {
   scope: subscription(subscriptionId)
   name: '${uniqueString(deployment().name, resourceLocation)}-resourceGroup'
   params: {

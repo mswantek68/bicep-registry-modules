@@ -76,7 +76,7 @@ param hyperVGeneration ('V1' | 'V2')?
 @sys.description('Optional. The disk controllers that an OS disk supports.')
 param diskControllerType ('SCSI' | 'SCSI, NVMe' | 'NVMe, SCSI')?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

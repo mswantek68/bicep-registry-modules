@@ -31,7 +31,7 @@ resource additionalMg 'Microsoft.Management/managementGroups@2023-04-01' = {
   name: '${uniqueString(deployment().name)}-additional-mg'
 }
 
-module additionalRsg 'br/public:avm/res/resources/resource-group:0.4.0' = {
+module additionalRsg '../../../../../../res/resources/resource-group/main.bicep' = {
   scope: subscription(subscriptionId)
   name: '${uniqueString(deployment().name, resourceLocation)}-resourceGroup'
   params: {

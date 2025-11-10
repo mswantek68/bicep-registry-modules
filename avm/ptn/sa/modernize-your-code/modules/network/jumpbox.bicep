@@ -39,7 +39,7 @@ param enableTelemetry bool = true
 // 1. Create Jumpbox NSG
 // using AVM Network Security Group module
 // https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/network/network-security-group
-module nsg 'br/public:avm/res/network/network-security-group:0.5.1' = if (!empty(subnet)) {
+module nsg '../../../../../res/network/network-security-group/main.bicep' = if (!empty(subnet)) {
   name: '${vnetName}-${subnet.?networkSecurityGroup.name}'
   params: {
     name: '${vnetName}-${subnet.?networkSecurityGroup.name}'
@@ -53,7 +53,7 @@ module nsg 'br/public:avm/res/network/network-security-group:0.5.1' = if (!empty
 // 2. Create Jumpbox subnet as part of the existing VNet
 // using AVM Virtual Network Subnet module
 // https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/network/virtual-network/subnet
-module subnetResource 'br/public:avm/res/network/virtual-network/subnet:0.1.2' = if (!empty(subnet)) {
+module subnetResource '../../../../../res/network/virtual-network/subnet/main.bicep' = if (!empty(subnet)) {
   name: subnet.?name ?? '${vnetName}-jumpbox-subnet'
   params: {
     virtualNetworkName: vnetName
@@ -69,7 +69,7 @@ module subnetResource 'br/public:avm/res/network/virtual-network/subnet:0.1.2' =
 // https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/compute/virtual-machine
 var vmName = take(name, 15) // Shorten VM name to 15 characters to avoid Azure limits
 
-module maintenanceConfiguration 'br/public:avm/res/maintenance/maintenance-configuration:0.3.1' = {
+module maintenanceConfiguration '../../../../../res/maintenance/maintenance-configuration/main.bicep' = {
   name: take('${vmName}-jumpbox-maintenance-config', 64)
   params: {
     name: 'mc-${vmName}'
@@ -105,7 +105,7 @@ module maintenanceConfiguration 'br/public:avm/res/maintenance/maintenance-confi
   }
 }
 
-module windowsVmDataCollectionRules 'br/public:avm/res/insights/data-collection-rule:0.6.0' = {
+module windowsVmDataCollectionRules '../../../../../res/insights/data-collection-rule/main.bicep' = {
   name: take('${vmName}-jumpbox-data-collection-rule', 64)
   params: {
     name: 'dcr-${vmName}'
@@ -197,7 +197,7 @@ module windowsVmDataCollectionRules 'br/public:avm/res/insights/data-collection-
   }
 }
 
-module proximityPlacementGroup 'br/public:avm/res/compute/proximity-placement-group:0.3.2' = {
+module proximityPlacementGroup '../../../../../res/compute/proximity-placement-group/main.bicep' = {
   name: take('${vmName}-jumpbox-prox-place-group', 64)
   params: {
     name: 'ppg-${vmName}'
@@ -207,7 +207,7 @@ module proximityPlacementGroup 'br/public:avm/res/compute/proximity-placement-gr
   }
 }
 
-module vm 'br/public:avm/res/compute/virtual-machine:0.15.1' = {
+module vm '../../../../../res/compute/virtual-machine/main.bicep' = {
   name: take('${vmName}-jumpbox', 64)
   params: {
     name: vmName

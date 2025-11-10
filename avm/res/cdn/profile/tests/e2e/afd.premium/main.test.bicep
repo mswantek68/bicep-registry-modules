@@ -31,7 +31,7 @@ resource resourceGroup 'Microsoft.Resources/resourceGroups@2025-04-01' = {
   location: resourceLocation
 }
 
-module wafPolicy 'br/public:avm/res/network/front-door-web-application-firewall-policy:0.3.2' = {
+module wafPolicy '../../../../../../res/network/front-door-web-application-firewall-policy/main.bicep' = {
   scope: resourceGroup
   name: '${uniqueString(deployment().name, resourceLocation)}-dep-waf-policy-${serviceShort}'
   params: {

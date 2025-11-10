@@ -39,7 +39,7 @@ param ftkVersion string = ''
 // Resources
 //==============================================================================
 
-module storageAccount 'br/public:avm/res/storage/storage-account:0.8.3' = {
+module storageAccount '../../../../res/storage/storage-account/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-storage'
   params: {
     name: storageAccountName
@@ -100,7 +100,7 @@ resource identity 'Microsoft.ManagedIdentity/userAssignedIdentities@2023-01-31' 
   location: location
 }
 
-module uploadSettings 'br/public:avm/res/resources/deployment-script:0.2.0' = {
+module uploadSettings '../../../../res/resources/deployment-script/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-uploadSettings'
   params: {
     name: 'uploadSettings'

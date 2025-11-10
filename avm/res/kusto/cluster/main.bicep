@@ -22,7 +22,7 @@ param sku string
 ])
 param tier string = 'Standard'
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
@@ -57,7 +57,7 @@ param enableStreamingIngest bool = false
 @description('Optional. The engine type of the Kusto Cluster.')
 param engineType string = 'V3'
 
-import { customerManagedKeyType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { customerManagedKeyType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The customer managed key definition.')
 param customerManagedKey customerManagedKeyType?
 
@@ -101,11 +101,11 @@ param virtualClusterGraduationProperties string?
 @description('Optional. The virtual network configuration of the Kusto Cluster.')
 param virtualNetworkConfiguration virtualNetworkConfigurationType?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -115,14 +115,14 @@ param tags object?
 @description('Optional. Enable/disable zone redundancy.')
 param enableZoneRedundant bool = false
 
-import { privateEndpointMultiServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointMultiServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible.')
 param privateEndpoints privateEndpointMultiServiceType[]?
 
 @description('Optional. Enable/disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
@@ -338,7 +338,7 @@ module kustoCluster_principalAssignments 'principal-assignment/main.bicep' = [
 ]
 
 @batchSize(1)
-module kustoCluster_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.11.0' = [
+module kustoCluster_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-kustoCluster-PrivateEndpoint-${index}'
     scope: resourceGroup(

@@ -34,7 +34,7 @@ param imageManagedIdentityName string = 'msi-aib'
 @description('Required. The name of the Azure Compute Gallery.')
 param computeGalleryName string
 
-import { imageType } from 'br/public:avm/res/compute/gallery:0.9.3'
+import { imageType } from '../../../res/compute/gallery/main.bicep'
 @description('Required. The Image Definitions in the Azure Compute Gallery.')
 param computeGalleryImageDefinitions imageType[]
 
@@ -160,7 +160,7 @@ resource imageTemplateRg 'Microsoft.Resources/resourceGroups@2025-04-01' = if ((
 }
 
 // User Assigned Identity (MSI)
-module dsMsi 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
+module dsMsi '../../../res/managed-identity/user-assigned-identity/main.bicep' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
   name: '${deployment().name}-ds-msi'
   scope: rg
   params: {
@@ -170,7 +170,7 @@ module dsMsi 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' =
   }
 }
 
-module imageMSI 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
+module imageMSI '../../../res/managed-identity/user-assigned-identity/main.bicep' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
   name: '${deployment().name}-image-msi'
   scope: rg
   params: {
@@ -181,7 +181,7 @@ module imageMSI 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1
 }
 
 // MSI RG contributor assignment
-module imageMSI_build_rg_rbac 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.0' = if ((deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') && !empty(imageTemplateResourceGroupName)) {
+module imageMSI_build_rg_rbac '../../../res/authorization/role-assignment/rg-scope/main.bicep' = if ((deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') && !empty(imageTemplateResourceGroupName)) {
   scope: imageTemplateRg
   name: '${deployment().name}-image-msi-rbac-build-rg'
   params: {
@@ -193,7 +193,7 @@ module imageMSI_build_rg_rbac 'br/public:avm/res/authorization/role-assignment/r
 }
 
 // Azure Compute Gallery
-module azureComputeGallery 'br/public:avm/res/compute/gallery:0.9.3' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
+module azureComputeGallery '../../../res/compute/gallery/main.bicep' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
   name: '${deployment().name}-acg'
   scope: rg
   params: {
@@ -212,7 +212,7 @@ module azureComputeGallery 'br/public:avm/res/compute/gallery:0.9.3' = if (deplo
 }
 
 // Image Template Virtual Network
-module vnet 'br/public:avm/res/network/virtual-network:0.7.0' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
+module vnet '../../../res/network/virtual-network/main.bicep' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
   name: '${deployment().name}-vnet'
   scope: rg
   params: {
@@ -262,7 +262,7 @@ module vnet 'br/public:avm/res/network/virtual-network:0.7.0' = if (deploymentsT
 }
 
 // Assets Storage Account
-module assetsStorageAccount 'br/public:avm/res/storage/storage-account:0.25.1' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
+module assetsStorageAccount '../../../res/storage/storage-account/main.bicep' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
   name: '${deployment().name}-files-sa'
   scope: rg
   params: {
@@ -315,7 +315,7 @@ module assetsStorageAccount 'br/public:avm/res/storage/storage-account:0.25.1' =
 }
 
 // Deployment scripts & their storage account
-module dsStorageAccount 'br/public:avm/res/storage/storage-account:0.25.1' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
+module dsStorageAccount '../../../res/storage/storage-account/main.bicep' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base') {
   name: '${deployment().name}-ds-sa'
   scope: rg
   params: {
@@ -360,7 +360,7 @@ module dsStorageAccount 'br/public:avm/res/storage/storage-account:0.25.1' = if 
 // ============================== //
 
 // Upload storage account files
-module storageAccount_upload 'br/public:avm/res/resources/deployment-script:0.5.1' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base' || deploymentsToPerform == 'Only assets & image') {
+module storageAccount_upload '../../../res/resources/deployment-script/main.bicep' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only base' || deploymentsToPerform == 'Only assets & image') {
   name: '${deployment().name}-storage-upload-ds'
   scope: resourceGroup(resourceGroupName)
   params: {
@@ -428,7 +428,7 @@ resource dsMsi_existing 'Microsoft.ManagedIdentity/userAssignedIdentities@2024-1
   scope: resourceGroup(resourceGroupName)
 }
 
-module imageTemplate 'br/public:avm/res/virtual-machine-images/image-template:0.6.0' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only assets & image' || deploymentsToPerform == 'Only image') {
+module imageTemplate '../../../res/virtual-machine-images/image-template/main.bicep' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only assets & image' || deploymentsToPerform == 'Only image') {
   name: '${deployment().name}-it'
   scope: resourceGroup(resourceGroupName)
   params: {
@@ -507,7 +507,7 @@ module imageTemplate 'br/public:avm/res/virtual-machine-images/image-template:0.
 }
 
 // Deployment script to trigger image build
-module imageTemplate_trigger 'br/public:avm/res/resources/deployment-script:0.5.1' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only assets & image' || deploymentsToPerform == 'Only image') {
+module imageTemplate_trigger '../../../res/resources/deployment-script/main.bicep' = if (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only assets & image' || deploymentsToPerform == 'Only image') {
   name: '${deployment().name}-imageTemplate-trigger-ds'
   scope: resourceGroup(resourceGroupName)
   params: {
@@ -557,7 +557,7 @@ module imageTemplate_trigger 'br/public:avm/res/resources/deployment-script:0.5.
   ]
 }
 
-module imageTemplate_wait 'br/public:avm/res/resources/deployment-script:0.5.1' = if (waitForImageBuild && (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only assets & image' || deploymentsToPerform == 'Only image')) {
+module imageTemplate_wait '../../../res/resources/deployment-script/main.bicep' = if (waitForImageBuild && (deploymentsToPerform == 'All' || deploymentsToPerform == 'Only assets & image' || deploymentsToPerform == 'Only image')) {
   name: '${deployment().name}-imageTemplate-wait-ds'
   scope: resourceGroup(resourceGroupName)
   params: {

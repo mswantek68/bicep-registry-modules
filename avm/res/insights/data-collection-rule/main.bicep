@@ -17,15 +17,15 @@ param enableTelemetry bool = true
 @description('Optional. Location for all Resources.')
 param location string = resourceGroup().location
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -149,7 +149,7 @@ module dataCollectionRule_conditionalScopeLock 'modules/nested_lock.bicep' = if 
   }
 }
 
-module dataCollectionRule_roleAssignments 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = [
+module dataCollectionRule_roleAssignments '../../../ptn/authorization/resource-role-assignment/main.bicep' = [
   for (roleAssignment, index) in (formattedRoleAssignments ?? []): {
     name: '${uniqueString(deployment().name, location)}-DCR-RoleAssignments-${index}'
     params: {

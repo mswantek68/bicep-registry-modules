@@ -31,15 +31,15 @@ param loadBalancingRules array?
 @description('Optional. Array of objects containing all probes, these are references in the load balancing rules.')
 param probes array?
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -193,7 +193,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module loadBalancer_publicIPAddresses 'br/public:avm/res/network/public-ip-address:0.9.1' = [
+module loadBalancer_publicIPAddresses '../../../res/network/public-ip-address/main.bicep' = [
   for (frontendIPConfiguration, index) in frontendIPConfigurations: if (!empty(frontendIPConfiguration.?publicIPAddressConfiguration) && empty(frontendIPConfiguration.?publicIPAddressResourceId)) {
     name: '${deployment().name}-publicIP-${index}'
     params: {
@@ -218,7 +218,7 @@ module loadBalancer_publicIPAddresses 'br/public:avm/res/network/public-ip-addre
   }
 ]
 
-module loadBalancer_publicIPPrefixes 'br/public:avm/res/network/public-ip-prefix:0.7.1' = [
+module loadBalancer_publicIPPrefixes '../../../res/network/public-ip-prefix/main.bicep' = [
   for (frontendIPConfiguration, index) in frontendIPConfigurations: if (!empty(frontendIPConfiguration.?publicIPPrefixConfiguration) && empty(frontendIPConfiguration.?publicIPPrefixResourceId)) {
     name: '${uniqueString(deployment().name, location)}-LoadBalancer-PIPPrefix-${index}'
     params: {
@@ -411,9 +411,9 @@ output backendpools array = loadBalancer.properties.backendAddressPools
 @description('The location the resource was deployed into.')
 output location string = loadBalancer.location
 
-import { ipTagType as pipIpTagType } from 'br/public:avm/res/network/public-ip-address:0.9.1'
-import { dnsSettingsType, ddosSettingsType } from 'br/public:avm/res/network/public-ip-address:0.9.1'
-import { ipTagType as prefixIpTagType } from 'br/public:avm/res/network/public-ip-prefix:0.7.1'
+import { ipTagType as pipIpTagType } from '../../../res/network/public-ip-address/main.bicep'
+import { dnsSettingsType, ddosSettingsType } from '../../../res/network/public-ip-address/main.bicep'
+import { ipTagType as prefixIpTagType } from '../../../res/network/public-ip-prefix/main.bicep'
 
 @export()
 @description('The type for a public IP address configuration within a frontend IP configuration.')

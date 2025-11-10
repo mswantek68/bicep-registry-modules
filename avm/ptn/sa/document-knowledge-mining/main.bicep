@@ -239,7 +239,7 @@ var dnsZoneIndex = {
   containerRegistry: 8
 }
 @batchSize(5)
-module avmPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.7.1' = [
+module avmPrivateDnsZones '../../../res/network/private-dns-zone/main.bicep' = [
   for (zone, i) in privateDnsZones: if (enablePrivateNetworking) {
     name: 'dns-zone-${i}'
     params: {
@@ -255,7 +255,7 @@ module avmPrivateDnsZones 'br/public:avm/res/network/private-dns-zone:0.7.1' = [
 // WAF best practices for Log Analytics: https://learn.microsoft.com/en-us/azure/well-architected/service-guides/azure-log-analytics
 // WAF PSRules for Log Analytics: https://azure.github.io/PSRule.Rules.Azure/en/rules/resource/#azure-monitor-logs
 var logAnalyticsWorkspaceResourceName = 'log-${solutionSuffix}'
-module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.12.0' = if (enableMonitoring) {
+module logAnalyticsWorkspace '../../../res/operational-insights/workspace/main.bicep' = if (enableMonitoring) {
   name: take('avm.res.operational-insights.workspace.${logAnalyticsWorkspaceResourceName}', 64)
   params: {
     name: logAnalyticsWorkspaceResourceName
@@ -334,7 +334,7 @@ module network 'modules/network.bicep' = if (enablePrivateNetworking) {
 // ========== User Assigned Identity ========== //
 // WAF best practices for identity and access management: https://learn.microsoft.com/en-us/azure/well-architected/security/identity-access
 var userAssignedIdentityResourceName = 'id-${solutionSuffix}'
-module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module userAssignedIdentity '../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: take('avm.res.managed-identity.user-assigned-identity.${userAssignedIdentityResourceName}', 64)
   params: {
     name: userAssignedIdentityResourceName
@@ -345,7 +345,7 @@ module userAssignedIdentity 'br/public:avm/res/managed-identity/user-assigned-id
 }
 
 // ========== Container Registry ========== //
-module avmContainerRegistry 'br/public:avm/res/container-registry/registry:0.9.3' = {
+module avmContainerRegistry '../../../res/container-registry/registry/main.bicep' = {
   name: take('avm.res.container-registry.${solutionSuffix}', 64)
   params: {
     name: 'cr${replace(solutionSuffix, '-', '')}'
@@ -366,7 +366,7 @@ module avmContainerRegistry 'br/public:avm/res/container-registry/registry:0.9.3
 }
 
 // ========== Cosmos Database for Mongo DB ========== //
-module avmCosmosDB 'br/public:avm/res/document-db/database-account:0.15.0' = {
+module avmCosmosDB '../../../res/document-db/database-account/main.bicep' = {
   name: take('avm.res.cosmos-${solutionSuffix}', 64)
   params: {
     name: 'cosmos-${solutionSuffix}'
@@ -440,7 +440,7 @@ module avmCosmosDB 'br/public:avm/res/document-db/database-account:0.15.0' = {
 
 // ========== App Configuration store ========== //
 var appConfigName = 'appcs-${solutionSuffix}'
-module avmAppConfig 'br/public:avm/res/app-configuration/configuration-store:0.9.2' = {
+module avmAppConfig '../../../res/app-configuration/configuration-store/main.bicep' = {
   name: take('avm.res.app-configuration.configuration-store.${appConfigName}', 64)
   params: {
     name: appConfigName
@@ -567,7 +567,7 @@ module avmAppConfig 'br/public:avm/res/app-configuration/configuration-store:0.9
   }
 }
 
-module avmAppConfigUpdated 'br/public:avm/res/app-configuration/configuration-store:0.9.2' = if (enablePrivateNetworking) {
+module avmAppConfigUpdated '../../../res/app-configuration/configuration-store/main.bicep' = if (enablePrivateNetworking) {
   name: take('avm.res.app-configuration.configuration-store-update.${appConfigName}', 64)
   params: {
     name: appConfigName
@@ -610,7 +610,7 @@ module avmAppConfigUpdated 'br/public:avm/res/app-configuration/configuration-st
 
 // ========== Storage account module ========== //
 var storageAccountName = 'st${solutionSuffix}'
-module avmStorageAccount 'br/public:avm/res/storage/storage-account:0.26.2' = {
+module avmStorageAccount '../../../res/storage/storage-account/main.bicep' = {
   name: take('avm.res.storage.storage-account.${storageAccountName}', 64)
   params: {
     name: storageAccountName
@@ -687,7 +687,7 @@ module avmStorageAccount 'br/public:avm/res/storage/storage-account:0.26.2' = {
 
 // ========== AI Foundry: AI Search ========== //
 var aiSearchName = 'srch-${solutionSuffix}'
-module avmSearchSearchServices 'br/public:avm/res/search/search-service:0.11.1' = {
+module avmSearchSearchServices '../../../res/search/search-service/main.bicep' = {
   name: take('avm.res.cognitive-search-services.${aiSearchName}', 64)
   params: {
     name: aiSearchName
@@ -733,7 +733,7 @@ module avmSearchSearchServices 'br/public:avm/res/search/search-service:0.11.1' 
 
 // ========== Cognitive Services - OpenAI module ========== //
 var openAiAccountName = 'oai-${solutionSuffix}'
-module avmOpenAi 'br/public:avm/res/cognitive-services/account:0.13.2' = {
+module avmOpenAi '../../../res/cognitive-services/account/main.bicep' = {
   name: take('avm.res.cognitiveservices.account.${openAiAccountName}', 64)
   params: {
     name: openAiAccountName
@@ -793,7 +793,7 @@ module avmOpenAi 'br/public:avm/res/cognitive-services/account:0.13.2' = {
 
 // ========== Cognitive Services - Document Intellignece module ========== //
 var docIntelAccountName = 'di-${solutionSuffix}'
-module documentIntelligence 'br/public:avm/res/cognitive-services/account:0.13.2' = {
+module documentIntelligence '../../../res/cognitive-services/account/main.bicep' = {
   name: take('avm.res.cognitiveservices.account.${docIntelAccountName}', 64)
   params: {
     name: docIntelAccountName
@@ -845,7 +845,7 @@ module documentIntelligence 'br/public:avm/res/cognitive-services/account:0.13.2
 }
 
 // ========== Azure Kubernetes Service (AKS) ========== //
-module managedCluster 'br/public:avm/res/container-service/managed-cluster:0.10.1' = {
+module managedCluster '../../../res/container-service/managed-cluster/main.bicep' = {
   name: take('avm.res.container-service.managed-cluster.aks-${solutionSuffix}', 64)
   params: {
     name: 'aks-${solutionSuffix}'
@@ -979,7 +979,7 @@ resource aksManagedNodeOSUpgradeSchedule 'Microsoft.ContainerService/managedClus
 
 // ========== Application Insights ========== //
 var applicationInsightsResourceName = 'appi-${solutionSuffix}'
-module applicationInsights 'br/public:avm/res/insights/component:0.6.0' = if (enableMonitoring) {
+module applicationInsights '../../../res/insights/component/main.bicep' = if (enableMonitoring) {
   name: take('avm.res.insights.component.${applicationInsightsResourceName}', 64)
   params: {
     name: applicationInsightsResourceName

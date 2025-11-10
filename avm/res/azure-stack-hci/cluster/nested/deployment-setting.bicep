@@ -81,7 +81,7 @@ module deploymentSetting '../deployment-setting/main.bicep' = [
   }
 ]
 
-import { networkIntentType, storageNetworksType } from 'br/public:avm/res/azure-stack-hci/cluster:0.1.6'
+import { networkIntentType, storageNetworksType } from '../../../../res/azure-stack-hci/cluster/main.bicep'
 type deploymentSettingsType = {
   @minLength(4)
   @maxLength(8)

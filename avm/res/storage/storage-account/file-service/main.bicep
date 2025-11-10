@@ -20,7 +20,7 @@ param shareDeleteRetentionPolicy resourceInput<'Microsoft.Storage/storageAccount
 @description('Optional. The List of CORS rules. You can include up to five CorsRule elements in the request.')
 param corsRules corsRuleType[]?
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { diagnosticSettingFullType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
@@ -127,7 +127,7 @@ type corsRuleType = {
   maxAgeInSeconds: int
 }
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 
 @export()
 @description('The type for a file share.')

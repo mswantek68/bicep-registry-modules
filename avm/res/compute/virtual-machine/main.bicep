@@ -95,7 +95,7 @@ param licenseType string?
 @description('Optional. The list of SSH public keys used to authenticate with linux based VMs.')
 param publicKeys publicKeyType[] = []
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource. The system-assigned managed identity will automatically be enabled if extensionAadJoinConfig.enabled = "True".')
 param managedIdentities managedIdentityAllType?
 
@@ -229,11 +229,11 @@ param extensionGuestConfigurationExtensionProtectedSettings object = {}
 @description('Optional. Location for all resources.')
 param location string = resourceGroup().location
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -1127,7 +1127,7 @@ output systemAssignedMIPrincipalId string? = vm.?identity.?principalId
 @description('The location the resource was deployed into.')
 output location string = vm.location
 
-import { networkInterfaceIPConfigurationOutputType } from 'br/public:avm/res/network/network-interface:0.5.1'
+import { networkInterfaceIPConfigurationOutputType } from '../../../res/network/network-interface/main.bicep'
 @description('The list of NIC configurations of the virtual machine.')
 output nicConfigurations nicConfigurationOutputType[] = [
   for (nicConfiguration, index) in nicConfigurations: {
@@ -1240,8 +1240,8 @@ type publicKeyType = {
 }
 
 import { ipConfigurationType } from 'modules/nic-configuration.bicep'
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
-import { subResourceType } from 'br/public:avm/res/network/network-interface:0.5.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
+import { subResourceType } from '../../../res/network/network-interface/main.bicep'
 
 @export()
 @description('The type for the NIC configuration.')

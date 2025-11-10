@@ -36,7 +36,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2025-04-01' = if (enableT
 }
 
 // Create hub virtual networks
-module hubVirtualNetwork 'br/public:avm/res/network/virtual-network:0.7.0' = [
+module hubVirtualNetwork '../../../res/network/virtual-network/main.bicep' = [
   for (hub, index) in items(hubVirtualNetworks ?? {}): {
     name: '${uniqueString(deployment().name, location)}-${hub.key}-nvn'
     params: {
@@ -101,7 +101,7 @@ resource hubVirtualNetworkPeering 'Microsoft.Network/virtualNetworks/virtualNetw
 ]
 
 // Create hub virtual network route tables
-module hubRouteTable 'br/public:avm/res/network/route-table:0.4.1' = [
+module hubRouteTable '../../../res/network/route-table/main.bicep' = [
   for (hub, index) in items(hubVirtualNetworks ?? {}): {
     name: '${uniqueString(deployment().name, location)}-${hub.key}-nrt'
     params: {
@@ -134,7 +134,7 @@ resource hubRoute 'Microsoft.Network/routeTables/routes@2024-05-01' = [
 // Create Bastion host if enabled
 // AzureBastionSubnet is required to deploy Bastion service. This subnet must exist in the parsubnets array if you enable Bastion Service.
 // There is a minimum subnet requirement of /27 prefix.
-module hubBastion 'br/public:avm/res/network/bastion-host:0.6.1' = [
+module hubBastion '../../../res/network/bastion-host/main.bicep' = [
   for (hub, index) in items(hubVirtualNetworks ?? {}): if (hub.value.enableBastion) {
     name: '${uniqueString(deployment().name, location)}-${hub.key}-nbh'
     params: {
@@ -162,7 +162,7 @@ module hubBastion 'br/public:avm/res/network/bastion-host:0.6.1' = [
 
 // Create Azure Firewall if enabled
 // AzureFirewallSubnet is required to deploy Azure Firewall service. This subnet must exist in the subnets array if you enable Azure Firewall.
-module hubAzureFirewall 'br/public:avm/res/network/azure-firewall:0.7.1' = [
+module hubAzureFirewall '../../../res/network/azure-firewall/main.bicep' = [
   for (hub, index) in items(hubVirtualNetworks ?? {}): if (hub.value.enableAzureFirewall) {
     name: '${uniqueString(deployment().name, location)}-${hub.key}-naf'
     params: {
@@ -275,7 +275,7 @@ output resourceGroupName string = resourceGroup().name
 // Add your User-defined-types here, if any
 //
 
-import { lockType, roleAssignmentType, diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType, roleAssignmentType, diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 
 @export()
 @description('The type of a hub virtual network.')

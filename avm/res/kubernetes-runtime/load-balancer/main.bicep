@@ -56,7 +56,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module arcnetworking 'br/public:avm/res/kubernetes-configuration/extension:0.3.7' = {
+module arcnetworking '../../../res/kubernetes-configuration/extension/main.bicep' = {
   name: '${uniqueString(deployment().name, clusterName)}-arcnetworking'
   params: {
     name: 'arcnetworking'

@@ -24,13 +24,23 @@ param namePrefix string = '#_namePrefix_#'
 @secure()
 param adminMembersSecret string = ''
 
+@description('Optional. Admin member email injected at runtime via token replacement (for example from a GitHub Actions secret).')
+param adminMembersToken string = '#_adminMembersSecret_#'
+
+var adminMembersTokenValue = adminMembersToken == '#_adminMembersSecret_#' ? '' : adminMembersToken
+
+var resolvedAdminMembers = concat(
+  empty(adminMembersSecret) ? [] : [adminMembersSecret],
+  empty(adminMembersTokenValue) ? [] : [adminMembersTokenValue]
+)
+
 // ============ //
 // Dependencies //
 // ============ //
 
 // General resources
 // =================
-resource resourceGroup 'Microsoft.Resources/resourceGroups@2021-04-01' = {
+resource resourceGroup 'Microsoft.Resources/resourceGroups@2024-03-01' = {
   name: resourceGroupName
   location: resourceLocation
 }
@@ -47,9 +57,7 @@ module testDeployment '../../../main.bicep' = [
     params: {
       name: '${namePrefix}${serviceShort}001'
       location: resourceLocation
-      adminMembers: [
-        adminMembersSecret
-      ]
+      adminMembers: resolvedAdminMembers
       lock: {
         kind: 'CanNotDelete'
         name: 'myCustomLockName'

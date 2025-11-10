@@ -5,8 +5,8 @@
   "metadata": {
     "_generator": {
       "name": "bicep",
-      "version": "0.37.4.10188",
-      "templateHash": "11115113860162040259"
+      "version": "0.38.33.27573",
+      "templateHash": "13528836554349357487"
     },
     "name": "Fabric Capacities",
     "description": "This module deploys Fabric capacities, which provide the compute resources for all the experiences in Fabric."
@@ -45,7 +45,7 @@
       "metadata": {
         "description": "An AVM-aligned type for a lock.",
         "__bicep_imported_from!": {
-          "sourceTemplate": "br:mcr.microsoft.com/bicep/avm/utl/types/avm-common-types:0.6.0"
+          "sourceTemplate": "../../../utl/types/avm-common-types/main.bicep"
         }
       }
     }

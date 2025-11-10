@@ -186,7 +186,7 @@ resource dataFactory 'Microsoft.DataFactory/factories@2018-06-01' existing = {
 // Delete old triggers and pipelines
 //------------------------------------------------------------------------------
 
-module deleteOldResources 'br/public:avm/res/resources/deployment-script:0.2.0' = {
+module deleteOldResources '../../../../res/resources/deployment-script/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-deleteOldResources'
   dependsOn: [
     identityRoleAssignments
@@ -248,7 +248,7 @@ resource identityRoleAssignments 'Microsoft.Authorization/roleAssignments@2022-0
   }
 ]
 
-module stopHubTriggers 'br/public:avm/res/resources/deployment-script:0.2.0' = {
+module stopHubTriggers '../../../../res/resources/deployment-script/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-stopHubTriggers'
   dependsOn: [
     identityRoleAssignments
@@ -856,7 +856,7 @@ resource pipeline_msexports_ETL_ingestion 'Microsoft.DataFactory/factories/pipel
 
 // Start hub triggers
 
-module startHubTriggers 'br/public:avm/res/resources/deployment-script:0.2.0' = {
+module startHubTriggers '../../../../res/resources/deployment-script/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-startHubTriggers'
   dependsOn: [
     identityRoleAssignments

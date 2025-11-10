@@ -146,7 +146,7 @@ module naming 'modules/naming/naming.module.bicep' = {
   }
 }
 
-module spokeResourceGroup 'br/public:avm/res/resources/resource-group:0.4.0' = {
+module spokeResourceGroup '../../../res/resources/resource-group/main.bicep' = {
   name: take('deploy-rg-${deployment().name}', 64)
   params: {
     name: naming.outputs.resourcesNames.resourceGroup

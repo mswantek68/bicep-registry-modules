@@ -70,11 +70,11 @@ param validationRules resourceInput<'Microsoft.Insights/webtests@2022-06-15'>.pr
 @sys.description('Optional. An XML configuration specification for a WebTest.')
 param configuration resourceInput<'Microsoft.Insights/webtests@2022-06-15'>.properties.Configuration?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

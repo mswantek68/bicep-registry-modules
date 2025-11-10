@@ -13,11 +13,11 @@ param routes resourceInput<'Microsoft.Network/routeTables@2024-07-01'>.propertie
 @description('Optional. Switch to disable BGP route propagation.')
 param disableBgpRoutePropagation bool = false
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

@@ -4,7 +4,7 @@ import { NamingOutput } from '../naming/naming.module.bicep'
 // ------------------
 //    PARAMETERS
 // ------------------
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../../../utl/types/avm-common-types/main.bicep'
 
 param naming NamingOutput
 

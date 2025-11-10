@@ -111,7 +111,7 @@ resource connectedExtension 'Microsoft.KubernetesConfiguration/extensions@2024-1
   properties: extensionProperties
 }
 
-module fluxConfiguration 'br/public:avm/res/kubernetes-configuration/flux-configuration:0.3.8' = [
+module fluxConfiguration '../../../res/kubernetes-configuration/flux-configuration/main.bicep' = [
   for (fluxConfiguration, index) in (fluxConfigurations ?? []): {
     name: '${uniqueString(deployment().name, location)}-Cluster-FluxConfiguration${index}'
     params: {

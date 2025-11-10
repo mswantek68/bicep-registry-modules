@@ -26,7 +26,7 @@ param enableTelemetry bool = true
 @description('Optional. Replica location for redundancy (if enabled). Required if redundancy is enabled.')
 param replicaLocation string = ''
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { lockType } from '../../../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
@@ -55,7 +55,7 @@ param applicationType string = 'web'
 // Resources  //
 // ========== //
 
-module avmWorkspace 'br/public:avm/res/operational-insights/workspace:0.12.0' = if (empty(existingLogAnalyticsWorkspaceId)) {
+module avmWorkspace '../../../../../../res/operational-insights/workspace/main.bicep' = if (empty(existingLogAnalyticsWorkspaceId)) {
   name: take('avm.res.operational-insights.workspace.${logAnalyticsName}', 64)
   params: {
     name: logAnalyticsName
@@ -119,7 +119,7 @@ var workspaceResourceId = empty(existingLogAnalyticsWorkspaceId)
   ? avmWorkspace!.outputs.resourceId
   : existingLogAnalyticsWorkspaceId
 
-module avmAppInsights 'br/public:avm/res/insights/component:0.6.0' = {
+module avmAppInsights '../../../../../../res/insights/component/main.bicep' = {
   name: '${applicationInsightsName}-deploy'
   params: {
     name: applicationInsightsName
@@ -135,7 +135,7 @@ module avmAppInsights 'br/public:avm/res/insights/component:0.6.0' = {
   }
 }
 
-module applicationInsightsDashboard 'br/public:avm/res/portal/dashboard:0.3.1' = if (!empty(applicationInsightsDashboardName)) {
+module applicationInsightsDashboard '../../../../../../res/portal/dashboard/main.bicep' = if (!empty(applicationInsightsDashboardName)) {
   name: '${applicationInsightsDashboardName}-deploy'
   params: {
     name: applicationInsightsDashboardName

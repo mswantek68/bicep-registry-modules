@@ -16,7 +16,7 @@ param ttl int = 3600
 @description('Optional. The list of TXT records in the record set.')
 param txtRecords resourceInput<'Microsoft.Network/dnsZones/TXT@2018-05-01'>.properties.TXTRecords?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

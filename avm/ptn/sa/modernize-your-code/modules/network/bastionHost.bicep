@@ -29,7 +29,7 @@ param enableTelemetry bool = true
 
 // 1. Create Azure Bastion Host using AVM Subnet Module with special config for Azure Bastion Subnet
 // https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/network/virtual-network/subnet
-module bastionSubnet 'br/public:avm/res/network/virtual-network/subnet:0.1.2' = if (!empty(subnetAddressPrefixes)) {
+module bastionSubnet '../../../../../res/network/virtual-network/subnet/main.bicep' = if (!empty(subnetAddressPrefixes)) {
   name: take('bastionSubnet-${vnetName}', 64)
   params: {
     virtualNetworkName: vnetName
@@ -42,7 +42,7 @@ module bastionSubnet 'br/public:avm/res/network/virtual-network/subnet:0.1.2' = 
 // 2. Create Azure Bastion Host in AzureBastionsubnetSubnet using AVM Bastion Host module
 // https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/network/bastion-host
 
-module bastionHost 'br/public:avm/res/network/bastion-host:0.6.1' = {
+module bastionHost '../../../../../res/network/bastion-host/main.bicep' = {
   name: take('bastionHost-${vnetName}-${name}', 64)
   params: {
     name: name

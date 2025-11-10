@@ -79,7 +79,7 @@ resource imageTemplateRg 'Microsoft.Resources/resourceGroups@2025-04-01' = {
 
 // User Assigned Identity (MSI)
 #disable-next-line use-recent-module-versions
-module dsMsi 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module dsMsi '../../../../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: '${deployment().name}-ds-msi'
   scope: rg
   params: {
@@ -89,7 +89,7 @@ module dsMsi 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' =
 }
 
 #disable-next-line use-recent-module-versions
-module imageMSI 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module imageMSI '../../../../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: '${deployment().name}-image-msi'
   scope: rg
   params: {
@@ -100,7 +100,7 @@ module imageMSI 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1
 
 // MSI Subscription contributor assignment
 #disable-next-line use-recent-module-versions
-module imageMSI_build_rg_rbac 'br/public:avm/res/authorization/role-assignment/rg-scope:0.1.0' = {
+module imageMSI_build_rg_rbac '../../../../../../res/authorization/role-assignment/rg-scope/main.bicep' = {
   scope: imageTemplateRg
   name: '${deployment().name}-image-msi-rbac'
   params: {
@@ -112,7 +112,7 @@ module imageMSI_build_rg_rbac 'br/public:avm/res/authorization/role-assignment/r
 
 // Azure Compute Gallery
 #disable-next-line use-recent-module-versions
-module azureComputeGallery 'br/public:avm/res/compute/gallery:0.9.2' = {
+module azureComputeGallery '../../../../../../res/compute/gallery/main.bicep' = {
   name: '${deployment().name}-acg'
   scope: rg
   params: {
@@ -131,7 +131,7 @@ module azureComputeGallery 'br/public:avm/res/compute/gallery:0.9.2' = {
 
 // Image Template Virtual Network
 #disable-next-line use-recent-module-versions
-module vnet 'br/public:avm/res/network/virtual-network:0.7.0' = {
+module vnet '../../../../../../res/network/virtual-network/main.bicep' = {
   name: '${deployment().name}-vnet'
   scope: rg
   params: {
@@ -171,7 +171,7 @@ module vnet 'br/public:avm/res/network/virtual-network:0.7.0' = {
 
 // Assets Storage Account
 #disable-next-line use-recent-module-versions
-module assetsStorageAccount 'br/public:avm/res/storage/storage-account:0.25.0' = {
+module assetsStorageAccount '../../../../../../res/storage/storage-account/main.bicep' = {
   name: '${deployment().name}-files-sa'
   scope: rg
   params: {
@@ -208,7 +208,7 @@ module assetsStorageAccount 'br/public:avm/res/storage/storage-account:0.25.0' =
 
 // Deployment scripts & their storage account
 #disable-next-line use-recent-module-versions
-module dsStorageAccount 'br/public:avm/res/storage/storage-account:0.25.0' = {
+module dsStorageAccount '../../../../../../res/storage/storage-account/main.bicep' = {
   name: '${deployment().name}-ds-sa'
   scope: rg
   params: {
@@ -240,7 +240,7 @@ module dsStorageAccount 'br/public:avm/res/storage/storage-account:0.25.0' = {
 
 // Upload storage account files
 #disable-next-line use-recent-module-versions
-module storageAccount_upload 'br/public:avm/res/resources/deployment-script:0.5.1' = {
+module storageAccount_upload '../../../../../../res/resources/deployment-script/main.bicep' = {
   name: '${deployment().name}-storage-upload-ds'
   scope: resourceGroup(resourceGroupName)
   params: {

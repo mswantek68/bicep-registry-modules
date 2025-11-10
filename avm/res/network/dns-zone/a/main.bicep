@@ -19,7 +19,7 @@ param ttl int = 3600
 @description('Optional. A reference to an azure resource from where the dns resource value is taken. Also known as an alias record sets and are only supported for record types A, AAAA and CNAME. A resource ID can be an Azure Traffic Manager, Azure CDN, Front Door, Static Web App, or a resource ID of a record set of the same type in the DNS zone (i.e. A, AAAA or CNAME). Cannot be used in conjuction with the "aRecords" property.')
 param targetResourceId string?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

@@ -12,18 +12,18 @@ param location string = resourceGroup().location
 @description('Optional. Resource tags.')
 param tags resourceInput<'Microsoft.DigitalTwins/digitalTwinsInstances@2023-01-31'>.tags?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
 @description('Optional. The endpoints of the service.')
 param endpoints endpointType[]?
 
-import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointSingleServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible.')
 param privateEndpoints privateEndpointSingleServiceType[]?
 
@@ -35,14 +35,14 @@ param privateEndpoints privateEndpointSingleServiceType[]?
 ])
 param publicNetworkAccess string = ''
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignment objects that contain the \'roleDefinitionIdOrName\' and \'principalIds\' to define RBAC role assignments on this resource. In the roleDefinitionIdOrName attribute, you can provide either the display name of the role definition, or its fully qualified ID in the following format: \'/providers/Microsoft.Authorization/roleDefinitions/c2f4ef07-c644-48eb-af81-4b1b4947fb11\'.')
 param roleAssignments roleAssignmentType[]?
 
@@ -138,7 +138,7 @@ module digitalTwinsInstance_endpoints 'endpoint/main.bicep' = [
   }
 ]
 
-module digitalTwinsInstance_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.11.0' = [
+module digitalTwinsInstance_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-digitalTwins-PrivateEndpoint-${index}'
     scope: resourceGroup(

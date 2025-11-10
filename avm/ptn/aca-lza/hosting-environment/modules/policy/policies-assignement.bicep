@@ -222,7 +222,7 @@ var customPolicies = [
   }
 ]
 
-module builtInPolicyAssignment 'br/public:avm/ptn/authorization/policy-assignment:0.1.0' = [
+module builtInPolicyAssignment '../../../../../ptn/authorization/policy-assignment/main.bicep' = [
   for (policy, i) in builtInPolicies: {
     name: 'poAssign_${take(policy.name, 40)}'
     params: {
@@ -251,7 +251,7 @@ resource customPoliciesDefinition 'Microsoft.Authorization/policyDefinitions@202
   }
 ]
 
-module cusomPoliciesAssignement 'br/public:avm/ptn/authorization/policy-assignment:0.1.0' = [
+module cusomPoliciesAssignement '../../../../../ptn/authorization/policy-assignment/main.bicep' = [
   for (policy, i) in customPolicies: {
     name: 'poAssign_${take(policy.name, 40)}'
     params: {

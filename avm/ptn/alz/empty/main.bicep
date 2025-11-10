@@ -44,7 +44,7 @@ param managementGroupParentId string?
 @description('Optional. An array of subscriptions to place in the management group. If not specified, no subscriptions will be placed in the management group.')
 param subscriptionsToPlaceInManagementGroup array = []
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of custom role assignments to create on the management group.')
 param managementGroupRoleAssignments roleAssignmentType[]?
 
@@ -208,7 +208,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2025-04-01' = if (enableT
 }
 
 // Single Management Group Creation (Optional)
-module mg 'br/public:avm/res/management/management-group:0.1.2' = if (createOrUpdateManagementGroup) {
+module mg '../../../res/management/management-group/main.bicep' = if (createOrUpdateManagementGroup) {
   name: deploymentNames.mg
   params: {
     name: managementGroupName
@@ -289,7 +289,7 @@ module mgPolicyAssignmentsWait 'modules/wait.bicep' = [
   }
 ]
 
-module mgPolicyAssignments 'br/public:avm/ptn/authorization/policy-assignment:0.5.1' = [
+module mgPolicyAssignments '../../../ptn/authorization/policy-assignment/main.bicep' = [
   for (polAsi, index) in (filteredManagementGroupPolicyAssignments ?? []): {
     scope: managementGroup(managementGroupName)
     dependsOn: [
@@ -335,7 +335,7 @@ module mgRoleDefinitionsWait 'modules/wait.bicep' = [
   }
 ]
 
-module mgRoleDefinitions 'br/public:avm/ptn/authorization/role-definition:0.1.1' = [
+module mgRoleDefinitions '../../../ptn/authorization/role-definition/main.bicep' = [
   for (roleDef, index) in (managementGroupCustomRoleDefinitions ?? []): {
     scope: managementGroup(managementGroupName)
     name: take('${deploymentNames.mgRoleDefinitions}-${uniqueString(managementGroupName, roleDef.name)}', 64)
@@ -365,7 +365,7 @@ module mgRoleAssignmentsWait 'modules/wait.bicep' = [
   }
 ]
 
-module mgRoleAssignments 'br/public:avm/ptn/authorization/role-assignment:0.2.2' = [
+module mgRoleAssignments '../../../ptn/authorization/role-assignment/main.bicep' = [
   for (roleAssignment, index) in (formattedRoleAssignments ?? []): {
     name: take(
       '${deploymentNames.mgRoleAssignments}-${uniqueString(managementGroupName, roleAssignment.principalId, roleAssignment.roleDefinitionId)}',

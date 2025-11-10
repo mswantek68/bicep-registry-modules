@@ -39,11 +39,11 @@ param organizationUnit string?
 @description('Optional. The name for the resource group where NICs will be placed. If not provided, the default name "NI_networkConnectionName_region" (e.g. "NI_myNetworkConnection_eastus") will be used. It cannot be an existing resource group. It will also contain a health check Network Interface (NIC) resource for the network connection. This NIC name will be "nic-CPC-Hth-<randomString>_<date>" (e.g. "nic-CPC-Hth-12345678_2023-10-01").')
 param networkingResourceGroupName string?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

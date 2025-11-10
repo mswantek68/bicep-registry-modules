@@ -154,7 +154,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2023-07-01' = if (enableT
   }
 }
 
-module storageAccount_privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.3.1' = [
+module storageAccount_privateDnsZones '../../../res/network/private-dns-zone/main.bicep' = [
   for zone in objectKeys(storagePrivateDnsZones): if (createVirtualNetwork) {
     name: '${uniqueString(deployment().name, location, zone)}-storage-private-dns-zones'
     params: {
@@ -169,7 +169,7 @@ module storageAccount_privateDnsZones 'br/public:avm/res/network/private-dns-zon
   }
 ]
 
-module workspaceHub_privateDnsZones 'br/public:avm/res/network/private-dns-zone:0.3.1' = [
+module workspaceHub_privateDnsZones '../../../res/network/private-dns-zone/main.bicep' = [
   for zone in objectKeys(mlPrivateDnsZones): if (createVirtualNetwork) {
     name: '${uniqueString(deployment().name, location, zone)}-workspace-private-dns-zones'
     params: {
@@ -193,7 +193,7 @@ module workspaceHub_privateDnsZones 'br/public:avm/res/network/private-dns-zone:
   }
 ]
 
-module defaultNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.3.1' = if (createDefaultNsg) {
+module defaultNetworkSecurityGroup '../../../res/network/network-security-group/main.bicep' = if (createDefaultNsg) {
   name: '${uniqueString(deployment().name, location)}-nsg'
   params: {
     name: 'nsg-${name}'
@@ -221,7 +221,7 @@ module defaultNetworkSecurityGroup 'br/public:avm/res/network/network-security-g
   }
 }
 
-module virtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (createVirtualNetwork) {
+module virtualNetwork '../../../res/network/virtual-network/main.bicep' = if (createVirtualNetwork) {
   name: '${uniqueString(deployment().name, location)}-virtual-network'
   params: {
     name: virtualNetworkConfiguration.?name ?? 'vnet-${name}'
@@ -255,7 +255,7 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.4.0' = if (cr
   }
 }
 
-module bastion 'br/public:avm/res/network/bastion-host:0.2.2' = if (createBastion) {
+module bastion '../../../res/network/bastion-host/main.bicep' = if (createBastion) {
   name: '${uniqueString(deployment().name, location)}-bastion-host'
   params: {
     name: bastionConfiguration.?name ?? 'bas-${name}'
@@ -273,7 +273,7 @@ module bastion 'br/public:avm/res/network/bastion-host:0.2.2' = if (createBastio
   }
 }
 
-module virtualMachine 'br/public:avm/res/compute/virtual-machine:0.5.3' = if (createVirtualMachine) {
+module virtualMachine '../../../res/compute/virtual-machine/main.bicep' = if (createVirtualMachine) {
   name: '${uniqueString(deployment().name, location)}-virtual-machine'
   params: {
     name: virtualMachineConfiguration.?name ?? 'vm-${name}'
@@ -359,7 +359,7 @@ resource resourceGroup_roleAssignment 'Microsoft.Authorization/roleAssignments@2
   }
 }
 
-module keyVault 'br/public:avm/res/key-vault/vault:0.6.2' = {
+module keyVault '../../../res/key-vault/vault/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-key-vault'
   params: {
     name: keyVaultConfiguration.?name ?? 'kv-${name}'
@@ -404,7 +404,7 @@ module keyVault 'br/public:avm/res/key-vault/vault:0.6.2' = {
   }
 }
 
-module storageAccount 'br/public:avm/res/storage/storage-account:0.11.0' = {
+module storageAccount '../../../res/storage/storage-account/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-storage'
   params: {
     name: storageAccountConfiguration.?name ?? 'st${name}'
@@ -453,7 +453,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.11.0' = {
   dependsOn: storageAccount_privateDnsZones
 }
 
-module containerRegistry 'br/public:avm/res/container-registry/registry:0.3.1' = {
+module containerRegistry '../../../res/container-registry/registry/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-container-registry'
   params: {
     name: containerRegistryConfiguration.?name ?? 'cr${name}'
@@ -482,7 +482,7 @@ module containerRegistry 'br/public:avm/res/container-registry/registry:0.3.1' =
   }
 }
 
-module applicationInsights 'br/public:avm/res/insights/component:0.3.1' = {
+module applicationInsights '../../../res/insights/component/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-appi'
   params: {
     name: applicationInsightsConfiguration.?name ?? 'appi-${name}'
@@ -503,7 +503,7 @@ module applicationInsights 'br/public:avm/res/insights/component:0.3.1' = {
   }
 }
 
-module workspaceHub 'br/public:avm/res/machine-learning-services/workspace:0.5.0' = {
+module workspaceHub '../../../res/machine-learning-services/workspace/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-hub'
   params: {
     name: workspaceConfiguration.?name ?? 'hub-${name}'
@@ -564,7 +564,7 @@ module workspaceHub 'br/public:avm/res/machine-learning-services/workspace:0.5.0
 }
 
 // The workspace project uses a system assigned managed identity, so it can authenticate with the container registry
-module workspaceProject 'br/public:avm/res/machine-learning-services/workspace:0.5.0' = {
+module workspaceProject '../../../res/machine-learning-services/workspace/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-project'
   params: {
     name: workspaceConfiguration.?projectName ?? 'project-${name}'

@@ -97,7 +97,7 @@ resource sshKey 'Microsoft.Compute/sshPublicKeys@2024-07-01' = {
   }
 }
 
-module vmNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.0' = {
+module vmNetworkSecurityGroup '../../../../../res/network/network-security-group/main.bicep' = {
   name: 'vmNetworkSecurityDeployment'
   params: {
     name: vmNetworkSecurityGroupName
@@ -162,7 +162,7 @@ resource maintenanceConfiguration 'Microsoft.Maintenance/maintenanceConfiguratio
   }
 }
 
-module vm 'br/public:avm/res/compute/virtual-machine:0.11.0' = {
+module vm '../../../../../res/compute/virtual-machine/main.bicep' = {
   name: 'vmDeployment'
   params: {
     name: vmName

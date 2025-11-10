@@ -91,7 +91,7 @@ resource sshKey 'Microsoft.Compute/sshPublicKeys@2024-11-01' = {
 }
 
 #disable-next-line use-recent-api-versions
-module vm 'br/public:avm/res/compute/virtual-machine:0.16.0' = {
+module vm '../../../../../../res/compute/virtual-machine/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-virtualMachine'
   params: {
     location: location

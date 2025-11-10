@@ -11,11 +11,11 @@ param location string = resourceGroup().location
 @description('Required. Public IP of the local gateway.')
 param localGatewayPublicIpAddress string
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

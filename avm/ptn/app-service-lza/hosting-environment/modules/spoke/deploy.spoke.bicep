@@ -2,7 +2,7 @@ targetScope = 'subscription'
 
 import { NamingOutput } from '../naming/naming.module.bicep'
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../../../utl/types/avm-common-types/main.bicep'
 
 param naming NamingOutput
 
@@ -172,7 +172,7 @@ module networking '../networking/network.module.bicep' = {
   }
 }
 
-module logAnalyticsWs 'br/public:avm/res/operational-insights/workspace:0.11.1' = {
+module logAnalyticsWs '../../../../../res/operational-insights/workspace/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-logAnalyticsWs'
   scope: resourceGroup(resourceGroupName)
   params: {

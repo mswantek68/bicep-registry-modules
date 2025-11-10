@@ -82,7 +82,7 @@ param activeRevisionsMode string = 'Single'
 @description('Required. Resource ID of environment.')
 param environmentResourceId string
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
@@ -92,11 +92,11 @@ param tags resourceInput<'Microsoft.App/containerApps@2025-02-02-preview'>.tags?
 @description('Optional. Collection of private container registry credentials for containers used by the Container app.')
 param registries resourceInput<'Microsoft.App/containerApps@2025-02-02-preview'>.properties.configuration.registries?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.4.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.4.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -160,7 +160,7 @@ param workloadProfileName string?
 @description('Optional. The name of the Container App Auth configs.')
 param authConfig authConfigType?
 
-import { diagnosticSettingMetricsOnlyType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { diagnosticSettingMetricsOnlyType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingMetricsOnlyType[]?
 

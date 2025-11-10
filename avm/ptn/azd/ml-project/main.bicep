@@ -94,7 +94,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module project 'br/public:avm/res/machine-learning-services/workspace:0.7.0' = {
+module project '../../../res/machine-learning-services/workspace/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-project'
   params: {
     name: name
@@ -126,7 +126,7 @@ resource keyVault 'Microsoft.KeyVault/vaults@2022-07-01' existing = {
   }
 }
 
-module mlServiceRoleAssigned 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
+module mlServiceRoleAssigned '../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-roleassignment'
   params: {
     name: userAssignedName

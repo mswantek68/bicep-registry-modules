@@ -12,7 +12,7 @@ param location string = resourceGroup().location
 @description('Optional. Tags of the resource.')
 param tags resourceInput<'Microsoft.Purview/accounts@2021-12-01'>.tags?
 
-import { managedIdentityOnlyUserAssignedType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityOnlyUserAssignedType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityOnlyUserAssignedType?
 
@@ -43,15 +43,15 @@ param managedResourcesPublicNetworkAccess string = 'NotSpecified'
 ])
 param publicNetworkAccess string = 'NotSpecified'
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
-import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointSingleServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for Purview Account private endpoints. For security reasons, it is recommended to use private endpoints whenever possible. Make sure the service property is set to \'account\'.')
 param accountPrivateEndpoints privateEndpointSingleServiceType[]?
 
@@ -70,7 +70,7 @@ param eventHubPrivateEndpoints privateEndpointSingleServiceType[]?
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
@@ -189,7 +189,7 @@ resource account_diagnosticSettings 'Microsoft.Insights/diagnosticSettings@2021-
   }
 ]
 
-module account_accountPrivateEndpoints 'br/public:avm/res/network/private-endpoint:0.10.1' = [
+module account_accountPrivateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (accountPrivateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-account-PrivateEndpoint-${index}'
     scope: resourceGroup(
@@ -244,7 +244,7 @@ module account_accountPrivateEndpoints 'br/public:avm/res/network/private-endpoi
   }
 ]
 
-module account_portalPrivateEndpoints 'br/public:avm/res/network/private-endpoint:0.10.1' = [
+module account_portalPrivateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (portalPrivateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-portal-PrivateEndpoint-${index}'
     scope: resourceGroup(
@@ -299,7 +299,7 @@ module account_portalPrivateEndpoints 'br/public:avm/res/network/private-endpoin
   }
 ]
 
-module account_storageBlobPrivateEndpoints 'br/public:avm/res/network/private-endpoint:0.10.1' = [
+module account_storageBlobPrivateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (storageBlobPrivateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-blob-PrivateEndpoint-${index}'
     scope: resourceGroup(
@@ -354,7 +354,7 @@ module account_storageBlobPrivateEndpoints 'br/public:avm/res/network/private-en
   }
 ]
 
-module account_storageQueuePrivateEndpoints 'br/public:avm/res/network/private-endpoint:0.10.1' = [
+module account_storageQueuePrivateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (storageQueuePrivateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-queue-PrivateEndpoint-${index}'
     scope: resourceGroup(
@@ -409,7 +409,7 @@ module account_storageQueuePrivateEndpoints 'br/public:avm/res/network/private-e
   }
 ]
 
-module account_eventHubPrivateEndpoints 'br/public:avm/res/network/private-endpoint:0.10.1' = [
+module account_eventHubPrivateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (eventHubPrivateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-eventHub-PrivateEndpoint-${index}'
     scope: resourceGroup(

@@ -1,4 +1,4 @@
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../../../utl/types/avm-common-types/main.bicep'
 
 @description('Required. Whether to enable deployment telemetry.')
 param enableTelemetry bool
@@ -111,7 +111,7 @@ param wafPolicyMode string = 'Prevention'
 //   'text/x-java-source'
 // ]
 
-module waf 'br/public:avm/res/network/front-door-web-application-firewall-policy:0.3.1' = {
+module waf '../../../../../res/network/front-door-web-application-firewall-policy/main.bicep' = {
   name: 'wafPolicy-${uniqueString(resourceGroup().id)}'
   params: {
     name: 'waffrontdoor'
@@ -168,7 +168,7 @@ module waf 'br/public:avm/res/network/front-door-web-application-firewall-policy
   }
 }
 
-module frontDoor 'br/public:avm/res/cdn/profile:0.12.1' = {
+module frontDoor '../../../../../res/cdn/profile/main.bicep' = {
   name: 'frontDoorDeployment-${uniqueString(resourceGroup().id)}'
   params: {
     name: afdName

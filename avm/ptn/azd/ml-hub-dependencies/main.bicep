@@ -294,7 +294,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module keyVault 'br/public:avm/res/key-vault/vault:0.12.1' = {
+module keyVault '../../../res/key-vault/vault/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-keyvault'
   params: {
     name: keyVaultName
@@ -309,7 +309,7 @@ module keyVault 'br/public:avm/res/key-vault/vault:0.12.1' = {
   }
 }
 
-module storageAccount 'br/public:avm/res/storage/storage-account:0.19.0' = {
+module storageAccount '../../../res/storage/storage-account/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-storage'
   params: {
     name: storageAccountName
@@ -328,7 +328,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.19.0' = {
   }
 }
 
-module cognitiveServices 'br/public:avm/res/cognitive-services/account:0.10.2' = {
+module cognitiveServices '../../../res/cognitive-services/account/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-cognitive'
   params: {
     name: cognitiveServicesName
@@ -345,7 +345,7 @@ module cognitiveServices 'br/public:avm/res/cognitive-services/account:0.10.2' =
   }
 }
 
-module logAnalytics 'br/public:avm/res/operational-insights/workspace:0.11.2' = if (!empty(logAnalyticsName)) {
+module logAnalytics '../../../res/operational-insights/workspace/main.bicep' = if (!empty(logAnalyticsName)) {
   name: '${uniqueString(deployment().name, location)}-loganalytics'
   params: {
     name: logAnalyticsName
@@ -357,7 +357,7 @@ module logAnalytics 'br/public:avm/res/operational-insights/workspace:0.11.2' = 
   }
 }
 
-module applicationInsights 'br/public:avm/ptn/azd/insights-dashboard:0.1.2' = if (!empty(applicationInsightsName) && !empty(logAnalyticsName)) {
+module applicationInsights '../../../ptn/azd/insights-dashboard/main.bicep' = if (!empty(applicationInsightsName) && !empty(logAnalyticsName)) {
   name: '${uniqueString(deployment().name, location)}-insights'
   params: {
     location: location
@@ -369,7 +369,7 @@ module applicationInsights 'br/public:avm/ptn/azd/insights-dashboard:0.1.2' = if
   }
 }
 
-module containerRegistry 'br/public:avm/res/container-registry/registry:0.9.1' = if (!empty(containerRegistryName)) {
+module containerRegistry '../../../res/container-registry/registry/main.bicep' = if (!empty(containerRegistryName)) {
   name: '${uniqueString(deployment().name, location)}-registry'
   params: {
     name: containerRegistryName
@@ -381,7 +381,7 @@ module containerRegistry 'br/public:avm/res/container-registry/registry:0.9.1' =
   }
 }
 
-module searchService 'br/public:avm/res/search/search-service:0.10.0' = if (!empty(searchServiceName)) {
+module searchService '../../../res/search/search-service/main.bicep' = if (!empty(searchServiceName)) {
   name: '${uniqueString(deployment().name, location)}-searchservice'
   params: {
     name: searchServiceName

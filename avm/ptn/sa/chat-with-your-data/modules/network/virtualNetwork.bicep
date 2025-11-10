@@ -44,7 +44,7 @@ module nsgs '../network-security-group/network-security-group.bicep' = [
 // using AVM Virtual Network module
 // https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/network/virtual-network
 
-module virtualNetwork 'br/public:avm/res/network/virtual-network:0.7.0' = {
+module virtualNetwork '../../../../../res/network/virtual-network/main.bicep' = {
   name: take('${name}-virtualNetwork', 64)
   params: {
     name: name

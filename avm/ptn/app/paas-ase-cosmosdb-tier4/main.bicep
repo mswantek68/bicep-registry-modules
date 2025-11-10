@@ -55,7 +55,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
 
 // Network Security Groups
 
-module defaultNsg 'br/public:avm/res/network/network-security-group:0.5.2' = {
+module defaultNsg '../../../res/network/network-security-group/main.bicep' = {
   name: 'defaultNsg-${uniqueString(deployment().name, location)}'
   params: {
     name: '${name}-default-nsg-${suffix}'
@@ -66,7 +66,7 @@ module defaultNsg 'br/public:avm/res/network/network-security-group:0.5.2' = {
   }
 }
 
-module privateEndpointNsg 'br/public:avm/res/network/network-security-group:0.5.2' = {
+module privateEndpointNsg '../../../res/network/network-security-group/main.bicep' = {
   name: 'privateEndpointNsg-${uniqueString(deployment().name, location)}'
   params: {
     name: '${name}-privateendpointsubnet-nsg-${suffix}'
@@ -79,7 +79,7 @@ module privateEndpointNsg 'br/public:avm/res/network/network-security-group:0.5.
 
 // Virtual Network
 
-module vnet 'br/public:avm/res/network/virtual-network:0.7.1' = {
+module vnet '../../../res/network/virtual-network/main.bicep' = {
   name: 'vnet-${uniqueString(deployment().name, location)}'
   params: {
     name: '${name}-vNet-${suffix}'
@@ -111,7 +111,7 @@ module vnet 'br/public:avm/res/network/virtual-network:0.7.1' = {
 
 // Private DNS Zones
 
-module appServicePrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.8.0' = {
+module appServicePrivateDnsZone '../../../res/network/private-dns-zone/main.bicep' = {
   name: 'appServicePrivateDnsZone-${uniqueString(deployment().name, location)}'
   params: {
     name: '${name}.appserviceenvironment.net'
@@ -128,7 +128,7 @@ module appServicePrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.8.
   }
 }
 
-module cosmosdbPrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.8.0' = {
+module cosmosdbPrivateDnsZone '../../../res/network/private-dns-zone/main.bicep' = {
   name: 'cosmosdbPrivateDnsZone-${uniqueString(deployment().name, location)}'
   params: {
     name: 'privatelink.documents.azure.com'
@@ -145,7 +145,7 @@ module cosmosdbPrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.8.0'
   }
 }
 
-module redisPrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.8.0' = {
+module redisPrivateDnsZone '../../../res/network/private-dns-zone/main.bicep' = {
   name: 'redisPrivateDnsZone-${uniqueString(deployment().name, location)}'
   params: {
     name: 'privatelink.redis.cache.windows.net'
@@ -164,7 +164,7 @@ module redisPrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.8.0' = 
 
 // App Service Environment
 
-module ase 'br/public:avm/res/web/hosting-environment:0.4.1' = {
+module ase '../../../res/web/hosting-environment/main.bicep' = {
   name: 'ase-${uniqueString(deployment().name, location)}'
   params: {
     name: '${name}-${suffix}'
@@ -192,7 +192,7 @@ module ase 'br/public:avm/res/web/hosting-environment:0.4.1' = {
 
 // App Service Plan
 
-module asp 'br/public:avm/res/web/serverfarm:0.5.0' = {
+module asp '../../../res/web/serverfarm/main.bicep' = {
   name: 'asp-${uniqueString(deployment().name, location)}'
   params: {
     name: '${name}-asp-${suffix}'
@@ -208,7 +208,7 @@ module asp 'br/public:avm/res/web/serverfarm:0.5.0' = {
 
 // CosmosDB Account
 
-module cosmosdbAccount 'br/public:avm/res/document-db/database-account:0.16.0' = {
+module cosmosdbAccount '../../../res/document-db/database-account/main.bicep' = {
   name: 'cosmosdbAccount-${uniqueString(deployment().name, location)}'
   params: {
     name: '${name}-cosmos-${suffix}'
@@ -254,7 +254,7 @@ module cosmosdbAccount 'br/public:avm/res/document-db/database-account:0.16.0' =
 
 // SQL Private Endpoint
 
-module cosmosdbPrivateEndpoint 'br/public:avm/res/network/private-endpoint:0.11.1' = {
+module cosmosdbPrivateEndpoint '../../../res/network/private-endpoint/main.bicep' = {
   name: 'cosmosdbPrivateEndpoint-${uniqueString(deployment().name, location)}'
   params: {
     name: '${name}-CosmosPrivateEndpoint-${suffix}'
@@ -296,7 +296,7 @@ module cosmosdbPrivateEndpoint 'br/public:avm/res/network/private-endpoint:0.11.
 
 // Redis Cache
 
-module redis 'br/public:avm/res/cache/redis:0.16.3' = {
+module redis '../../../res/cache/redis/main.bicep' = {
   name: 'redis-${uniqueString(deployment().name, location)}'
   params: {
     name: '${name}-redis-${suffix}'

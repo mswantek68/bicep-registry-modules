@@ -33,7 +33,7 @@ param defaultDataLakeStorageCreateManagedPrivateEndpoint bool = false
 @description('Optional. The Entra ID administrator for the synapse workspace.')
 param administrator administratorType?
 
-import { customerManagedKeyType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { customerManagedKeyType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The customer managed key definition.')
 param customerManagedKey customerManagedKeyType?
 
@@ -91,23 +91,23 @@ param accountUrl string = 'https://${last(split(defaultDataLakeStorageAccountRes
 @description('Optional. Git integration settings.')
 param workspaceRepositoryConfiguration object?
 
-import { managedIdentityOnlyUserAssignedType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityOnlyUserAssignedType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityOnlyUserAssignedType?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
-import { privateEndpointMultiServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointMultiServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible.')
 param privateEndpoints privateEndpointMultiServiceType[]?
 
-import { diagnosticSettingLogsOnlyType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingLogsOnlyType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingLogsOnlyType[]?
 
@@ -410,7 +410,7 @@ module workspace_sqlPools 'sql-pool/main.bicep' = [
 ]
 
 // Endpoints
-module workspace_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.11.0' = [
+module workspace_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-workspace-PrivateEndpoint-${index}'
     scope: resourceGroup(
@@ -579,7 +579,7 @@ type firewallRuleType = {
 }
 
 import { autoScaleType, dynamicExecutorAllocationType, sparkConfigPropertiesType } from 'big-data-pool/main.bicep'
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @export()
 @description('The synapse workspace Big Data Pool definition.')
 type bigDataPoolType = {

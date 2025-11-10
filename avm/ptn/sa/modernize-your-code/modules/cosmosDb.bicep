@@ -24,7 +24,7 @@ import { resourcePrivateNetworkingType } from 'customTypes.bicep'
 @description('Optional. Values to establish private networking for the Cosmos DB resource.')
 param privateNetworking resourcePrivateNetworkingType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -55,7 +55,7 @@ var batchContainerName = 'cmsabatch'
 var fileContainerName = 'cmsafile'
 var logContainerName = 'cmsalog'
 
-module cosmosAccount 'br/public:avm/res/document-db/database-account:0.15.0' = {
+module cosmosAccount '../../../../res/document-db/database-account/main.bicep' = {
   name: take('${name}-account-deployment', 64)
   #disable-next-line no-unnecessary-dependson
   dependsOn: [privateDnsZone] // required due to optional flags that could change dependency

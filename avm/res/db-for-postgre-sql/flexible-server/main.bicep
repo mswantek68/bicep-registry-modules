@@ -117,7 +117,7 @@ param version string = '17'
 @description('Optional. The mode to create a new PostgreSQL server.')
 param createMode string = 'Default'
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Conditional. The managed identity definition for this resource. Required if \'cMKKeyName\' is not empty.')
 param managedIdentities managedIdentityAllType?
 
@@ -128,7 +128,7 @@ param managedIdentities managedIdentityAllType?
 @description('Optional. Specifies the state of the Threat Protection, whether it is enabled or disabled or a state has not been applied yet on the specific server.')
 param serverThreatProtection string = 'Enabled'
 
-import { customerManagedKeyWithAutoRotateType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { customerManagedKeyWithAutoRotateType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The customer managed key definition.')
 param customerManagedKey customerManagedKeyWithAutoRotateType?
 
@@ -168,7 +168,7 @@ param databases array = []
 @description('Optional. The configurations to create in the server.')
 param configurations array = []
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
@@ -187,7 +187,7 @@ param replicationRole string = 'None'
 @description('Optional. Enable/Disable advanced threat protection.')
 param enableAdvancedThreatProtection bool = true
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -197,11 +197,11 @@ param tags resourceInput<'Microsoft.DBforPostgreSQL/flexibleServers@2025-06-01-p
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
-import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointSingleServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for private endpoints. Used when the desired connectivity mode is \'Public Access\' and \'delegatedSubnetResourceId\' is NOT used.')
 param privateEndpoints privateEndpointSingleServiceType[]?
 
@@ -485,7 +485,7 @@ resource flexibleServer_diagnosticSettings 'Microsoft.Insights/diagnosticSetting
   }
 ]
 
-module server_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.11.1' = [
+module server_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): if (empty(delegatedSubnetResourceId)) {
     name: '${uniqueString(deployment().name, location)}-PostgreSQL-PrivateEndpoint-${index}'
     scope: resourceGroup(

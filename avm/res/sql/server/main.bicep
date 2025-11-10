@@ -14,18 +14,18 @@ param location string = resourceGroup().location
 @description('Required. The name of the server.')
 param name string
 
-import { managedIdentityAllType, managedIdentityOnlyUserAssignedType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityAllType, managedIdentityOnlyUserAssignedType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
 @description('Conditional. The resource ID of a user assigned identity to be used by default. Required if "userAssignedIdentities" is not empty.')
 param primaryUserAssignedIdentityResourceId string?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -53,7 +53,7 @@ param securityAlertPolicies securityAlertPolicyType[]?
 @description('Optional. The keys to configure.')
 param keys keyType[]?
 
-import { customerManagedKeyWithAutoRotateType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { customerManagedKeyWithAutoRotateType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The customer managed key definition for server TDE.')
 param customerManagedKey customerManagedKeyWithAutoRotateType?
 
@@ -81,7 +81,7 @@ param minimalTlsVersion string = '1.2'
 @description('Optional. Whether or not to enable IPv6 support for this server.')
 param isIPv6Enabled string = 'Disabled'
 
-import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointSingleServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible.')
 param privateEndpoints privateEndpointSingleServiceType[]?
 
@@ -374,7 +374,7 @@ module server_elasticPools 'elastic-pool/main.bicep' = [
   }
 ]
 
-module server_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.11.0' = [
+module server_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-server-PrivateEndpoint-${index}'
     scope: resourceGroup(
@@ -611,7 +611,7 @@ output systemAssignedMIPrincipalId string? = server.?identity.?principalId
 @description('The location the resource was deployed into.')
 output location string = server.location
 
-import { secretsOutputType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { secretsOutputType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('A hashtable of references to the secrets exported to the provided Key Vault. The key of each reference is each secret\'s name.')
 output exportedSecrets secretsOutputType = (secretsExportConfiguration != null)
   ? toObject(
@@ -636,7 +636,7 @@ output privateEndpoints privateEndpointOutputType[] = [
 //   Definitions   //
 // =============== //
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 import { perDatabaseSettingsType, skuType } from 'elastic-pool/main.bicep'
 import { databaseSkuType, shortTermBackupRetentionPolicyType, longTermBackupRetentionPolicyType } from 'database/main.bicep'
 import { recurringScansType } from 'vulnerability-assessment/main.bicep'

@@ -4,7 +4,7 @@ metadata description = 'This modules deployes resources for Azure Monitoring Age
 @description('Optional. The location to deploy resources to.')
 param location string = resourceGroup().location
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.2.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings for all resources in the solution.')
 param lockConfig lockType?
 
@@ -37,7 +37,7 @@ param enableTelemetry bool = true
 // Resources      //
 // ============== //
 
-module userAssignedManagedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module userAssignedManagedIdentity '../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: 'userAssignedIdentityDeployment'
   params: {
     name: userAssignedIdentityName

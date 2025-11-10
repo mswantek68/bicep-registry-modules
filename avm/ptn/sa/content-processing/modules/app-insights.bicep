@@ -51,7 +51,7 @@ param tags object = {}
 
 param enableTelemetry bool = true
 
-module avmLogAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.11.2' = {
+module avmLogAnalyticsWorkspace '../../../../res/operational-insights/workspace/main.bicep' = {
   name: 'deploy_log_analytics_workspace'
   params: {
     name: logAnalyticsWorkspaceName
@@ -64,7 +64,7 @@ module avmLogAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspac
   }
 }
 
-module avmApplicationInsights 'br/public:avm/res/insights/component:0.6.0' = {
+module avmApplicationInsights '../../../../res/insights/component/main.bicep' = {
   name: 'deploy_application_insights'
   params: {
     name: appInsightsName

@@ -45,7 +45,7 @@ param adminPassword string
 @description('Optional. Custom data associated to the VM, this value will be automatically converted into base64 to account for the expected VM format.')
 param customData string = ''
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -144,11 +144,11 @@ param bootDiagnosticStorageAccountName string?
 @description('Optional. Enable boot diagnostics to use default managed or secure storage. Defaults set to false.')
 param bootDiagnosticEnabled bool = false
 
-import { diagnosticSettingMetricsOnlyType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { diagnosticSettingMetricsOnlyType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingMetricsOnlyType[]?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
@@ -312,7 +312,7 @@ param enableTelemetry bool = true
 ])
 param osType string
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 

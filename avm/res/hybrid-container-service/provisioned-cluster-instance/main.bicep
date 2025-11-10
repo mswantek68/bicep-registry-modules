@@ -90,21 +90,21 @@ param cloudProviderProfile cloudProviderProfileType
 @description('Optional. Tags for the cluster resource.')
 param connectClustersTags object = {}
 
-import { aadProfileType } from 'br/public:avm/res/kubernetes/connected-cluster:0.1.1'
+import { aadProfileType } from '../../../res/kubernetes/connected-cluster/main.bicep'
 @description('Optional. AAD profile for the connected cluster.')
 param aadProfile aadProfileType?
 
-import { arcAgentProfileType } from 'br/public:avm/res/kubernetes/connected-cluster:0.1.1'
+import { arcAgentProfileType } from '../../../res/kubernetes/connected-cluster/main.bicep'
 @description('Optional. Arc agentry configuration for the provisioned cluster.')
 param arcAgentProfile arcAgentProfileType = {
   agentAutoUpgrade: 'Enabled'
 }
 
-import { oidcIssuerProfileType } from 'br/public:avm/res/kubernetes/connected-cluster:0.1.1'
+import { oidcIssuerProfileType } from '../../../res/kubernetes/connected-cluster/main.bicep'
 @description('Optional. Open ID Connect (OIDC) Issuer Profile for the connected cluster.')
 param oidcIssuerProfile oidcIssuerProfileType = { enabled: false }
 
-import { securityProfileType } from 'br/public:avm/res/kubernetes/connected-cluster:0.1.1'
+import { securityProfileType } from '../../../res/kubernetes/connected-cluster/main.bicep'
 @description('Optional. Security profile for the connected cluster.')
 param securityProfile securityProfileType = {
   workloadIdentity: {
@@ -149,7 +149,7 @@ module secrets './secrets.bicep' = if (empty(linuxProfile) && !empty(keyVaultNam
 
 var enableReferencedModulesTelemetry = false
 
-module connectedCluster 'br/public:avm/res/kubernetes/connected-cluster:0.1.1' = {
+module connectedCluster '../../../res/kubernetes/connected-cluster/main.bicep' = {
   name: 'connectedCluster'
   params: {
     name: name

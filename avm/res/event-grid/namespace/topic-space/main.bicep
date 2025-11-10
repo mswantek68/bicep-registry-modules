@@ -14,7 +14,7 @@ param description string?
 @sys.description('Required. The topic filters in the Topic Space.')
 param topicTemplates array
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

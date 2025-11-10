@@ -55,15 +55,15 @@ param tags resourceInput<'Microsoft.ElasticSan/elasticSans@2024-05-01'>.tags?
 @sys.description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { diagnosticSettingMetricsOnlyType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { diagnosticSettingMetricsOnlyType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingMetricsOnlyType[]?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -282,7 +282,7 @@ output volumeGroups volumeGroupOutputType[] = [
 // Definitions      //
 // ================ //
 
-import { managedIdentityAllType, customerManagedKeyType, privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { managedIdentityAllType, customerManagedKeyType, privateEndpointSingleServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 import { volumeType, virtualNetworkRuleType, volumeOutputType } from './volume-group/main.bicep'
 
 @sys.export()

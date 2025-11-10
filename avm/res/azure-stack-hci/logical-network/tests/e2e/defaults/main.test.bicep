@@ -71,7 +71,7 @@ module nestedDependencies '../../../../../../../utilities/e2e-template-assets/mo
   }
 }
 
-module azlocal 'br/public:avm/res/azure-stack-hci/cluster:0.1.6' = {
+module azlocal '../../../../../../res/azure-stack-hci/cluster/main.bicep' = {
   name: '${uniqueString(deployment().name, enforcedLocation)}-test-clustermodule-${serviceShort}'
   scope: resourceGroup
   params: {

@@ -51,18 +51,18 @@ param tags resourceInput<'Microsoft.DevOpsInfrastructure/pools@2025-09-20'>.tags
 
 @description('Optional. The lock settings of the service.')
 param lock lockType?
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.3.0'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.3.0'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 
 @description('Optional. The managed service identities assigned to this resource.')
 @metadata({
@@ -79,7 +79,7 @@ import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-ty
   '''
 })
 param managedIdentities managedIdentityAllType?
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.3.0'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 
 // ================ //
 // Input validation //

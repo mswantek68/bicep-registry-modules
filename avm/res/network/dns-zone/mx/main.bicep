@@ -16,7 +16,7 @@ param mxRecords resourceInput<'Microsoft.Network/dnsZones/MX@2018-05-01'>.proper
 @description('Optional. The TTL (time-to-live) of the records in the record set.')
 param ttl int = 3600
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

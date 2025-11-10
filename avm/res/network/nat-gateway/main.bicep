@@ -31,11 +31,11 @@ param publicIPPrefixes publicIPPrefixType[]?
 @description('Optional. Location for all resources.')
 param location string = resourceGroup().location
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -98,7 +98,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module natGateway_publicIPAddresses 'br/public:avm/res/network/public-ip-address:0.9.0' = [
+module natGateway_publicIPAddresses '../../../res/network/public-ip-address/main.bicep' = [
   for (publicIPAddress, index) in (publicIPAddresses ?? []): {
     name: '${uniqueString(deployment().name, location)}-NatGw-PIP-${index}'
     params: {
@@ -133,7 +133,7 @@ module formattedPublicIpResourceIds 'modules/formatResourceId.bicep' = {
   }
 }
 
-module natGateway_publicIPPrefixes 'br/public:avm/res/network/public-ip-prefix:0.7.0' = [
+module natGateway_publicIPPrefixes '../../../res/network/public-ip-prefix/main.bicep' = [
   for (publicIPPrefix, index) in (publicIPPrefixes ?? []): {
     name: '${uniqueString(deployment().name, location)}-NatGw-Prefix-PIP-${index}'
     params: {
@@ -222,8 +222,8 @@ output location string = natGateway.location
 //   Definitions   //
 // =============== //
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
-import { ddosSettingsType, dnsSettingsType, ipTagType as pipIpTagType } from 'br/public:avm/res/network/public-ip-address:0.9.0'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
+import { ddosSettingsType, dnsSettingsType, ipTagType as pipIpTagType } from '../../../res/network/public-ip-address/main.bicep'
 
 @export()
 @description('The type of a public IP.')
@@ -277,7 +277,7 @@ type publicIpType = {
   diagnosticSettings: diagnosticSettingFullType[]?
 }
 
-import { ipTagType as prefixIpTagType } from 'br/public:avm/res/network/public-ip-prefix:0.7.0'
+import { ipTagType as prefixIpTagType } from '../../../res/network/public-ip-prefix/main.bicep'
 
 @export()
 @description('The type of a public IP prefix.')

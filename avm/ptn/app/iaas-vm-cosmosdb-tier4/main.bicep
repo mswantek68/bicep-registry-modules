@@ -22,7 +22,7 @@ param tags resourceInput<'Microsoft.Network/networkSecurityGroups@2024-07-01'>.t
 param enableTelemetry bool = true
 
 // Network security group parameters
-import { securityRuleType } from 'br/public:avm/res/network/network-security-group:0.5.1'
+import { securityRuleType } from '../../../res/network/network-security-group/main.bicep'
 @description('Optional. Network security group rules for the application subnet.')
 param applicationNsgRules securityRuleType[] = [
   {
@@ -222,7 +222,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
 }
 
 // Network security group for VM (only deployed when creating new VNet)
-module vmNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:0.5.1' = if (deployVirtualNetwork) {
+module vmNetworkSecurityGroup '../../../res/network/network-security-group/main.bicep' = if (deployVirtualNetwork) {
   name: '${uniqueString(deployment().name, location)}-vm-nsg'
   params: {
     name: 'nsg-${name}-vm'
@@ -234,7 +234,7 @@ module vmNetworkSecurityGroup 'br/public:avm/res/network/network-security-group:
 }
 
 // Network security groups for subnets (only deployed when creating new VNet)
-module applicationNsg 'br/public:avm/res/network/network-security-group:0.5.1' = if (deployVirtualNetwork) {
+module applicationNsg '../../../res/network/network-security-group/main.bicep' = if (deployVirtualNetwork) {
   name: '${uniqueString(deployment().name, location)}-application-nsg'
   params: {
     name: 'nsg-${name}-application'
@@ -245,7 +245,7 @@ module applicationNsg 'br/public:avm/res/network/network-security-group:0.5.1' =
   }
 }
 
-module privateEndpointNsg 'br/public:avm/res/network/network-security-group:0.5.1' = if (deployVirtualNetwork) {
+module privateEndpointNsg '../../../res/network/network-security-group/main.bicep' = if (deployVirtualNetwork) {
   name: '${uniqueString(deployment().name, location)}-privateendpoint-nsg'
   params: {
     name: 'nsg-${name}-privateendpoints'
@@ -275,7 +275,7 @@ module privateEndpointNsg 'br/public:avm/res/network/network-security-group:0.5.
   }
 }
 
-module bootDiagnosticsNsg 'br/public:avm/res/network/network-security-group:0.5.1' = if (deployVirtualNetwork) {
+module bootDiagnosticsNsg '../../../res/network/network-security-group/main.bicep' = if (deployVirtualNetwork) {
   name: '${uniqueString(deployment().name, location)}-bootdiagnostics-nsg'
   params: {
     name: 'nsg-${name}-bootdiagnostics'
@@ -305,7 +305,7 @@ module bootDiagnosticsNsg 'br/public:avm/res/network/network-security-group:0.5.
   }
 }
 
-module bastionNsg 'br/public:avm/res/network/network-security-group:0.5.1' = if (deployVirtualNetwork) {
+module bastionNsg '../../../res/network/network-security-group/main.bicep' = if (deployVirtualNetwork) {
   name: '${uniqueString(deployment().name, location)}-bastion-nsg'
   params: {
     name: 'nsg-${name}-bastion'
@@ -433,7 +433,7 @@ module bastionNsg 'br/public:avm/res/network/network-security-group:0.5.1' = if 
 }
 
 // Virtual network with subnets (only deployed when creating new VNet)
-module virtualNetwork 'br/public:avm/res/network/virtual-network:0.7.0' = if (deployVirtualNetwork) {
+module virtualNetwork '../../../res/network/virtual-network/main.bicep' = if (deployVirtualNetwork) {
   name: '${uniqueString(deployment().name, location)}-vnet'
   params: {
     name: 'vnet-${name}'
@@ -469,7 +469,7 @@ module virtualNetwork 'br/public:avm/res/network/virtual-network:0.7.0' = if (de
 }
 
 // Storage account for boot diagnostics
-module storageAccount 'br/public:avm/res/storage/storage-account:0.25.0' = {
+module storageAccount '../../../res/storage/storage-account/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-storage'
   params: {
     name: 'st${take(replace(replace(replace(replace(toLower(name), '-', ''), '_', ''), '#', ''), '.', ''), 6)}${take(uniqueString(resourceGroup().id), 10)}'
@@ -515,7 +515,7 @@ resource msiRGContrRoleAssignment 'Microsoft.Authorization/roleAssignments@2022-
 }
 
 // Option: Use AVM module with runOnce=true for idempotency
-module sshDeploymentScript 'br/public:avm/res/resources/deployment-script:0.5.1' = if (empty(sshPublicKey)) {
+module sshDeploymentScript '../../../res/resources/deployment-script/main.bicep' = if (empty(sshPublicKey)) {
   name: '${uniqueString(deployment().name, location)}-ssh-script'
   params: {
     name: sshDeploymentScriptName
@@ -553,7 +553,7 @@ resource sshKey 'Microsoft.Compute/sshPublicKeys@2024-07-01' = {
 var effectiveSshPublicKey = !empty(sshPublicKey) ? sshPublicKey : sshDeploymentScript!.outputs.outputs.publicKey
 
 // Load balancer
-module loadBalancer 'br/public:avm/res/network/load-balancer:0.4.2' = {
+module loadBalancer '../../../res/network/load-balancer/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-lb'
   params: {
     name: 'lb-${name}'
@@ -606,7 +606,7 @@ module loadBalancer 'br/public:avm/res/network/load-balancer:0.4.2' = {
 }
 
 // Virtual machine
-module virtualMachine 'br/public:avm/res/compute/virtual-machine:0.15.1' = {
+module virtualMachine '../../../res/compute/virtual-machine/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-vm'
   params: {
     name: 'vm-${name}'
@@ -647,7 +647,7 @@ module virtualMachine 'br/public:avm/res/compute/virtual-machine:0.15.1' = {
 }
 
 // Recovery Services Vault
-module recoveryServicesVault 'br/public:avm/res/recovery-services/vault:0.9.2' = {
+module recoveryServicesVault '../../../res/recovery-services/vault/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-rsv'
   params: {
     name: 'rsv-${name}'
@@ -667,7 +667,7 @@ module recoveryServicesVault 'br/public:avm/res/recovery-services/vault:0.9.2' =
 }
 
 // CosmosDB MongoDB
-module cosmosdbAccount 'br/public:avm/res/document-db/database-account:0.15.0' = {
+module cosmosdbAccount '../../../res/document-db/database-account/main.bicep' = {
   name: 'cosmosdbAccount-${uniqueString(deployment().name, location)}'
   params: {
     name: 'cosmos-${toLower(name)}'
@@ -712,7 +712,7 @@ module cosmosdbAccount 'br/public:avm/res/document-db/database-account:0.15.0' =
 }
 
 // Private DNS Zone for CosmosDB
-module privateDnsZone 'br/public:avm/res/network/private-dns-zone:0.7.1' = {
+module privateDnsZone '../../../res/network/private-dns-zone/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-dns'
   params: {
     name: 'privatelink.documents.azure.com'
@@ -730,7 +730,7 @@ module privateDnsZone 'br/public:avm/res/network/private-dns-zone:0.7.1' = {
 }
 
 // Private Endpoint for CosmosDB
-module privateEndpoint 'br/public:avm/res/network/private-endpoint:0.11.0' = {
+module privateEndpoint '../../../res/network/private-endpoint/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-cosmos-pe'
   params: {
     name: 'pep-${name}-cosmos'
@@ -761,7 +761,7 @@ module privateEndpoint 'br/public:avm/res/network/private-endpoint:0.11.0' = {
 }
 
 // Private DNS Zone for Storage Account
-module storagePrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.7.1' = {
+module storagePrivateDnsZone '../../../res/network/private-dns-zone/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-storage-dns'
   params: {
     name: 'privatelink.blob.${environment().suffixes.storage}'
@@ -779,7 +779,7 @@ module storagePrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.7.1' 
 }
 
 // Private Endpoint for Storage Account
-module storagePrivateEndpoint 'br/public:avm/res/network/private-endpoint:0.11.0' = {
+module storagePrivateEndpoint '../../../res/network/private-endpoint/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-storage-pe'
   params: {
     name: 'pep-${name}-storage'

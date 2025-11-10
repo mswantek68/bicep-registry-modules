@@ -12,7 +12,7 @@ param location string = resourceGroup().location
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { aadProfileType } from 'br/public:avm/res/container-service/managed-cluster:0.9.0'
+import { aadProfileType } from '../../../res/container-service/managed-cluster/main.bicep'
 @description('Optional. Settigs for the Azure Active Directory integration.')
 param aadProfile aadProfileType?
 
@@ -39,7 +39,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module aks 'br/public:avm/res/container-service/managed-cluster:0.9.0' = {
+module aks '../../../res/container-service/managed-cluster/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-managed-cluster'
   params: {
     name: name

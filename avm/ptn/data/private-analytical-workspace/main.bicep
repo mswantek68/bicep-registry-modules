@@ -7,7 +7,7 @@ param name string
 @description('Optional. Location for all Resources in the solution.')
 param location string = resourceGroup().location
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.2.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings for all Resources in the solution.')
 param lock lockType?
 
@@ -351,7 +351,7 @@ resource kvExisting 'Microsoft.KeyVault/vaults@2023-07-01' existing = if (!creat
   )
 }
 
-module vnet 'br/public:avm/res/network/virtual-network:0.5.0' = if (createNewVNET) {
+module vnet '../../../res/network/virtual-network/main.bicep' = if (createNewVNET) {
   name: '${uniqueString(deployment().name, location)}-vnet-${vnetName}'
   params: {
     // Required parameters
@@ -386,7 +386,7 @@ module vnet 'br/public:avm/res/network/virtual-network:0.5.0' = if (createNewVNE
   }
 }
 
-module nsgPrivateLink 'br/public:avm/res/network/network-security-group:0.5.0' = if (createNewVNET) {
+module nsgPrivateLink '../../../res/network/network-security-group/main.bicep' = if (createNewVNET) {
   name: '${uniqueString(deployment().name, location)}-nsg-${nsgNamePrivateLink}'
   params: {
     // Required parameters
@@ -412,7 +412,7 @@ module nsgPrivateLink 'br/public:avm/res/network/network-security-group:0.5.0' =
   }
 }
 
-module nsgDbwFrontend 'br/public:avm/res/network/network-security-group:0.5.0' = if (createNewVNET && enableDatabricks) {
+module nsgDbwFrontend '../../../res/network/network-security-group/main.bicep' = if (createNewVNET && enableDatabricks) {
   name: '${uniqueString(deployment().name, location)}-nsg-${nsgNameDbwFrontend}'
   params: {
     // Required parameters
@@ -438,7 +438,7 @@ module nsgDbwFrontend 'br/public:avm/res/network/network-security-group:0.5.0' =
   }
 }
 
-module nsgDbwBackend 'br/public:avm/res/network/network-security-group:0.5.0' = if (createNewVNET && enableDatabricks) {
+module nsgDbwBackend '../../../res/network/network-security-group/main.bicep' = if (createNewVNET && enableDatabricks) {
   name: '${uniqueString(deployment().name, location)}-nsg-${nsgNameDbwBackend}'
   params: {
     // Required parameters
@@ -464,7 +464,7 @@ module nsgDbwBackend 'br/public:avm/res/network/network-security-group:0.5.0' = 
   }
 }
 
-module dnsZoneSaBlob 'br/public:avm/res/network/private-dns-zone:0.5.0' = if (createNewVNET && enableDatabricks) {
+module dnsZoneSaBlob '../../../res/network/private-dns-zone/main.bicep' = if (createNewVNET && enableDatabricks) {
   name: '${uniqueString(deployment().name, location)}-zone-${privateDnsZoneNameSaBlob}'
   params: {
     // Required parameters
@@ -484,7 +484,7 @@ module dnsZoneSaBlob 'br/public:avm/res/network/private-dns-zone:0.5.0' = if (cr
   }
 }
 
-module log 'br/public:avm/res/operational-insights/workspace:0.7.1' = if (createNewLog) {
+module log '../../../res/operational-insights/workspace/main.bicep' = if (createNewLog) {
   name: '${uniqueString(deployment().name, location)}-law-${logName}'
   params: {
     // Required parameters
@@ -502,7 +502,7 @@ module log 'br/public:avm/res/operational-insights/workspace:0.7.1' = if (create
   }
 }
 
-module kv 'br/public:avm/res/key-vault/vault:0.9.0' = if (createNewKV) {
+module kv '../../../res/key-vault/vault/main.bicep' = if (createNewKV) {
   name: '${uniqueString(deployment().name, location)}-vault-${kvName}'
   params: {
     // Required parameters
@@ -571,7 +571,7 @@ module kv 'br/public:avm/res/key-vault/vault:0.9.0' = if (createNewKV) {
   }
 }
 
-module dnsZoneKv 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (createNewVNET && createNewKV) {
+module dnsZoneKv '../../../res/network/private-dns-zone/main.bicep' = if (createNewVNET && createNewKV) {
   name: '${uniqueString(deployment().name, location)}-zone-${privateDnsZoneNameKv}'
   params: {
     // Required parameters
@@ -591,7 +591,7 @@ module dnsZoneKv 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (create
   }
 }
 
-module accessConnector 'br/public:avm/res/databricks/access-connector:0.3.0' = if (enableDatabricks) {
+module accessConnector '../../../res/databricks/access-connector/main.bicep' = if (enableDatabricks) {
   name: '${uniqueString(deployment().name, location)}-connector-${dbwAccessConnectorName}'
   params: {
     // Required parameters
@@ -608,7 +608,7 @@ module accessConnector 'br/public:avm/res/databricks/access-connector:0.3.0' = i
   }
 }
 
-module dbw 'br/public:avm/res/databricks/workspace:0.8.5' = if (enableDatabricks) {
+module dbw '../../../res/databricks/workspace/main.bicep' = if (enableDatabricks) {
   name: '${uniqueString(deployment().name, location)}-workspace-${dbwName}'
   params: {
     // Required parameters
@@ -713,7 +713,7 @@ module dbw 'br/public:avm/res/databricks/workspace:0.8.5' = if (enableDatabricks
   }
 }
 
-module dnsZoneDbw 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (createNewVNET && enableDatabricks) {
+module dnsZoneDbw '../../../res/network/private-dns-zone/main.bicep' = if (createNewVNET && enableDatabricks) {
   name: '${uniqueString(deployment().name, location)}-zone-${privateDnsZoneNameDbw}'
   params: {
     // Required parameters

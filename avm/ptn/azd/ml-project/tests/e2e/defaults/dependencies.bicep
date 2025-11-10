@@ -21,7 +21,7 @@ param storageAccountName string
 })
 param tags object?
 
-module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = {
+module storageAccount '../../../../../../res/storage/storage-account/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-storage'
   params: {
     name: storageAccountName
@@ -30,7 +30,7 @@ module storageAccount 'br/public:avm/res/storage/storage-account:0.9.1' = {
   }
 }
 
-module keyvault 'br/public:avm/res/key-vault/vault:0.9.0' = {
+module keyvault '../../../../../../res/key-vault/vault/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-keyvault'
   params: {
     enablePurgeProtection: false
@@ -39,7 +39,7 @@ module keyvault 'br/public:avm/res/key-vault/vault:0.9.0' = {
   }
 }
 
-module hub 'br/public:avm/res/machine-learning-services/workspace:0.7.0' = {
+module hub '../../../../../../res/machine-learning-services/workspace/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-hub'
   params: {
     name: hubName

@@ -98,7 +98,7 @@ resource spokeVNet 'Microsoft.Network/virtualNetworks@2024-05-01' existing = {
 // ------------------
 
 @description('Azure Application Insights, the workload\' log & metric sink and APM tool')
-module applicationInsights 'br/public:avm/res/insights/component:0.4.2' = if (enableApplicationInsights) {
+module applicationInsights '../../../../../res/insights/component/main.bicep' = if (enableApplicationInsights) {
   name: take('applicationInsights-${uniqueString(resourcesNames.resourceGroup)}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {
@@ -111,7 +111,7 @@ module applicationInsights 'br/public:avm/res/insights/component:0.4.2' = if (en
 }
 
 @description('The Azure Container Apps (ACA) cluster.')
-module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.8.1' = {
+module containerAppsEnvironment '../../../../../res/app/managed-environment/main.bicep' = {
   name: take('acaenv-${uniqueString(resourcesNames.resourceGroup)}', 64)
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {
@@ -144,7 +144,7 @@ module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.8.1
 }
 
 @description('The Private DNS zone containing the ACA load balancer IP')
-module containerAppsEnvironmentPrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.7.0' = {
+module containerAppsEnvironmentPrivateDnsZone '../../../../../res/network/private-dns-zone/main.bicep' = {
   name: 'acaDnsZoneDeployment-${uniqueString(resourcesNames.resourceGroup)}'
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {

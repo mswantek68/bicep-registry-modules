@@ -10,7 +10,7 @@ param desc string = name
 @description('Required. Name of the existing Cognitive Services resource to create the AI Foundry project in.')
 param aiServicesName string
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[] = []
 
@@ -69,7 +69,7 @@ resource aiProject 'Microsoft.CognitiveServices/accounts/projects@2025-04-01-pre
   }
 }
 
-module aiProjectRoleAssignement 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = [
+module aiProjectRoleAssignement '../../../../../ptn/authorization/resource-role-assignment/main.bicep' = [
   for (roleAssignment, i) in formattedRoleAssignments: {
     name: 'avm.ptn.authorization.resource-role-assignment.${uniqueString(name, roleAssignment.roleDefinitionId, roleAssignment.principalId)}'
     params: {

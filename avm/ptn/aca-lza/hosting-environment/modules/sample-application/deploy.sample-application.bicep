@@ -33,7 +33,7 @@ param workloadProfileName string
 // RESOURCES
 // ------------------
 
-module sampleApplication 'br/public:avm/res/app/container-app:0.12.0' = {
+module sampleApplication '../../../../../res/app/container-app/main.bicep' = {
   name: helloWorldContainerAppName
   scope: resourceGroup(resourcesNames.resourceGroup)
   params: {

@@ -45,7 +45,7 @@ param clientAffinityPartitioningEnabled bool = false
 @description('Optional. The resource ID of the app service environment to use for this resource.')
 param appServiceEnvironmentResourceId string?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
@@ -80,11 +80,11 @@ param functionAppConfig resourceInput<'Microsoft.Web/sites@2024-04-01'>.properti
 @description('Optional. The extensions configuration.')
 param extensions extensionType[]?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointSingleServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible.')
 param privateEndpoints privateEndpointSingleServiceType[]?
 
@@ -97,11 +97,11 @@ param tags resourceInput<'Microsoft.Web/sites@2024-11-01'>.tags?
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
@@ -464,7 +464,7 @@ resource app_roleAssignments 'Microsoft.Authorization/roleAssignments@2022-04-01
   }
 ]
 
-module app_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.11.0' = [
+module app_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-app-PrivateEndpoint-${index}'
     scope: resourceGroup(

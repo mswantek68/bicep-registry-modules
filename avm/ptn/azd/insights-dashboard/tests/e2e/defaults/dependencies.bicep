@@ -15,7 +15,7 @@ param name string
 })
 param tags object?
 
-module logAnalytics 'br/public:avm/res/operational-insights/workspace:0.5.0' = {
+module logAnalytics '../../../../../../res/operational-insights/workspace/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-loganalytics'
   params: {
     name: name

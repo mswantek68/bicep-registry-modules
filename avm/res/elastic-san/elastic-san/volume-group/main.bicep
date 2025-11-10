@@ -24,22 +24,22 @@ param volumes volumeType[]?
 @sys.description('Optional. List of Virtual Network Rules, permitting virtual network subnet to connect to the resource through service endpoint. Each Elastic SAN Volume Group supports up to 200 virtual network rules.')
 param virtualNetworkRules virtualNetworkRuleType[]?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { managedIdentityAllType } from '../../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. The managed identity definition for this resource. The Elastic SAN Volume Group supports the following identity combinations: no identity is specified, only system-assigned identity is specified, only user-assigned identity is specified, and both system-assigned and user-assigned identities are specified. A maximum of one user-assigned identity is supported.')
 param managedIdentities managedIdentityAllType?
 
-import { customerManagedKeyType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { customerManagedKeyType } from '../../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. The customer managed key definition. This parameter enables the encryption of Elastic SAN Volume Group using a customer-managed key. Currently, the only supported configuration is to use the same user-assigned identity for both \'managedIdentities.userAssignedResourceIds\' and \'customerManagedKey.userAssignedIdentityResourceId\'. Other configurations such as system-assigned identity are not supported. Ensure that the specified user-assigned identity has the \'Key Vault Crypto Service Encryption User\' role access to both the key vault and the key itself. The key vault must also have purge protection enabled.')
 param customerManagedKey customerManagedKeyType? // This requires KV with enabled purge protection
 
-import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointSingleServiceType } from '../../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible.')
 param privateEndpoints privateEndpointSingleServiceType[]?
 
 @sys.description('Optional. Tags of the Elastic SAN Volume Group resource.')
 param tags resourceInput<'Microsoft.ElasticSan/elasticSans/volumegroups@2024-05-01'>.tags?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. The lock settings of the service.')
 param lock lockType?
 
@@ -149,7 +149,7 @@ module volumeGroup_volumes 'volume/main.bicep' = [
   }
 ]
 
-module volumeGroup_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.11.1' = [
+module volumeGroup_privateEndpoints '../../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-ElasticSan-PrivateEndpoint-${index}'
     scope: resourceGroup(

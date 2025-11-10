@@ -12,7 +12,7 @@ param acrAdminUserEnabled bool = false
 @description('Optional. Location for all resources.')
 param location string = resourceGroup().location
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -99,7 +99,7 @@ param networkRuleSetDefaultAction string = 'Deny'
 @description('Optional. The IP ACL rules. Note, requires the \'acrSku\' to be \'Premium\'.')
 param networkRuleSetIpRules array?
 
-import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointSingleServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible. Note, requires the \'acrSku\' to be \'Premium\'.')
 param privateEndpoints privateEndpointSingleServiceType[]?
 
@@ -116,11 +116,11 @@ param replications replicationType[]?
 @description('Optional. All webhooks to create.')
 param webhooks webhookType[]?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
@@ -130,14 +130,14 @@ param tags resourceInput<'Microsoft.ContainerRegistry/registries@2025-04-01'>.ta
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
 @description('Optional. Enables registry-wide pull from unauthenticated clients. It\'s in preview and available in the Standard and Premium service tiers.')
 param anonymousPullEnabled bool = false
 
-import { customerManagedKeyWithAutoRotateType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { customerManagedKeyWithAutoRotateType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The customer managed key definition.')
 param customerManagedKey customerManagedKeyWithAutoRotateType?
 
@@ -446,7 +446,7 @@ resource registry_roleAssignments 'Microsoft.Authorization/roleAssignments@2022-
   }
 ]
 
-module registry_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.11.0' = [
+module registry_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-registry-PrivateEndpoint-${index}'
     scope: resourceGroup(
@@ -600,7 +600,7 @@ type cacheRuleType = {
   credentialSetResourceId: string?
 }
 
-import { managedIdentityOnlySysAssignedType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityOnlySysAssignedType } from '../../../utl/types/avm-common-types/main.bicep'
 import { authCredentialsType } from 'credential-set/main.bicep'
 @export()
 @description('The type for a credential set.')

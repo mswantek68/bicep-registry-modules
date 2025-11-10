@@ -26,7 +26,7 @@ param resourceLocation string = deployment().location
 // Test Execution //
 // ============== //
 
-module resourceGroup 'br/public:avm/res/resources/resource-group:0.2.3' = {
+module resourceGroup '../../../../../../res/resources/resource-group/main.bicep' = {
   scope: subscription('${subscriptionId}')
   name: '${uniqueString(deployment().name, resourceLocation)}-resourceGroup'
   params: {

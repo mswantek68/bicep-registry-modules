@@ -43,7 +43,7 @@ resource existingSearchServiceResource 'Microsoft.Search/searchServices@2024-06-
   name: searchServiceName
 }
 
-module avmMachineLearningServicesWorkspacesAiHub 'br/public:avm/res/machine-learning-services/workspace:0.10.1' = {
+module avmMachineLearningServicesWorkspacesAiHub '../../../../res/machine-learning-services/workspace/main.bicep' = {
   name: deploymentName
   params: {
     name: aiHubName

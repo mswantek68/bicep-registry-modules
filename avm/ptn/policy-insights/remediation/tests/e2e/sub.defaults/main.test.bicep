@@ -26,7 +26,7 @@ param subscriptionId string = '#_subscriptionId_#'
 // General resources
 // =================
 
-module policySetAssignments 'br/public:avm/ptn/authorization/policy-assignment:0.1.0' = {
+module policySetAssignments '../../../../../../ptn/authorization/policy-assignment/main.bicep' = {
   name: '${uniqueString(deployment().name, resourceLocation)}-policySetAssignment-sub'
   params: {
     name: 'dep-${namePrefix}-psa-${serviceShort}'

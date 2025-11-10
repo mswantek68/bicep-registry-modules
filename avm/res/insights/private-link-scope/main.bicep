@@ -14,18 +14,18 @@ param accessModeSettings accessModeType?
 @description('Optional. The location of the private link scope. Should be global.')
 param location string = 'global'
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
 @description('Optional. Configuration details for Azure Monitor Resources.')
 param scopedResources scopedResourceType[]?
 
-import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointSingleServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible.')
 param privateEndpoints privateEndpointSingleServiceType[]?
 
@@ -156,7 +156,7 @@ resource privateLinkScope_lock 'Microsoft.Authorization/locks@2020-05-01' = if (
   scope: privateLinkScope
 }
 
-module privateLinkScope_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.10.1' = [
+module privateLinkScope_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-privateLinkScope-PrivateEndpoint-${index}'
     // use the subnet resource group if the resource group is not explicitly provided

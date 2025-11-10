@@ -51,7 +51,7 @@ module nsg '../network-security-group/network-security-group.bicep' = if (!empty
 // 2. Create Jumpbox subnet as part of the existing VNet
 // using AVM Virtual Network Subnet module
 // https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/network/virtual-network/subnet
-module subnetResource 'br/public:avm/res/network/virtual-network/subnet:0.1.2' = if (!empty(subnet)) {
+module subnetResource '../../../../../res/network/virtual-network/subnet/main.bicep' = if (!empty(subnet)) {
   name: subnet.?name ?? '${vnetName}-jumpbox-subnet'
   params: {
     virtualNetworkName: vnetName
@@ -134,7 +134,7 @@ module vm '../compute/virtual-machine/virtual-machine.bicep' = {
 // using AVM Virtual Machine module
 // https://github.com/Azure/bicep-registry-modules/tree/main/avm/res/compute/virtual-machine
 
-module maintenanceConfiguration 'br/public:avm/res/maintenance/maintenance-configuration:0.3.1' = {
+module maintenanceConfiguration '../../../../../res/maintenance/maintenance-configuration/main.bicep' = {
   name: take('${vmName}-jumpbox-maintenance-config', 64)
   params: {
     name: 'mc-${vmName}'

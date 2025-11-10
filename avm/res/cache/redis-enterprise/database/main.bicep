@@ -74,7 +74,7 @@ param accessPolicyAssignments accessPolicyAssignmentType[]?
 @description('Optional. Key vault reference and secret settings for the module\'s secrets export.')
 param secretsExportConfiguration secretsExportConfigurationType?
 
-import { diagnosticSettingLogsOnlyType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingLogsOnlyType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The database-level diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingLogsOnlyType[]?
 
@@ -234,7 +234,7 @@ output hostname string = redisCluster.properties.hostName
 @description('The Redis endpoint.')
 output endpoint string = '${redisCluster.properties.hostName}:${redisDatabase.properties.port}'
 
-import { secretsOutputType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { secretsOutputType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('A hashtable of references to the secrets exported to the provided Key Vault. The key of each reference is each secret\'s name.')
 output exportedSecrets secretsOutputType = (secretsExportConfiguration != null)
   ? toObject(secretsExport.outputs.secretsSet, secret => last(split(secret.secretResourceId, '/')), secret => secret)

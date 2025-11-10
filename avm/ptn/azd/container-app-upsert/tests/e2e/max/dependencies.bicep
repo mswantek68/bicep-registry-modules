@@ -72,7 +72,7 @@ resource roleAssignmentKeyVault 'Microsoft.Authorization/roleAssignments@2022-04
   }
 }
 
-module containerApp 'br/public:avm/res/app/container-app:0.18.1' = {
+module containerApp '../../../../../../res/app/container-app/main.bicep' = {
   name: containerAppName
   params: {
     name: containerAppName
@@ -91,7 +91,7 @@ module containerApp 'br/public:avm/res/app/container-app:0.18.1' = {
   }
 }
 
-module containerRegistry 'br/public:avm/res/container-registry/registry:0.9.1' = {
+module containerRegistry '../../../../../../res/container-registry/registry/main.bicep' = {
   name: containerRegistryName
   params: {
     name: containerRegistryName

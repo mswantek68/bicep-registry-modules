@@ -30,7 +30,7 @@ param poolAllocationMode string = 'BatchService'
 @description('Conditional. The key vault to associate with the Batch account. Required if the \'poolAllocationMode\' is set to \'UserSubscription\' and requires the service principal \'Microsoft Azure Batch\' to be granted contributor permissions on this key vault.')
 param keyVaultReferenceResourceId string?
 
-import { privateEndpointMultiServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointMultiServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Configuration details for private endpoints. For security reasons, it is recommended to use private endpoints whenever possible.')
 param privateEndpoints privateEndpointMultiServiceType[]?
 
@@ -44,11 +44,11 @@ param publicNetworkAccess string?
 @description('Optional. Network access profile. It is only applicable when publicNetworkAccess is not explicitly disabled.')
 param networkProfile networkProfileType?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -66,15 +66,15 @@ param allowedAuthenticationModes resourceInput<'Microsoft.Batch/batchAccounts@20
 @description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingFullType[]?
 
-import { customerManagedKeyWithAutoRotateType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { customerManagedKeyWithAutoRotateType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The customer managed key definition.')
 param customerManagedKey customerManagedKeyWithAutoRotateType?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityAllType?
 
@@ -266,7 +266,7 @@ resource batchAccount_diagnosticSettings 'Microsoft.Insights/diagnosticSettings@
   }
 ]
 
-module batchAccount_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.11.0' = [
+module batchAccount_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-batchAccount-PrivateEndpoint-${index}'
     scope: resourceGroup(

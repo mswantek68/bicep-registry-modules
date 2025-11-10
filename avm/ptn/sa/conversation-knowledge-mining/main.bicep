@@ -503,7 +503,7 @@ resource avmTelemetry 'Microsoft.Resources/deployments@2024-03-01' = if (enableT
   }
 }
 
-module avmManagedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
+module avmManagedIdentity '../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: format(avmDeploymentNameFormat, managedIdentityResourceName)
   params: {
     name: managedIdentityResourceName
@@ -524,7 +524,7 @@ module assignResourceGroupOwner 'modules/rbac-rg-owner.bicep' = {
 }
 
 // ========== Log Analytics Workspace ========== //
-module avmLogAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.11.1' = {
+module avmLogAnalyticsWorkspace '../../../res/operational-insights/workspace/main.bicep' = {
   name: format(avmDeploymentNameFormat, logAnalyticsWorkspaceResourceName)
   params: {
     name: logAnalyticsWorkspaceResourceName
@@ -537,7 +537,7 @@ module avmLogAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspac
 }
 
 // ========== Key Vault ========== //
-module avmKeyVault 'br/public:avm/res/key-vault/vault:0.12.1' = {
+module avmKeyVault '../../../res/key-vault/vault/main.bicep' = {
   name: format(avmDeploymentNameFormat, keyVaultResourceName)
   params: {
     name: keyVaultResourceName
@@ -631,7 +631,7 @@ module moduleAIFoundry './modules/ai-foundry.bicep' = {
 
 // ========== Storage Account ========== //
 
-module avmStorageAccount 'br/public:avm/res/storage/storage-account:0.18.2' = {
+module avmStorageAccount '../../../res/storage/storage-account/main.bicep' = {
   name: format(avmDeploymentNameFormat, storageAccountResourceName)
   params: {
     name: storageAccountResourceName
@@ -681,7 +681,7 @@ module avmStorageAccount 'br/public:avm/res/storage/storage-account:0.18.2' = {
 
 // ========== Cosmos Database ========== //
 
-module avmCosmosDB 'br/public:avm/res/document-db/database-account:0.11.2' = {
+module avmCosmosDB '../../../res/document-db/database-account/main.bicep' = {
   name: format(avmDeploymentNameFormat, cosmosDbAccountResourceName)
   params: {
     name: cosmosDbAccountResourceName
@@ -720,7 +720,7 @@ module avmCosmosDB 'br/public:avm/res/document-db/database-account:0.11.2' = {
 
 // ========== SQL Database Server ========== //
 
-module avmSQLServer 'br/public:avm/res/sql/server:0.13.1' = {
+module avmSQLServer '../../../res/sql/server/main.bicep' = {
   name: format(avmDeploymentNameFormat, sqlServerResourceName)
   params: {
     name: sqlServerResourceName
@@ -758,7 +758,7 @@ module avmSQLServer 'br/public:avm/res/sql/server:0.13.1' = {
 
 //========== Deployment script to upload sample data ========== //
 
-module avmDeploymentScriptCopyData 'br/public:avm/res/resources/deployment-script:0.5.1' = {
+module avmDeploymentScriptCopyData '../../../res/resources/deployment-script/main.bicep' = {
   name: format(avmDeploymentNameFormat, scriptCopyDataResourceName)
   params: {
     kind: 'AzureCLI'
@@ -786,7 +786,7 @@ module avmDeploymentScriptCopyData 'br/public:avm/res/resources/deployment-scrip
 
 //========== Deployment script to process and index data ========== //
 
-module avmDeploymentScriptIndexData 'br/public:avm/res/resources/deployment-script:0.5.1' = {
+module avmDeploymentScriptIndexData '../../../res/resources/deployment-script/main.bicep' = {
   name: format(avmDeploymentNameFormat, scriptIndexDataResourceName)
   params: {
     kind: 'AzureCLI'
@@ -811,7 +811,7 @@ module avmDeploymentScriptIndexData 'br/public:avm/res/resources/deployment-scri
 
 //========== Azure function: Managed Environment ========== //
 
-module avmFunctionsManagedEnvironment 'br/public:avm/res/app/managed-environment:0.10.0' = {
+module avmFunctionsManagedEnvironment '../../../res/app/managed-environment/main.bicep' = {
   name: format(avmDeploymentNameFormat, functionsManagedEnvironmentResourceName)
   params: {
     name: functionsManagedEnvironmentResourceName
@@ -834,7 +834,7 @@ module avmFunctionsManagedEnvironment 'br/public:avm/res/app/managed-environment
 // NOTE: This version of the AVM module does not support the deployment to Azure Container Apps Environment resource
 // ERROR: VnetRouteAllEnabled cannot be configured for function app deployed on Azure Container Apps. Please try to configure from Azure Container Apps Environment resource
 
-// module avmFunctionCharts 'br/public:avm/res/web/site:0.15.0' = {
+// module avmFunctionCharts '../../../res/web/site/main.bicep' = {
 //   name: format(avmDeploymentNameFormat, functionChartsResourceName)
 //   params: {
 //     name: functionChartsResourceName
@@ -969,7 +969,7 @@ module rbacAiProjectAiDeveloper 'modules/rbac-aiproject-aideveloper.bicep' = {
 
 //========== CKM Webapp ========== //
 
-module avmServerFarmWebapp 'br/public:avm/res/web/serverfarm:0.4.1' = {
+module avmServerFarmWebapp '../../../res/web/serverfarm/main.bicep' = {
   name: format(avmDeploymentNameFormat, webAppServerFarmResourceName)
   params: {
     name: webAppServerFarmResourceName
@@ -1244,7 +1244,7 @@ type ckmFunctionsManagedEnvironmentType = {
 }
 
 @export()
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('The type for the Conversation Knowledge Mining Key Vault resource configuration.')
 type ckmKeyVaultType = {
   @description('Optional. The name of the Key Vault resource.')

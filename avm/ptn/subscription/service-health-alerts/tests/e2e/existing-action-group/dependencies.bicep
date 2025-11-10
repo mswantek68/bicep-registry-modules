@@ -1,7 +1,7 @@
 @description('Required. The name of the action group to create.')
 param actionGroupName string
 
-module actionGroup 'br/public:avm/res/insights/action-group:0.7.0' = {
+module actionGroup '../../../../../../res/insights/action-group/main.bicep' = {
   params: {
     name: actionGroupName
     groupShortName: take(actionGroupName, 12)

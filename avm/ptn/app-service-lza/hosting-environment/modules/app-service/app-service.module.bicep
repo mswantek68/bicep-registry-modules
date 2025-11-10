@@ -1,4 +1,4 @@
-import { diagnosticSettingFullType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { diagnosticSettingFullType } from '../../../../../utl/types/avm-common-types/main.bicep'
 
 @description('Required. Whether to enable deployment telemetry.')
 param enableTelemetry bool
@@ -148,7 +148,7 @@ module ase './ase.module.bicep' = if (deployAseV3) {
   }
 }
 
-module appInsights 'br/public:avm/res/insights/component:0.4.1' = {
+module appInsights '../../../../../res/insights/component/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-appInsights'
   params: {
     name: 'appi-${webAppName}'
@@ -164,7 +164,7 @@ module appInsights 'br/public:avm/res/insights/component:0.4.1' = {
   }
 }
 
-module plan 'br/public:avm/res/web/serverfarm:0.2.4' = {
+module plan '../../../../../res/web/serverfarm/main.bicep' = {
   name: '${uniqueString(deployment().name, location, 'webapp')}-plan'
   params: {
     name: appServicePlanName
@@ -184,7 +184,7 @@ module plan 'br/public:avm/res/web/serverfarm:0.2.4' = {
   }
 }
 
-module webApp 'br/public:avm/res/web/site:0.9.0' = {
+module webApp '../../../../../res/web/site/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-webapp'
   params: {
     kind: !empty(kind) ? 'app,linux' : 'app'
@@ -226,7 +226,7 @@ module webApp 'br/public:avm/res/web/site:0.9.0' = {
   }
 }
 
-module webAppPrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.6.0' = if (!empty(subnetPrivateEndpointResourceId) && !deployAseV3) {
+module webAppPrivateDnsZone '../../../../../res/network/private-dns-zone/main.bicep' = if (!empty(subnetPrivateEndpointResourceId) && !deployAseV3) {
   name: '${uniqueString(deployment().name, location, 'webapp')}-dnszone'
   params: {
     name: webAppDnsZoneName
@@ -237,7 +237,7 @@ module webAppPrivateDnsZone 'br/public:avm/res/network/private-dns-zone:0.6.0' =
   }
 }
 
-module webAppUserAssignedManagedIdentity 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.0' = {
+module webAppUserAssignedManagedIdentity '../../../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   name: '${uniqueString(deployment().name, location, 'webapp')}-uami'
   params: {
     name: managedIdentityName
@@ -247,7 +247,7 @@ module webAppUserAssignedManagedIdentity 'br/public:avm/res/managed-identity/use
   }
 }
 
-module peWebAppSlot 'br/public:avm/res/network/private-endpoint:0.9.0' = if (!empty(subnetPrivateEndpointResourceId) && !deployAseV3) {
+module peWebAppSlot '../../../../../res/network/private-endpoint/main.bicep' = if (!empty(subnetPrivateEndpointResourceId) && !deployAseV3) {
   name: '${uniqueString(deployment().name, location, 'webapp')}-slot-${slotName}'
   params: {
     name: take('pe-${webAppName}-slot-${slotName}', 64)

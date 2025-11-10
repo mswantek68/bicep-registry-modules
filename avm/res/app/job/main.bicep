@@ -10,7 +10,7 @@ param location string = resourceGroup().location
 @description('Required. Resource ID of Container Apps Environment.')
 param environmentResourceId string
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
@@ -46,7 +46,7 @@ param tags resourceInput<'Microsoft.App/jobs@2025-02-02-preview'>.tags?
 })
 param registries registryType[]?
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.4.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 @metadata({
   example: '''
@@ -63,7 +63,7 @@ import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types
 })
 param managedIdentities managedIdentityAllType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.4.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

@@ -22,22 +22,22 @@ param friendlyName string = name
 @sys.description('Optional. Public network access for the workspace.')
 param publicNetworkAccess string?
 
-import { privateEndpointSingleServiceType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { privateEndpointSingleServiceType } from '../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. Configuration details for private endpoints.')
 param privateEndpoints privateEndpointSingleServiceType[]?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. The lock settings of the service.')
 param lock lockType?
 
 @sys.description('Optional. Enable/Disable usage telemetry for module.')
 param enableTelemetry bool = true
 
-import { diagnosticSettingLogsOnlyType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { diagnosticSettingLogsOnlyType } from '../../../utl/types/avm-common-types/main.bicep'
 @sys.description('Optional. The diagnostic settings of the service.')
 param diagnosticSettings diagnosticSettingLogsOnlyType[]?
 
@@ -160,7 +160,7 @@ resource workspace 'Microsoft.DesktopVirtualization/workspaces@2025-03-01-previe
   }
 }
 
-module workspace_privateEndpoints 'br/public:avm/res/network/private-endpoint:0.11.0' = [
+module workspace_privateEndpoints '../../../res/network/private-endpoint/main.bicep' = [
   for (privateEndpoint, index) in (privateEndpoints ?? []): {
     name: '${uniqueString(deployment().name, location)}-keyVault-PrivateEndpoint-${index}'
     scope: resourceGroup(

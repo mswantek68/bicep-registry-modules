@@ -7,7 +7,7 @@ param registryName string
 @description('Required. The name of the credential set.')
 param name string
 
-import { managedIdentityOnlySysAssignedType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { managedIdentityOnlySysAssignedType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource.')
 param managedIdentities managedIdentityOnlySysAssignedType?
 

@@ -13,7 +13,7 @@ param tags resourceInput<'Microsoft.Sql/servers/elasticPools@2023-08-01'>.tags?
 @description('Optional. Location for all resources.')
 param location string = resourceGroup().location
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.0'
+import { lockType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the elastic pool.')
 param lock lockType?
 
@@ -68,7 +68,7 @@ param preferredEnclaveType 'Default' | 'VBS' = 'Default'
 @description('Optional. Whether or not this elastic pool is zone redundant, which means the replicas of this elastic pool will be spread across multiple availability zones.')
 param zoneRedundant bool = true
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.5.1'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 

@@ -33,7 +33,7 @@ resource managementGroup2 'Microsoft.Management/managementGroups@2023-04-01' = {
   }
 }
 
-module subVending 'br/public:avm/ptn/lz/sub-vending:0.4.0' = {
+module subVending '../../../../../../ptn/lz/sub-vending/main.bicep' = {
   name: 'subVendingDeployment'
   scope: managementGroup
   params: {

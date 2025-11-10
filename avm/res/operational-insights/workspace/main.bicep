@@ -75,7 +75,7 @@ param publicNetworkAccessForIngestion string = 'Enabled'
 ])
 param publicNetworkAccessForQuery string = 'Enabled'
 
-import { managedIdentityAllType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { managedIdentityAllType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The managed identity definition for this resource. Only one type of identity is supported: system-assigned or user-assigned, but not both.')
 param managedIdentities managedIdentityAllType?
 
@@ -91,11 +91,11 @@ param diagnosticSettings diagnosticSettingType[]?
 @description('Optional. Indicates whether customer managed storage is mandatory for query management.')
 param forceCmkForQuery bool = true
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { lockType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.6.1'
+import { roleAssignmentType } from '../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Array of role assignments to create.')
 param roleAssignments roleAssignmentType[]?
 
@@ -358,7 +358,7 @@ module logAnalyticsWorkspace_tables 'table/main.bicep' = [
   }
 ]
 
-module logAnalyticsWorkspace_solutions 'br/public:avm/res/operations-management/solution:0.3.1' = [
+module logAnalyticsWorkspace_solutions '../../operations-management/solution/main.bicep' = [
   for (gallerySolution, index) in gallerySolutions ?? []: if (!empty(gallerySolutions)) {
     name: '${uniqueString(deployment().name, location)}-LAW-Solution-${index}'
     params: {
@@ -489,7 +489,7 @@ type diagnosticSettingType = {
   marketplacePartnerResourceId: string?
 }
 
-import { solutionPlanType } from 'br/public:avm/res/operations-management/solution:0.3.1'
+import { solutionPlanType } from '../../operations-management/solution/main.bicep'
 
 @export()
 @description('Properties of the gallery solutions to be created in the log analytics workspace.')

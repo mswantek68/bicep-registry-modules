@@ -15,7 +15,7 @@ resource managedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-
   location: location
 }
 
-module logAnalyticsWorkspace 'br/public:avm/res/operational-insights/workspace:0.11.1' = {
+module logAnalyticsWorkspace '../../../../../../res/operational-insights/workspace/main.bicep' = {
   params: {
     name: logAnalyticsWorkspaceName
     roleAssignments: [

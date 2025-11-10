@@ -99,7 +99,7 @@ resource logAnalyticsWorkspace 'Microsoft.OperationalInsights/workspaces@2025-02
   name: logAnalyticsWorkspaceName
 }
 
-module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.11.2' = {
+module containerAppsEnvironment '../../../res/app/managed-environment/main.bicep' = {
   name: take('containerAppsEnvironment-${deployment().name}-deployment', 64)
   params: {
     name: containerAppsEnvironmentName
@@ -127,7 +127,7 @@ module containerAppsEnvironment 'br/public:avm/res/app/managed-environment:0.11.
   }
 }
 
-module containerRegistry 'br/public:avm/res/container-registry/registry:0.9.1' = {
+module containerRegistry '../../../res/container-registry/registry/main.bicep' = {
   name: take('containerRegistry-${deployment().name}-deployment', 64)
   scope: containerRegistryRG
   params: {

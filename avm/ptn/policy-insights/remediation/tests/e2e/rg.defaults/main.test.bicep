@@ -26,7 +26,7 @@ param subscriptionId string = '#_subscriptionId_#'
 // General resources
 // =================
 
-module resourceGroupDeploy 'br/public:avm/res/resources/resource-group:0.2.3' = {
+module resourceGroupDeploy '../../../../../../res/resources/resource-group/main.bicep' = {
   scope: subscription(subscriptionId)
   name: '${uniqueString(deployment().name, resourceLocation)}-resourceGroup'
   params: {
@@ -35,7 +35,7 @@ module resourceGroupDeploy 'br/public:avm/res/resources/resource-group:0.2.3' = 
   }
 }
 
-module policySetAssignments 'br/public:avm/ptn/authorization/policy-assignment:0.1.0' = {
+module policySetAssignments '../../../../../../ptn/authorization/policy-assignment/main.bicep' = {
   name: '${uniqueString(deployment().name, resourceLocation)}-policySetAssignment-rg'
   params: {
     name: 'dep-${namePrefix}-psa-${serviceShort}'

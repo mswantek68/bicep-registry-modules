@@ -49,7 +49,7 @@ resource existingAIFoundryAIServices 'Microsoft.CognitiveServices/accounts@2024-
   name: aiFoundryAIServicesName
 }
 
-module avmWebsiteWebapp 'br/public:avm/res/web/site:0.13.3' = {
+module avmWebsiteWebapp '../../../../res/web/site/main.bicep' = {
   name: deploymentName
   params: {
     name: webAppName

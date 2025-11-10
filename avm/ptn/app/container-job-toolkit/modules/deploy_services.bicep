@@ -56,7 +56,7 @@ param keyVaultName string
 @description('Optional. Secrets that will be added to Key Vault for later reference in the Container App Job.')
 param keyVaultSecrets secretType[]?
 
-import { roleAssignmentType } from 'br/public:avm/utl/types/avm-common-types:0.4.0'
+import { roleAssignmentType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. Role assignments that will be added to the Key Vault. The managed Identity will be assigned the `Key Vault Secrets User` role by default.')
 param keyVaultRoleAssignments roleAssignmentType[]?
 
@@ -72,7 +72,7 @@ param workloadProfiles array?
 @description('Optional. Tags of the resource.')
 param tags object = {}
 
-import { lockType } from 'br/public:avm/utl/types/avm-common-types:0.4.0'
+import { lockType } from '../../../../utl/types/avm-common-types/main.bicep'
 @description('Optional. The lock settings of the service.')
 param lock lockType?
 
@@ -202,7 +202,7 @@ var regionServiceTag = regionSpecificServiceTags[?locationLowered] ?? locationLo
 
 // Networking resources
 // -----------------
-module nsg 'br/public:avm/res/network/network-security-group:0.5.1' = if (zoneRedundant) {
+module nsg '../../../../res/network/network-security-group/main.bicep' = if (zoneRedundant) {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-nsg'
   params: {
     name: 'nsg-${name}'
@@ -213,7 +213,7 @@ module nsg 'br/public:avm/res/network/network-security-group:0.5.1' = if (zoneRe
   }
 }
 
-module nsg_workload_plan 'br/public:avm/res/network/network-security-group:0.5.1' = if (zoneRedundant && !empty(workloadProfiles)) {
+module nsg_workload_plan '../../../../res/network/network-security-group/main.bicep' = if (zoneRedundant && !empty(workloadProfiles)) {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-nsg-workload'
   params: {
     name: 'nsg-workload-${name}'
@@ -335,7 +335,7 @@ module nsg_workload_plan 'br/public:avm/res/network/network-security-group:0.5.1
   }
 }
 
-module nsg_consumption_plan 'br/public:avm/res/network/network-security-group:0.5.1' = if (zoneRedundant && empty(workloadProfiles)) {
+module nsg_consumption_plan '../../../../res/network/network-security-group/main.bicep' = if (zoneRedundant && empty(workloadProfiles)) {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-nsg-workload'
   params: {
     name: 'nsg-consumption-${name}'
@@ -510,7 +510,7 @@ module nsg_consumption_plan 'br/public:avm/res/network/network-security-group:0.
   }
 }
 
-module vnet 'br/public:avm/res/network/virtual-network:0.7.0' = if (zoneRedundant) {
+module vnet '../../../../res/network/virtual-network/main.bicep' = if (zoneRedundant) {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-vnet'
   params: {
     name: 'vnet-${name}'
@@ -546,7 +546,7 @@ module vnet 'br/public:avm/res/network/virtual-network:0.7.0' = if (zoneRedundan
   }
 }
 
-module dnsZoneKeyVault_new 'br/public:avm/res/network/private-dns-zone:0.7.1' = if (deployInVnet && deployDnsZoneKeyVault) {
+module dnsZoneKeyVault_new '../../../../res/network/private-dns-zone/main.bicep' = if (deployInVnet && deployDnsZoneKeyVault) {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-dnsZoneKeyVault'
   params: {
     name: 'privatelink.vaultcore.azure.net'
@@ -579,7 +579,7 @@ resource dnsZoneKeyVault_vnetLink 'Microsoft.Network/privateDnsZones/virtualNetw
   }
 }
 
-module dnsZoneContainerRegistry_new 'br/public:avm/res/network/private-dns-zone:0.7.1' = if (deployInVnet && deployDnsZoneContainerRegistry) {
+module dnsZoneContainerRegistry_new '../../../../res/network/private-dns-zone/main.bicep' = if (deployInVnet && deployDnsZoneContainerRegistry) {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-dnsZoneContainerRegistry'
   params: {
     name: 'privatelink.azurecr.io'
@@ -612,7 +612,7 @@ resource dnsZoneContainerRegistry_vnetLink 'Microsoft.Network/privateDnsZones/vi
   }
 }
 
-module privateEndpoint_KeyVault 'br/public:avm/res/network/private-endpoint:0.11.0' = if (deployInVnet) {
+module privateEndpoint_KeyVault '../../../../res/network/private-endpoint/main.bicep' = if (deployInVnet) {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-privateEndpoint_KeyVault'
   params: {
     name: 'pe-KeyVault-${name}'
@@ -646,7 +646,7 @@ module privateEndpoint_KeyVault 'br/public:avm/res/network/private-endpoint:0.11
   }
 }
 
-module privateEndpoint_ContainerRegistry 'br/public:avm/res/network/private-endpoint:0.11.0' = if (deployInVnet) {
+module privateEndpoint_ContainerRegistry '../../../../res/network/private-endpoint/main.bicep' = if (deployInVnet) {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-privateEndpoint_ContainerRegistry'
   params: {
     name: 'pe-ContainerRegistry-${name}'
@@ -696,7 +696,7 @@ resource userIdentity_existing 'Microsoft.ManagedIdentity/userAssignedIdentities
 
 // supporting resources
 // -----------------
-module vault 'br/public:avm/res/key-vault/vault:0.13.0' = {
+module vault '../../../../res/key-vault/vault/main.bicep' = {
   name: '${uniqueString(deployment().name, location, resourceGroupName, subscription().subscriptionId)}-vault'
   params: {
     name: keyVaultName
@@ -736,7 +736,7 @@ module vault 'br/public:avm/res/key-vault/vault:0.13.0' = {
   }
 }
 
-module registry 'br/public:avm/res/container-registry/registry:0.9.1' = {
+module registry '../../../../res/container-registry/registry/main.bicep' = {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-registry'
   params: {
     #disable-next-line BCP334
@@ -758,7 +758,7 @@ module registry 'br/public:avm/res/container-registry/registry:0.9.1' = {
   }
 }
 
-module registry_rbac 'br/public:avm/ptn/authorization/resource-role-assignment:0.1.2' = [
+module registry_rbac '../../../../ptn/authorization/resource-role-assignment/main.bicep' = [
   for registryRole in registryRbacRoles: {
     name: '${uniqueString(deployment().name, location, resourceGroupName)}-registry-rbac-${registryRole}'
     params: {
@@ -773,7 +773,7 @@ module registry_rbac 'br/public:avm/ptn/authorization/resource-role-assignment:0
   }
 ]
 
-module storage 'br/public:avm/res/storage/storage-account:0.25.1' = if (deployInVnet) {
+module storage '../../../../res/storage/storage-account/main.bicep' = if (deployInVnet) {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-storage'
   params: {
     name: uniqueString('sa', name, location, resourceGroupName, subscription().subscriptionId)
@@ -808,7 +808,7 @@ module storage 'br/public:avm/res/storage/storage-account:0.25.1' = if (deployIn
   }
 }
 
-module law_new 'br/public:avm/res/operational-insights/workspace:0.12.0' = if (empty(logAnalyticsWorkspaceResourceId)) {
+module law_new '../../../../res/operational-insights/workspace/main.bicep' = if (empty(logAnalyticsWorkspaceResourceId)) {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-law'
   params: {
     name: 'la-${name}'
@@ -827,7 +827,7 @@ resource law_existing 'Microsoft.OperationalInsights/workspaces@2025-02-01' exis
 
 // Managed Environment
 // -------------------
-module managedEnvironment 'br/public:avm/res/app/managed-environment:0.11.2' = {
+module managedEnvironment '../../../../res/app/managed-environment/main.bicep' = {
   name: '${uniqueString(deployment().name, location, resourceGroupName)}-managedEnvironment'
   params: {
     name: 'container-apps-environment-${name}'

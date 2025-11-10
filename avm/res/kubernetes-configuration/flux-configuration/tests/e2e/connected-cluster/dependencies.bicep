@@ -7,7 +7,7 @@ param clusterName string
 @description('Required. The name of the AKS cluster extension to create.')
 param clusterExtensionName string
 
-module managedCluster 'br/public:avm/res/container-service/managed-cluster:0.10.0' = {
+module managedCluster '../../../../../../res/container-service/managed-cluster/main.bicep' = {
   name: '${uniqueString(deployment().name, location)}-managedCluster'
   scope: resourceGroup()
   params: {
@@ -35,7 +35,7 @@ module managedCluster 'br/public:avm/res/container-service/managed-cluster:0.10.
   }
 }
 
-module createManagedIdentityForDeploymentScript 'br/public:avm/res/managed-identity/user-assigned-identity:0.4.1' = {
+module createManagedIdentityForDeploymentScript '../../../../../../res/managed-identity/user-assigned-identity/main.bicep' = {
   scope: resourceGroup()
   name: 'mi-${clusterName}'
   params: {
@@ -86,7 +86,7 @@ resource roleAssignmentContributor 'Microsoft.Authorization/roleAssignments@2022
   }
 }
 
-module deploymentScript 'br/public:avm/res/resources/deployment-script:0.5.1' = {
+module deploymentScript '../../../../../../res/resources/deployment-script/main.bicep' = {
   name: '${clusterName}-connect-aks-script'
   params: {
     name: '${clusterName}-connect-aks-script'
